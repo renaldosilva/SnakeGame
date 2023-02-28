@@ -21,7 +21,3 @@ basic_piece = BasicPiece(canvas, clock)
 
 # Game
 game = Game(basic_piece)
-
-
-
-

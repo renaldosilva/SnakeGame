@@ -3,10 +3,12 @@ from pygame import display
 
 def get_system_display_dimensions() -> tuple[int, int]:
     """
+    Get system screen dimensions in pixels.
+
     Returns
     -------
     dimensions: tuple[int, int]
-        Screen width and height (measurements are given in pixels).
+        Screen width and height.
     """
     display.init()
     screen_info = display.Info()
