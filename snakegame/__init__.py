@@ -1,0 +1,1 @@
+from snakegame.__main__ import game

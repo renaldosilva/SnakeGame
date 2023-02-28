@@ -1,0 +1,6 @@
+# ignore Pycharm
+.idea
+__pycache__
+
+# Project
+snakegame.egg-info/
