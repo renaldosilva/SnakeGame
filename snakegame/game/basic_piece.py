@@ -14,7 +14,7 @@ class BasicPiece:
     A class that provides basic functionality for creating a game.
 
     Attributes
-    -----------
+    ----------
     window : Surface
         The surface to use as the game's main display window.
     clock : Clock
