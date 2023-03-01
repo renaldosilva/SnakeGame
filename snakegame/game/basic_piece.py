@@ -44,8 +44,8 @@ class BasicPiece:
         self,
         window: Surface,
         clock: Clock,
-        fps: int = constants.GAME_FPS,
-        color: tuple[int, int, int] = constants.LIGHT_GREEN_1,
+        fps: int=constants.GAME_FPS,
+        color: tuple[int, int, int]=constants.LIGHT_GREEN_1,
     ):
         """
         Initializes a new instance of the BasicPiece class.
@@ -70,7 +70,7 @@ class BasicPiece:
     @property
     def window(self) -> Surface:
         """
-        Get the Pygame Surface object that represents the game window.
+        Returns the Pygame Surface object that represents the game window.
 
         Returns
         -------
@@ -82,7 +82,7 @@ class BasicPiece:
     @property
     def clock(self) -> Clock:
         """
-        Get the Pygame Clock object used to regulate the game's frame rate.
+        Returns the Pygame Clock object used to regulate the game's frame rate.
 
         Returns
         -------
@@ -94,7 +94,7 @@ class BasicPiece:
     @property
     def fps(self) -> int:
         """
-        Get the current frames per second (FPS) of the game.
+        Returns the current frames per second (FPS) of the game.
 
         Returns
         -------
@@ -118,7 +118,7 @@ class BasicPiece:
         ValueError
             If the specified FPS is less than 1.
         """
-        if validation.is_smaller_than(fps, 1):
+        if fps < 1:
             raise ValueError("FPS must be greater than or equal to 1!")
         else:
             self.__fps = fps
@@ -126,7 +126,7 @@ class BasicPiece:
     @property
     def color(self) -> tuple[int, int, int]:
         """
-        Get the RGB color tuple used to fill the game window.
+        Returns the RGB color tuple used to fill the game window.
 
         Returns
         -------
@@ -152,11 +152,13 @@ class BasicPiece:
         """
         if validation.is_invalid_rgb(color):
             raise ValueError("The R, G and B channels must be in range (0, 255)!")
+        else:
+            self.__color = color
 
     @property
     def is_running(self) -> bool:
         """
-        Get the running state of the game loop.
+        Returns the running state of the game loop.
 
         Returns
         -------
