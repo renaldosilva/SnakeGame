@@ -3,7 +3,7 @@ from pygame import display
 
 def get_system_display_dimensions() -> tuple[int, int]:
     """
-    Get system screen dimensions in pixels.
+    Returns system screen dimensions in pixels.
 
     Returns
     -------
