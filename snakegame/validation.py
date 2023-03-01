@@ -5,7 +5,7 @@ from snakegame import constants
 
 def is_invalid_rgb(color: tuple[int, int, int]) -> bool:
     """
-    Checks if an rgb color is invalid.
+    Checks if a rgb color is invalid.
 
     Parameters
     ----------
@@ -17,12 +17,12 @@ def is_invalid_rgb(color: tuple[int, int, int]) -> bool:
     is_valid: bool
         True if the RGB values in the tuple are not in the range (0, 255), False otherwise.
     """
-    is_valid = True
+    is_invalid = False
     for channel in color:
-        if channel<0 or channel>255:
-            is_valid = False
+        if channel<0 or 255<channel:
+            is_invalid = True
 
-    return is_valid
+    return is_invalid
 
 
 def is_invalid_path(path: str) -> bool:
@@ -62,7 +62,7 @@ def is_invalid_coordinate(coordinate: tuple[int, int]) -> bool:
     y = coordinate[1]
     is_invalid = True
 
-    if 0<=x<=constants.SYSTEM_DISPLAY_WIDTH or 0<=y<=constants.SYSTEM_DISPLAY_HEIGHT:
+    if 0<=x<=constants.WINDOW_DIMENSIONS[0] and 0<=y<=constants.WINDOW_DIMENSIONS[1]:
         is_invalid = False
 
     return is_invalid
