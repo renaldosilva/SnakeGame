@@ -2,6 +2,7 @@ import pygame.draw
 from pygame import Rect, Surface
 from pygame.rect import RectType
 
+from snakegame.animation.click import Click
 from snakegame.enuns.button_option import ButtonOption
 from snakegame import constants
 from snakegame import validation
@@ -34,6 +35,8 @@ class Button:
         The bottom shape of the button.
     border_shape : Rect | RectType
         The border shape of the button.
+    click_animation: Click
+        The animation that simulates the button click.
 
     Methods
     -------
@@ -113,6 +116,7 @@ class Button:
         self.__bottom_shape = self.top_shape.copy()
         self.__border_shape = self.top_shape.copy()
         self.__align_elements()
+        self.__click_animation = self.__configure_animation()
 
     @property
     def option(self) -> ButtonOption:
@@ -371,7 +375,7 @@ class Button:
             The option that the button represents when it is clicked,
             or the ButtonOption.NONE option otherwise.
         """
-        result = self.__is_next_to_the_button(selector_center_y)
+        result = self.__selector_over_button(selector_center_y)
         self.__enable_accent_color(result)
         return self.__manage_click(result, is_clicking)
 
@@ -462,7 +466,7 @@ class Button:
         else:
             self.__current_accent_color = self.secondary_color
 
-    def __is_next_to_the_button(self, y: int) -> bool:
+    def __selector_over_button(self, y: int) -> bool:
         return  self.top_shape.topleft[1] < y < self.top_shape.bottomleft[1]
 
     @staticmethod
@@ -497,10 +501,18 @@ class Button:
 
         return Text(self.option.name, size, self.secondary_color, font_path)
 
+    def __configure_animation(self) -> Click:
+        return Click(
+            self.top_shape,
+            self.bottom_shape,
+            [self.border_shape, self.text.rect],
+        )
+
     def __reload_button(self) -> None:
         self.__reload_text()
         self.__reload_shapes()
         self.__align_elements()
+        self.__reload_animation()
 
     def __reload_shapes(self) -> None:
         self.__top_shape = self.__configure_top_background()
@@ -510,14 +522,23 @@ class Button:
     def __reload_text(self) -> None:
         self.__text = self.__configure_text(self.text.font_path)
 
+    def __reload_animation(self) -> None:
+        self.__click_animation.reload_click(
+            self.top_shape,
+            self.bottom_shape,
+            [self.border_shape, self.text.rect],
+        )
+
     def __align_elements(self) -> None:
         self.bottom_shape.center = self.top_shape.center
         self.bottom_shape.move_ip(0, self.size * Button.BOTTOM_BACKGROUND_DISTANCE_PERCENTAGE)
         self.border_shape.center = self.top_shape.center
         self.text.set_center(self.top_shape.center)
 
-    def __manage_click(self, is_on_the_button: bool, is_clicking: bool) -> ButtonOption:
-        if is_on_the_button and is_clicking:
+    def __manage_click(self, selector_over_button: bool, is_clicking: bool) -> ButtonOption:
+        self.__click_animation.animate(selector_over_button, is_clicking)
+
+        if self.__click_animation.click_done():
             return self.option
         else:
             return ButtonOption.NONE
