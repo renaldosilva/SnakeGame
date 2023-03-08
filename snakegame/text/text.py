@@ -34,7 +34,7 @@ class Text:
     def __init__(
             self,
             content: str,
-            size: int,
+            size: int=constants.TITLE_SIZE,
             color: tuple[int, int, int]=constants.DARK_GREEN,
             font_path: str=constants.FONT,
             coordinate: tuple[int, int]=(0, 0)
@@ -46,8 +46,8 @@ class Text:
         ----------
         content : str
             The text content.
-        size : int
-            The font size for the text.
+        size : int, optional
+            The font size for the text (default is constants.TITLE_SIZE).
         color : tuple[int, int, int], optional
             The RGB color value for the text (default is constants.DARK_GREEN).
         font_path : str, optional
@@ -253,6 +253,18 @@ class Text:
             The new midtop-coordinate.
         """
         self.__rect.midtop = midtop
+        self.set_coordinate((self.__rect.x, self.__rect.y))
+
+    def set_midbottom(self, midbottom: tuple[int, int]) -> None:
+        """
+        Changes the position of the bottom center of the text.
+
+        Parameters
+        ----------
+        midbottom : tuple[int, int]
+            The new midbottom-coordinate.
+        """
+        self.__rect.midbottom = midbottom
         self.set_coordinate((self.__rect.x, self.__rect.y))
 
     def get_height(self) -> int:

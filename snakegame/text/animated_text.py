@@ -38,7 +38,7 @@ class AnimatedText(Text):
     def __init__(
             self,
             content: str,
-            size: int,
+            size: int=constants.TITLE_SIZE,
             color: tuple[int, int, int] = constants.DARK_GREEN,
             font_path: str = constants.FONT,
             coordinate: tuple[int, int]=(0, 0)
@@ -50,8 +50,8 @@ class AnimatedText(Text):
         ----------
         content : str
             The text content.
-        size : int
-            The font size for the text.
+        size : int, optional
+            The font size for the text (default is constants.TITLE_SIZE).
         color : tuple[int, int, int], optional
             The RGB color value for the text (default is constants.DARK_GREEN).
         font_path : str, optional
