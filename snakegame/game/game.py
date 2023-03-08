@@ -38,7 +38,8 @@ class Game:
         self.__basic_piece.close_all()
 
     def __events(self) -> None:
-        self.__basic_piece.check_quit()
+        for event in self.__basic_piece.get_events():
+            self.__basic_piece.check_quit(event)
 
     def __update(self) -> None:
         self.__basic_piece.update_window()

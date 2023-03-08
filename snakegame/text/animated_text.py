@@ -1,3 +1,6 @@
+import pygame
+from pygame.event import Event
+
 from snakegame.animation.animation import Animation
 from snakegame.animation.horizontal_swing import HorizontalSwing
 from snakegame.text.text import Text
@@ -28,6 +31,8 @@ class AnimatedText(Text):
         The Pygame rectangle object that contains the dimensions and position of the text.
     animation: Animation
         The text animation (default animation is HorizontalSwing).
+    animate: int
+        The id of the animation event.
     """
 
     def __init__(
@@ -64,10 +69,12 @@ class AnimatedText(Text):
         """
         super().__init__(content, size, color, font_path, coordinate)
         self.__animation: Animation = HorizontalSwing(super().get_rect())
+        self.__animate = self.__configure_animation_event()
 
-    def animate(self) -> None:
+    def animate(self, event: Event) -> None:
         """Run the animation."""
-        self.__animation.animate(None)
+        if event.type == self.__animate:
+            self.__animation.animate()
 
     def set_content(self, content: str) -> None:
         super().set_content(content)
@@ -95,3 +102,10 @@ class AnimatedText(Text):
 
     def __reload_animation(self) -> None:
         self.__animation.reload_animation(super().get_rect())
+
+    @staticmethod
+    def __configure_animation_event() -> int:
+        event = constants.ANIMATED_TEXT
+        pygame.time.set_timer(event, constants.ANIMATED_TEXT_MILLISECONDS)
+
+        return event

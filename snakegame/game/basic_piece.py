@@ -3,6 +3,7 @@ import sys
 import pygame
 from pygame import display
 from pygame import Surface
+from pygame.event import Event
 from pygame.time import Clock
 
 from snakegame import constants
@@ -80,11 +81,15 @@ class BasicPiece:
         """Regulates the game's frame rate by calling the Pygame Clock's tick() method with the FPS value."""
         self.__clock.tick(self.__fps)
 
-    def check_quit(self) -> None:
+    @staticmethod
+    def get_events() -> list[Event]:
+        """Returns the list of game events."""
+        return pygame.event.get()
+
+    def check_quit(self, event: Event) -> None:
         """Checks for a quit event from the Pygame event queue, and sets is_running to False if found."""
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.__is_running = False
+        if event.type == pygame.QUIT:
+            self.__is_running = False
 
     @staticmethod
     def update_window() -> None:
