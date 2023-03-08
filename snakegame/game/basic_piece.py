@@ -25,19 +25,6 @@ class BasicPiece:
         The RGB color tuple used to fill the game's display window (default is constants.LIGHT_GREEN_1).
     is_running : bool
         A boolean value that indicates whether the game loop is still running.
-
-    Methods
-    -------
-    clock_tick() -> None
-        Regulates the game's frame rate by calling the Pygame Clock's tick() method with the FPS value.
-    check_quit() -> None
-        Checks for a quit event from the Pygame event queue, and sets is_running to False if found.
-    update_window() -> None
-        Calls the Pygame display's update() method to update the game window.
-    draw_window() -> None
-        Fills the game window with the background color specified by the color attribute.
-    close_all() -> None
-        Closes the Pygame window and exits the program.
     """
 
     def __init__(
@@ -63,131 +50,41 @@ class BasicPiece:
         """
         self.__window = window
         self.__clock = clock
-        self.__fps = fps
-        self.__color = color
+        self.__fps = validation.is_positive(fps, "'fps' cannot be less than 1!")
+        self.__color = validation.is_valid_rgb(color, "'color' out of RGB range!")
         self.__is_running = True
 
-    @property
-    def window(self) -> Surface:
+    def get_window(self) -> Surface:
         """
         Returns the Pygame Surface object that represents the game window.
 
         Returns
         -------
-        window: Surface
+        window : Surface
             The game window.
         """
         return self.__window
 
-    @property
-    def clock(self) -> Clock:
-        """
-        Returns the Pygame Clock object used to regulate the game's frame rate.
-
-        Returns
-        -------
-        clock: Clock
-            The game clock.
-        """
-        return self.__clock
-
-    @property
-    def fps(self) -> int:
-        """
-        Returns the current frames per second (FPS) of the game.
-
-        Returns
-        -------
-        fps: int
-            The current FPS of the game.
-        """
-        return self.__fps
-
-    @fps.setter
-    def fps(self, fps: int) -> None:
-        """
-        Set the frames per second (FPS) of the game.
-
-        Parameters
-        ----------
-        fps : int
-            The new FPS.
-
-        Raises
-        ------
-        ValueError
-            If the specified FPS is less than 1.
-        """
-        if fps < 1:
-            raise ValueError("FPS must be greater than or equal to 1!")
-        else:
-            self.__fps = fps
-
-    @property
-    def color(self) -> tuple[int, int, int]:
-        """
-        Returns the RGB color tuple used to fill the game window.
-
-        Returns
-        -------
-        color: Tuple[int, int, int]
-            The RGB color.
-        """
-        return self.__color
-
-    @color.setter
-    def color(self, color: tuple[int, int, int]) -> None:
-        """
-        Set the RGB color tuple used to fill the game window.
-
-        Parameters
-        ----------
-        color : Tuple[int, int, int]
-            The new RGB color.
-
-        Raises
-        ------
-        ValueError
-            If the RGB values in the tuple are not in the range (0, 255).
-        """
-        if validation.is_invalid_rgb(color):
-            raise ValueError("The R, G and B channels must be in range (0, 255)!")
-        else:
-            self.__color = color
-
-    @property
     def is_running(self) -> bool:
         """
         Returns the running state of the game loop.
 
         Returns
         -------
-        is_running: bool
+        is_running : bool
            True if the game loop is running, False otherwise.
         """
         return self.__is_running
 
-    @is_running.setter
-    def is_running(self, value: bool) -> None:
-        """
-        Set the running state of the game loop.
-
-        Parameters
-        ----------
-        value : bool
-            The new running state.
-        """
-        self.__is_running = value
-
     def clock_tick(self) -> None:
         """Regulates the game's frame rate by calling the Pygame Clock's tick() method with the FPS value."""
-        self.clock.tick(self.fps)
+        self.__clock.tick(self.__fps)
 
     def check_quit(self) -> None:
         """Checks for a quit event from the Pygame event queue, and sets is_running to False if found."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.is_running = False
+                self.__is_running = False
 
     @staticmethod
     def update_window() -> None:
@@ -196,7 +93,7 @@ class BasicPiece:
 
     def draw_window(self) -> None:
         """Fills the game window with the background color specified by the color attribute."""
-        self.window.fill(self.color)
+        self.__window.fill(self.__color)
 
     @staticmethod
     def close_all() -> None:

@@ -9,12 +9,8 @@ class Game:
     ----------
     basic_piece : BasicPiece
        Used to handle basic game functionality.
-
-    Methods
-    -------
-    start() -> None
-       Starts the game loop.
     """
+
     def __init__(
             self,
             basic_piece: BasicPiece
@@ -34,30 +30,18 @@ class Game:
         self.__loop()
 
     def __loop(self) -> None:
-        while self.basic_piece.is_running:
+        while self.__basic_piece.is_running():
             self.__events()
             self.__draw()
             self.__update()
-            self.basic_piece.clock_tick()
-        self.basic_piece.close_all()
+            self.__basic_piece.clock_tick()
+        self.__basic_piece.close_all()
 
     def __events(self) -> None:
-        self.basic_piece.check_quit()
+        self.__basic_piece.check_quit()
 
     def __update(self) -> None:
-        self.basic_piece.update_window()
+        self.__basic_piece.update_window()
 
     def __draw(self) -> None:
-        self.basic_piece.draw_window()
-
-    @property
-    def basic_piece(self) -> BasicPiece:
-        """
-        Returns the basic piece object associated with the game.
-
-        Returns
-        -------
-        BasicPiece
-            The basic piece.
-        """
-        return self.__basic_piece
+        self.__basic_piece.draw_window()

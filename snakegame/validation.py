@@ -1,68 +1,110 @@
 import os
 
-from snakegame import constants
 
-
-def is_invalid_rgb(color: tuple[int, int, int]) -> bool:
+def is_empty(value: str, error_message: str) -> str:
     """
-    Checks if a rgb color is invalid.
+    Checks if the value is empty.
+
+    Parameters
+    ----------
+    value : str
+        The value to be checked.
+    error_message : str
+        The error message that will be displayed.
+
+    Returns
+    -------
+    value: str
+        If the value is not empty.
+
+    Raises
+    ------
+    ValueError
+        If the value is empty.
+    """
+    if value == "":
+        raise ValueError(error_message)
+
+    return value
+
+
+def is_positive(value: int, error_message: str) -> int:
+    """
+    Checks if the value is positive.
+
+    Parameters
+    ----------
+    value : int
+        The value to be checked.
+    error_message : str
+        The error message that will be displayed.
+
+    Returns
+    -------
+    value: int
+        If the value is positive.
+
+    Raises
+    ------
+    ValueError
+        If the value is not positive.
+    """
+    if value < 1:
+        raise ValueError(error_message)
+
+    return value
+
+
+def is_valid_rgb(color: tuple[int, int, int], error_message: str) -> tuple[int, int, int]:
+    """
+    Checks if a rgb color is valid.
 
     Parameters
     ----------
     color: tuple[int, int, int]
         The RGB color.
+    error_message : str
+        The error message that will be displayed.
 
     Returns
     -------
-    is_valid: bool
-        True if the RGB values in the tuple are not in the range (0, 255), False otherwise.
+    color: tuple[int, int, int]
+        If the color is valid.
+
+    Raises
+    ------
+    ValueError
+        If the color is invalid.
     """
-    is_invalid = False
     for channel in color:
         if channel<0 or 255<channel:
-            is_invalid = True
+            raise ValueError(error_message)
 
-    return is_invalid
+    return color
 
 
-def is_invalid_path(path: str) -> bool:
+def is_valid_path(path: str, error_message: str) -> str:
     """
-    Checks if a path does not exist.
+    Check if the path exists.
 
     Parameters
     ----------
     path: str
         The path.
+    error_message : str
+        The error message that will be displayed.
 
     Returns
     -------
-    non_existent_path: bool
-        True if the path does not exist, False otherwise.
+    path: str
+        If the path exists.
+
+    Raises
+    ------
+    ValueError
+        If the path does not exist.
     """
-    non_existent_path = not os.path.exists(path)
+    if not os.path.exists(path):
+        raise FileNotFoundError(error_message)
 
-    return non_existent_path
-
-
-def is_invalid_coordinate(coordinate: tuple[int, int]) -> bool:
-    """
-    Check if the provided coordinate is invalid, i.e. outside the window bounds.
-
-    Parameters
-    ----------
-    coordinate : tuple[int, int]
-        A tuple representing the (x, y) coordinate.
-
-    Returns
-    -------
-    is_invalid: bool
-        Returns True if the coordinate is invalid, False otherwise.
-    """
-    x = coordinate[0]
-    y = coordinate[1]
-    is_invalid = True
-
-    if 0<=x<=constants.WINDOW_DIMENSIONS[0] and 0<=y<=constants.WINDOW_DIMENSIONS[1]:
-        is_invalid = False
-
-    return is_invalid
+    return path
