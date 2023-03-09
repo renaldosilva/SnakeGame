@@ -38,7 +38,7 @@ class AnimatedText(Text):
     def __init__(
             self,
             content: str,
-            size: int=constants.TITLE_SIZE,
+            size: int=constants.TEXT_SIZE,
             color: tuple[int, int, int] = constants.DARK_GREEN,
             font_path: str = constants.FONT,
             coordinate: tuple[int, int]=(0, 0)
@@ -105,7 +105,8 @@ class AnimatedText(Text):
 
     @staticmethod
     def __configure_animation_event() -> int:
-        event = constants.ANIMATED_TEXT
-        pygame.time.set_timer(event, constants.ANIMATED_TEXT_MILLISECONDS)
+        event = constants.ANIMATED_TEXT_EVENT
+        milliseconds = constants.ANIMATED_TEXT_MILLISECONDS
+        pygame.time.set_timer(event, milliseconds)
 
         return event
