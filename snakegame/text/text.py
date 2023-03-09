@@ -34,7 +34,7 @@ class Text:
     def __init__(
             self,
             content: str,
-            size: int=constants.TITLE_SIZE,
+            size: int=constants.TEXT_SIZE,
             color: tuple[int, int, int]=constants.DARK_GREEN,
             font_path: str=constants.FONT,
             coordinate: tuple[int, int]=(0, 0)
@@ -230,6 +230,17 @@ class Text:
         current_center = self.__rect.center
         self.set_size(size)
         self.set_center(current_center)
+
+    def get_center(self) -> tuple[int, int]:
+        """
+        Returns the center coordinate.
+
+        Returns
+        -------
+        tuple[int, int]
+            The center coordinate (x, y).
+        """
+        return self.__rect.center
 
     def set_center(self, center: tuple[int, int]) -> None:
         """
