@@ -48,7 +48,7 @@ class Button:
     def __init__(
             self,
             option: ButtonOption,
-            size: int,
+            size: int=constants.BUTTON_SIZE,
             main_color: tuple[int, int, int]=constants.DARK_GREEN,
             secondary_color: tuple[int, int, int]=constants.GREEN_2,
             accent_color: tuple[int, int, int]=constants.LIGHT_GREEN_2,
@@ -62,8 +62,8 @@ class Button:
         ----------
         option : ButtonOption
             The option that the button represents.
-        size : int
-            The size of the button.
+        size : int, optional
+            The size of the button (default is constants.BUTTON_SIZE).
         main_color : tuple[int, int, int], optional
             The RGB color of the button (default is constants.DARK_GREEN).
         secondary_color : tuple[int, int, int], optional
@@ -155,14 +155,14 @@ class Button:
                           self.__current_accent_color, edge_thickness)
         self.__draw_text(window)
 
-    def events(self, selector_center_y: int, is_clicking: bool) -> ButtonOption:
+    def events(self, selector_coordinate: tuple[int, int], is_clicking: bool) -> ButtonOption:
         """
         Determines the events that occur when a user interacts with the button.
 
         Parameters
         ----------
-        selector_center_y : int
-            The y-coordinate of the center of the cursor or selector.
+        selector_coordinate : int
+            The coordinate of the cursor or selector.
         is_clicking : bool
             True if the cursor or selector is clicking on the button.
 
@@ -172,7 +172,7 @@ class Button:
             The option that the button represents when it is clicked,
             or the ButtonOption.NONE option otherwise.
         """
-        result = self.__selector_over_button(selector_center_y)
+        result = self.selector_next_to_the_button(selector_coordinate)
         self.__enable_accent_color(result)
         return self.__manage_click(result, is_clicking)
 
@@ -218,19 +218,36 @@ class Button:
 
         Returns
         -------
-        midleft : tuple[int, int]
+        tuple[int, int]
             The midleft-coordinate.
         """
-        return self.bottom_shape.midleft
+        return self.__bottom_shape.midleft
+
+    def get_bottom_shape_middle_bottom(self):
+        """
+        Returns the center coordinates of the bottom edge of the bottom shape
+
+        Returns
+        -------
+        tuple[int, int]
+            The midbottom-coordinate.
+        """
+        return self.__bottom_shape.midbottom
+
+    def selector_next_to_the_button(self, coordinate: tuple[int, int]) -> bool:
+        x = coordinate[0]
+        y = coordinate[1]
+
+        result = self.__top_shape.topleft[0]<x<self.__top_shape.topright[0] \
+                 or self.__top_shape.topleft[1]<y< self.__top_shape.bottomleft[1]
+
+        return result
 
     def __enable_accent_color(self, wish: bool) -> None:
         if wish:
             self.__current_accent_color = self.__accent_color
         else:
             self.__current_accent_color = self.__secondary_color
-
-    def __selector_over_button(self, y: int) -> bool:
-        return  self.__top_shape.topleft[1] < y < self.__top_shape.bottomleft[1]
 
     @staticmethod
     def __draw_shape(
