@@ -1,10 +1,10 @@
-import pygame
 from pygame.event import Event
 
 from snakegame.animation.animation import Animation
 from snakegame.animation.horizontal_swing import HorizontalSwing
 from snakegame.text.text import Text
 from snakegame import constants
+from snakegame import util
 
 
 class AnimatedText(Text):
@@ -15,23 +15,23 @@ class AnimatedText(Text):
 
     Attributes
     ----------
-    content : str
+    __content : str
         The text content.
-    size : int
+    __size : int
         The font size for the text.
-    color : tuple[int, int, int]
+    __color : tuple[int, int, int]
         The RGB color value for the text.
-    font_path : str
+    __font_path : str
         The path to the font file used for the text.
-    coordinate : tuple[int, int]
+    __coordinate : tuple[int, int]
         The (x, y) coordinate of the top left corner of the text rectangle.
-    text : Surface | SurfaceType
+    __text : Surface | SurfaceType
         The Pygame surface object that contains the text.
-    rect : Rect | RectType
+    __rect : Rect | RectType
         The Pygame rectangle object that contains the dimensions and position of the text.
-    animation: Animation
+    __animation: Animation
         The text animation (default animation is HorizontalSwing).
-    animate: int
+    __animation_event: int
         The id of the animation event.
     """
 
@@ -69,11 +69,14 @@ class AnimatedText(Text):
         """
         super().__init__(content, size, color, font_path, coordinate)
         self.__animation: Animation = HorizontalSwing(super().get_rect())
-        self.__animate = self.__configure_animation_event()
+        self.__animation_event = util.configure_event(
+            constants.ANIMATED_TEXT_EVENT,
+            constants.ANIMATED_TEXT_MILLISECONDS
+        )
 
     def animate(self, event: Event) -> None:
         """Run the animation."""
-        if event.type == self.__animate:
+        if event.type == self.__animation_event:
             self.__animation.animate()
 
     def set_content(self, content: str) -> None:
@@ -102,11 +105,3 @@ class AnimatedText(Text):
 
     def __reload_animation(self) -> None:
         self.__animation.reload_animation(super().get_rect())
-
-    @staticmethod
-    def __configure_animation_event() -> int:
-        event = constants.ANIMATED_TEXT_EVENT
-        milliseconds = constants.ANIMATED_TEXT_MILLISECONDS
-        pygame.time.set_timer(event, milliseconds)
-
-        return event

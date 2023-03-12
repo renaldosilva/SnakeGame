@@ -1,8 +1,8 @@
-import pygame
 from pygame.event import Event
 
 from snakegame import constants, validation
 from snakegame.text.text import Text
+from snakegame import util
 
 
 class AnimatedFont(Text):
@@ -69,8 +69,11 @@ class AnimatedFont(Text):
             If the 'font_paths' is not found.
         """
         super().__init__(content, size, color, font_paths[0], coordinate)
-        self.__fonts_paths = self.__check_paths(font_paths)
-        self.__font_event = self.__configure_font_event()
+        self.__fonts_paths = validation.check_paths(font_paths, "The list of font paths cannot be empty!")
+        self.__font_event = util.configure_event(
+            constants.ANIMATED_FONT_EVENT,
+            constants.ANIMATED_FONT_MILLISECONDS
+        )
         self.__current_font_path = 0
 
     def animate(self, event: Event) -> None:
@@ -85,21 +88,3 @@ class AnimatedFont(Text):
             self.__current_font_path += 1
         else:
             self.__current_font_path = 0
-
-    @staticmethod
-    def __check_paths(font_paths) -> list[str]:
-        if font_paths:
-            for font_path in font_paths:
-                validation.is_valid_path(font_path, "'font_path' not found!")
-        else:
-            raise ValueError("The list of font paths cannot be empty!")
-
-        return font_paths
-
-    @staticmethod
-    def __configure_font_event() -> int:
-        event = constants.ANIMATED_FONT_EVENT
-        milliseconds = constants.ANIMATED_FONT_MILLISECONDS
-        pygame.time.set_timer(event, milliseconds)
-
-        return event
