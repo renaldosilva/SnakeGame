@@ -15,19 +15,19 @@ class Text:
 
     Attributes
     ----------
-    content : str
+    __content : str
         The text content.
-    size : int
+    __size : int
         The font size for the text.
-    color : tuple[int, int, int]
+    __color : tuple[int, int, int]
         The RGB color value for the text.
-    font_path : str
+    __font_path : str
         The path to the font file used for the text.
-    coordinate : tuple[int, int]
+    __coordinate : tuple[int, int]
         The (x, y) coordinate of the top left corner of the text rectangle.
-    text : Surface | SurfaceType
+    __text : Surface | SurfaceType
         The Pygame surface object that contains the text.
-    rect : Rect | RectType
+    __rect : Rect | RectType
         The Pygame rectangle object that contains the dimensions and position of the text.
     """
 
@@ -161,6 +161,19 @@ class Text:
         """
         self.__font_path = validation.is_valid_path(font_path, "'font_path' not found!")
         self.__reload_elements()
+
+    def set_font_path_keeping_center_coordinate(self, font_path: str) -> None:
+        """
+        Set the path to the font file used by this text object, keeping the center coordinate unchanged.
+
+        Parameters
+        ----------
+        font_path : str
+            The path to the new font file.
+        """
+        current_center = self.__rect.center
+        self.set_font_path(font_path)
+        self.set_center(current_center)
 
     def get_coordinate(self) -> tuple[int, int]:
         """

@@ -27,6 +27,11 @@ GAME_NAME = "SNAKE GAME"
 GAME_PIXEL_DIMENSION = SYSTEM_DISPLAY_HEIGHT // 100 * 2
 GAME_FPS = 60
 FONT = os.path.join(FONT_DIRECTORY, 'Jump and Play.ttf')
+FONTS = [
+    os.path.join(FONT_DIRECTORY, 'Jump and Play.ttf'),
+    os.path.join(FONT_DIRECTORY, 'Old Typewriter.ttf'),
+    os.path.join(FONT_DIRECTORY, 'Type Keys Filled.ttf')
+]
 
 
 # Window
@@ -38,6 +43,9 @@ WINDOW_ICON_IMAGE_PATH = os.path.join(FRUIT_IMAGE_DIRECTORY, 'fruit.png')
 # Events
 ANIMATED_TEXT_EVENT = pygame.USEREVENT + 0
 ANIMATED_TEXT_MILLISECONDS = 50
+
+ANIMATED_FONT_EVENT = pygame.USEREVENT + 1
+ANIMATED_FONT_MILLISECONDS = 600
 
 
 # Text
