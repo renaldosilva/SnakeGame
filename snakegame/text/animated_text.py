@@ -75,7 +75,6 @@ class AnimatedText(Text):
         )
 
     def animate(self, event: Event) -> None:
-        """Run the animation."""
         if event.type == self.__animation_event:
             self.__animation.animate()
 

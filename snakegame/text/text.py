@@ -1,4 +1,7 @@
+from abc import abstractmethod
+
 import pygame.font
+from pygame.event import Event
 from pygame.font import Font
 from pygame.rect import Rect
 from pygame.rect import RectType
@@ -219,6 +222,18 @@ class Text:
             The rect.
         """
         return self.__rect
+
+    @abstractmethod
+    def animate(self, event: Event) -> None:
+        """
+        Animate the text.
+
+        Parameters
+        ----------
+        event: Event
+            A pygame event.
+        """
+        pass
 
     def draw(self, window: Surface) -> None:
         """

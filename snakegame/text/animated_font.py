@@ -77,7 +77,6 @@ class AnimatedFont(Text):
         self.__current_font_path = 0
 
     def animate(self, event: Event) -> None:
-        """Run the animation."""
         if event.type == self.__font_event:
             font_path = self.__fonts_paths[self.__current_font_path]
             super().set_font_path_keeping_center_coordinate(font_path)
