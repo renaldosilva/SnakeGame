@@ -1,8 +1,6 @@
 import pygame
 from pygame import display
 
-from snakegame import validation
-
 
 def get_system_display_dimensions() -> tuple[int, int]:
     """
@@ -10,7 +8,7 @@ def get_system_display_dimensions() -> tuple[int, int]:
 
     Returns
     -------
-    dimensions: tuple[int, int]
+    dimensions : tuple[int, int]
         Screen width and height.
     """
     display.init()
@@ -24,14 +22,14 @@ def configure_event(event: int, milliseconds: int) -> int:
 
     Parameters
     ----------
-    event: int
+    event : int
         The event id.
     milliseconds: int
         The time interval of the event.
 
     Returns
     -------
-    event: int
+    event : int
         The event id.
     """
     pygame.time.set_timer(event, milliseconds)
