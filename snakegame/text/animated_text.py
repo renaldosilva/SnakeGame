@@ -29,9 +29,9 @@ class AnimatedText(Text):
         The Pygame surface object that contains the text.
     __rect : Rect | RectType
         The Pygame rectangle object that contains the dimensions and position of the text.
-    __animation: Animation
+    __animation : Animation
         The text animation (default animation is HorizontalSwing).
-    __animation_event: int
+    __animation_event : int
         The ID of the pygame event that triggers the animation.
     """
 
@@ -62,7 +62,7 @@ class AnimatedText(Text):
             The path to the font file used for the text (default is constants.FONT).
         coordinate : tuple[int, int], optional
             The (x, y) coordinate of the top left corner of the text rectangle (default is (0, 0)).
-        animation_event: int
+        animation_event : int
             The ID of the pygame event that triggers the animation.
 
         Raises

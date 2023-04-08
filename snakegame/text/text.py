@@ -230,7 +230,7 @@ class Text:
 
         Parameters
         ----------
-        event: Event
+        event : Event
             A pygame event.
         """
         pass
