@@ -32,7 +32,7 @@ class AnimatedText(Text):
     __animation: Animation
         The text animation (default animation is HorizontalSwing).
     __animation_event: int
-        The id of the animation event.
+        The ID of the pygame event that triggers the animation.
     """
 
     def __init__(
@@ -41,7 +41,11 @@ class AnimatedText(Text):
             size: int=constants.TEXT_SIZE,
             color: tuple[int, int, int] = constants.DARK_GREEN,
             font_path: str = constants.FONT,
-            coordinate: tuple[int, int]=(0, 0)
+            coordinate: tuple[int, int]=(0, 0),
+            animation_event: int=util.configure_event(
+                constants.ANIMATED_TEXT_EVENT,
+                constants.ANIMATED_TEXT_MILLISECONDS
+            )
     ):
         """
         Initializes an AnimatedText object.
@@ -58,6 +62,8 @@ class AnimatedText(Text):
             The path to the font file used for the text (default is constants.FONT).
         coordinate : tuple[int, int], optional
             The (x, y) coordinate of the top left corner of the text rectangle (default is (0, 0)).
+        animation_event: int
+            The ID of the pygame event that triggers the animation.
 
         Raises
         ------
@@ -69,10 +75,7 @@ class AnimatedText(Text):
         """
         super().__init__(content, size, color, font_path, coordinate)
         self.__animation: Animation = HorizontalSwing(super().get_rect())
-        self.__animation_event = util.configure_event(
-            constants.ANIMATED_TEXT_EVENT,
-            constants.ANIMATED_TEXT_MILLISECONDS
-        )
+        self.__animation_event = animation_event
 
     def animate(self, event: Event) -> None:
         if event.type == self.__animation_event:

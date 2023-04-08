@@ -29,7 +29,7 @@ class AnimatedFont(Text):
     __fonts_paths : list[str]
         A list of file paths to the different font files to be used for the animation.
     __font_event : int
-        An event id for the timer event that triggers the font change.
+        The pygame event ID that triggers the font change.
     __current_font_path : int
         The index of the current font file being used for the animation.
     """
@@ -40,6 +40,10 @@ class AnimatedFont(Text):
         size: int = constants.TEXT_SIZE,
         color: tuple[int, int, int]=constants.DARK_GREEN,
         font_paths: list[str]=constants.FONTS,
+        font_event: int=util.configure_event(
+            constants.ANIMATED_FONT_EVENT,
+            constants.ANIMATED_FONT_MILLISECONDS
+        ),
         coordinate: tuple[int, int]=(0, 0),
     ):
         """
@@ -56,6 +60,8 @@ class AnimatedFont(Text):
         font_paths : list[str], optional
             A list of file paths to the different font files to be used
             for the animation, (default is constants.FONT).
+        font_event : int
+            The pygame event ID that triggers the font change.
         coordinate : tuple[int, int], optional
             The (x, y) coordinate of the top left corner of the text rectangle (default is (0, 0)).
 
@@ -70,10 +76,7 @@ class AnimatedFont(Text):
         """
         super().__init__(content, size, color, font_paths[0], coordinate)
         self.__fonts_paths = validation.check_paths(font_paths, "The list of font paths cannot be empty!")
-        self.__font_event = util.configure_event(
-            constants.ANIMATED_FONT_EVENT,
-            constants.ANIMATED_FONT_MILLISECONDS
-        )
+        self.__font_event = font_event
         self.__current_font_path = 0
 
     def animate(self, event: Event) -> None:
