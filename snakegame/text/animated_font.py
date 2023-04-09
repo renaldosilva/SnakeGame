@@ -75,7 +75,7 @@ class AnimatedFont(Text):
             If the 'font_paths' is not found.
         """
         super().__init__(content, size, color, font_paths[0], coordinate)
-        self.__fonts_paths = validation.check_paths(font_paths, "The list of font paths cannot be empty!")
+        self.__fonts_paths = validation.check_paths(font_paths, "'font_path' not found!")
         self.__font_event = font_event
         self.__current_font_path = 0
 

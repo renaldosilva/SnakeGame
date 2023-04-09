@@ -105,11 +105,11 @@ def is_valid_path(path: str, error_message: str) -> str:
         If the path does not exist.
     """
     if not os.path.exists(path):
-        raise FileNotFoundError(error_message)
+        raise FileNotFoundError(error_message + " Path: " + path)
 
     return path
 
-def check_paths(font_paths: list[str], error_message: str) -> list[str]:
+def check_paths(font_paths: list[str], error_message: str, may_be_empty: bool=False) -> list[str]:
     """
     Check a list of paths.
 
@@ -119,6 +119,8 @@ def check_paths(font_paths: list[str], error_message: str) -> list[str]:
         The path list.
     error_message : str
         The error message that will be displayed.
+    may_be_empty : bool
+        Says if the list can be empty.
 
     Returns
     -------
@@ -134,8 +136,8 @@ def check_paths(font_paths: list[str], error_message: str) -> list[str]:
     """
     if font_paths:
         for font_path in font_paths:
-            is_valid_path(font_path, "'font_path' not found!")
-    else:
-        raise ValueError(error_message)
+            is_valid_path(font_path, error_message)
+    elif not may_be_empty:
+        raise ValueError("Empty list!")
 
     return font_paths
