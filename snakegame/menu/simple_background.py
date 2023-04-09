@@ -1,33 +1,39 @@
-import pygame
+import pygame.time
 from pygame import Surface, Rect
 from pygame.event import Event
 
 from snakegame.text.text import Text
-from snakegame.text.animated_text import AnimatedText
-from snakegame import constants
+from snakegame import constants, util
 from snakegame import validation
 
 
 class SimpleBackground:
     """
     Represents a simple screen with title and background.
+    The background may change periodically when you have more than one image.
 
     Attributes
     ----------
-    title : Text
+    __title : Text
         The title of the menu which can be animated or not.
-    text_alignment : {1, 2, 3}
+    __text_alignment : {1, 2, 3}
         Represents is the title alignment:
             1 - top alignment;
             2 - center alignment;
             3 - bottom alignment.
-    width, height : int
+    __width, __height : int
         The width and height dimensions.
-    pixel_dimension : int
+    __pixel_dimension : int
         The pixel dimension.
-    color : tuple[int, int, int]
+    __color : tuple[int, int, int]
         The background color.
-    background: str
+    __images : list[Surface | SurfaceType]
+        Background image list.
+    __image_event : int
+        The ID of the pygame event that triggers the image change.
+    __current_image_path : int
+        The index of the current image being used.
+    __background : str
         The background image.
     """
 
@@ -38,7 +44,11 @@ class SimpleBackground:
             dimensions: tuple[int, int]=constants.WINDOW_DIMENSIONS,
             pixel_dimension: int=constants.GAME_PIXEL_DIMENSION,
             color: tuple[int, int, int]=constants.LIGHT_GREEN_1,
-            image_path: str=None
+            image_paths: list[str]=None,
+            image_event: int=util.configure_event(
+                constants.IMAGE_EVENT,
+                constants.IMAGE_MILLISECONDS
+            )
     ):
         """
         Initialize a simple background.
@@ -58,8 +68,10 @@ class SimpleBackground:
             The pixel dimension (default is constants.GAME_PIXEL_DIMENSION).
         color : tuple[int, int, int], optional
             The background color (default is constants.LIGHT_GREEN_1).
-        image_path : str, optional
-            The background image path (default is None).
+        image_paths : list[str], optional
+            The background image paths (default is None).
+        image_event : int
+            The ID of the pygame event that triggers the image change.
 
         Raises
         ------
@@ -78,13 +90,28 @@ class SimpleBackground:
             pixel_dimension, "The 'pixel_dimension' cannot be less than 1!"
         )
         self.__color = validation.is_valid_rgb(color, "'background_color' out of RGB range!")
-        self.__background: Surface | Rect = self.__configure_background(image_path)
+        self.__images = self.__configure_images(
+            validation.check_paths(image_paths, "'background_image_path' not found!", True)
+        )
+        self.__image_event = image_event
+        self.__current_image_path = 0
+        self.__background: Surface | Rect = self.__configure_background()
         self.__align_title()
 
     def events(self, event: Event) -> None:
-        """Updates the title animation. If the title is not animated, nothing will be done."""
-        if isinstance(self.__title, AnimatedText):
-            self.__title.animate(event)
+        """
+        Manages titles and background animations, if any.
+
+        Parameters
+        ----------
+        event : Event
+            A pygame event.
+        """
+        self.__title.animate(event)
+
+        if event.type == self.__image_event:
+            self.__update_current_image_path()
+            self.__background = self.__configure_background()
 
     def draw(self, window: Surface) -> None:
         """Draw the simple background on the window."""
@@ -102,11 +129,19 @@ class SimpleBackground:
         """
         return self.__width, self.__height
 
-    def __configure_background(self, background_image_path: str) -> Surface | Rect:
-        if background_image_path:
-            validation.is_valid_path(background_image_path, "'background_image_path' not found!")
-            background = pygame.image.load(background_image_path)
-            background = pygame.transform.scale(background, self.get_dimensions())
+    def __configure_images(self, image_paths: list[str]) -> list[Surface] | list:
+        images = []
+        if image_paths:
+            for image_path in image_paths:
+                image = pygame.image.load(image_path)
+                image = pygame.transform.scale(image, self.get_dimensions())
+                images.append(image)
+
+        return images
+
+    def __configure_background(self) -> Surface | Rect:
+        if self.__images:
+            background = self.__images[self.__current_image_path]
         else:
             background = Rect((0, 0), self.get_dimensions())
 
@@ -137,6 +172,12 @@ class SimpleBackground:
     def __align_title_to_bottom(self) -> None:
         midbottom = self.__width // 2, self.__height - self.__pixel_dimension*2
         self.__title.set_midbottom(midbottom)
+
+    def __update_current_image_path(self) -> None:
+        if self.__current_image_path < len(self.__images) - 1:
+            self.__current_image_path += 1
+        else:
+            self.__current_image_path = 0
 
     @staticmethod
     def __check_title_alignment(title_alignment: int) -> int:
