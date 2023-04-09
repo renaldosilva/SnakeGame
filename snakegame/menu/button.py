@@ -15,27 +15,27 @@ class Button:
 
     Attributes
     ----------
-    option : ButtonOption
+    __option : ButtonOption
         The option that the button represents.
-    size : int
+    __size : int
         The size of the button.
-    main_color : tuple[int, int, int]
+    __main_color : tuple[int, int, int]
         The RGB color of the button.
-    secondary_color : tuple[int, int, int]
+    __secondary_color : tuple[int, int, int]
         The secondary RGB color of the button.
-    accent_color : tuple[int, int, int]
+    __accent_color : tuple[int, int, int]
         The RGB color of the button's accent.
-    coordinate : tuple[int, int]
+    __coordinate : tuple[int, int]
         The coordinate of the top-left corner of the button.
-    text : Text
+    __text : Text
         The text that will be displayed on the button.
-    top_shape : Rect | RectType
+    __top_shape : Rect | RectType
         The top shape of the button.
-    bottom_shape : Rect | RectType
+    __bottom_shape : Rect | RectType
         The bottom shape of the button.
-    border_shape : Rect | RectType
+    __border_shape : Rect | RectType
         The border shape of the button.
-    click_animation: Click
+    __click_animation : Click
         The animation that simulates the button click.
     """
 

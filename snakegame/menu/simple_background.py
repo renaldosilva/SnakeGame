@@ -1,4 +1,4 @@
-import pygame.time
+import pygame
 from pygame import Surface, Rect
 from pygame.event import Event
 
@@ -70,8 +70,9 @@ class SimpleBackground:
             The background color (default is constants.LIGHT_GREEN_1).
         image_paths : list[str], optional
             The background image paths (default is None).
-        image_event : int
-            The ID of the pygame event that triggers the image change.
+        image_event : int, optional
+            The ID of the pygame event that triggers the image change
+            (default is util.configure_event(constants.IMAGE_EVENT, constants.IMAGE_MILLISECONDS)).
 
         Raises
         ------

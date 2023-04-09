@@ -62,8 +62,9 @@ class AnimatedText(Text):
             The path to the font file used for the text (default is constants.FONT).
         coordinate : tuple[int, int], optional
             The (x, y) coordinate of the top left corner of the text rectangle (default is (0, 0)).
-        animation_event : int
-            The ID of the pygame event that triggers the animation.
+        animation_event : int, optional
+            The ID of the pygame event that triggers the animation
+            (default is util.configure_event(constants.ANIMATED_TEXT_EVENT, constants.ANIMATED_TEXT_MILLISECONDS)).
 
         Raises
         ------

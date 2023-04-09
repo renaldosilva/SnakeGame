@@ -60,8 +60,9 @@ class AnimatedFont(Text):
         font_paths : list[str], optional
             A list of file paths to the different font files to be used
             for the animation, (default is constants.FONT).
-        font_event : int
-            The pygame event ID that triggers the font change.
+        font_event : int, optional
+            The pygame event ID that triggers the font change
+            (default is util.configure_event(constants.ANIMATED_FONT_EVENT, constants.ANIMATED_FONT_MILLISECONDS)).
         coordinate : tuple[int, int], optional
             The (x, y) coordinate of the top left corner of the text rectangle (default is (0, 0)).
 
