@@ -61,6 +61,10 @@ BUTTON_SIZE = GAME_PIXEL_DIMENSION * 3
 
 # Main Menu
 MAIN_MENU_TITLE = GAME_NAME
+MAIN_MENU_IMAGES = [
+    os.path.join(FRUIT_IMAGE_DIRECTORY, 'snake_menu_1.png'),
+    os.path.join(FRUIT_IMAGE_DIRECTORY, 'snake_menu_2.png')
+]
 
 
 # Credits Menu
