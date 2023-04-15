@@ -109,6 +109,17 @@ class Menu(ABC):
         """
         return self.__basic_piece.get_window_height()
 
+    def get_window_width(self) -> int:
+        """
+        Returns the width of the window.
+
+        Returns
+        -------
+        int
+            The width of the window.
+        """
+        return self.__basic_piece.get_window_width()
+
     def get_game_pixel_dimension(self) -> int:
         """
         returns the pixel dimension used in the game.

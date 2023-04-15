@@ -3,6 +3,7 @@ from pygame import Surface
 from snakegame.enuns.button_option import ButtonOption
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
+from snakegame.menu.credits_menu import CreditsMenu
 from snakegame.menu.menu import Menu
 from snakegame.menu.simple_background import SimpleBackground
 from snakegame import constants
@@ -43,6 +44,7 @@ class MainMenu(Menu):
             )).
         """
         super().__init__(basic_piece, background)
+        self.__credits_menu = CreditsMenu(basic_piece)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.START:
@@ -50,6 +52,7 @@ class MainMenu(Menu):
         elif selected_option == ButtonOption.OPTIONS:
             super().back_to_main_menu()
         elif selected_option == ButtonOption.CREDITS:
+            self.__credits_menu.start()
             super().back_to_main_menu()
         elif selected_option == ButtonOption.QUIT:
             super().close_all()
