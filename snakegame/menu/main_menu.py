@@ -17,12 +17,10 @@ class MainMenu(Menu):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
-    __background : SimpleBackground, optional
-        The background of the menu (default is SimpleBackground(
-                AnimatedFont(constants.MAIN_MENU_TITLE),
-                image_paths=constants.MAIN_MENU_IMAGES
-            )).
+    __background : SimpleBackground
+        The background of the menu.
     """
+
     def __init__(
             self,
             basic_piece: BasicPiece,
@@ -38,11 +36,13 @@ class MainMenu(Menu):
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
-        background : SimpleBackground
-            The background of the menu.
+        background : SimpleBackground, optional
+        The background of the menu (default is SimpleBackground(
+                AnimatedFont(constants.MAIN_MENU_TITLE),
+                image_paths=constants.MAIN_MENU_IMAGES
+            )).
         """
         super().__init__(basic_piece, background)
-
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.START:
@@ -54,7 +54,6 @@ class MainMenu(Menu):
         elif selected_option == ButtonOption.QUIT:
             super().close_all()
 
-
     def create_buttons(self) -> list[Button]:
         buttons = [
             Button(ButtonOption.START),
@@ -63,7 +62,6 @@ class MainMenu(Menu):
             Button(ButtonOption.QUIT),
         ]
         return buttons
-
 
     def align_buttons(self, buttons: list[Button]) -> list[Button]:
         initial_center = super().get_window_height() // 2, super().get_game_pixel_dimension() * 15
@@ -77,7 +75,6 @@ class MainMenu(Menu):
                 button.set_center(center)
 
         return buttons
-
 
     def other_drawings(self, window: Surface) -> None:
         pass

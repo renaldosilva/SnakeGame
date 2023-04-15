@@ -80,9 +80,20 @@ class BasicPiece:
         Returns
         -------
         int
-            The width of the window.
+            The height of the window.
         """
         return self.__window.get_height()
+
+    def get_window_width(self) -> int:
+        """
+        Returns the width of the window.
+
+        Returns
+        -------
+        int
+            The width of the window.
+        """
+        return self.__window.get_width()
 
     def get_game_pixel_dimension(self) -> int:
         """

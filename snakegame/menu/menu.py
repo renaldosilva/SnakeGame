@@ -105,7 +105,7 @@ class Menu(ABC):
         Returns
         -------
         int
-            The width of the window.
+            The height of the window.
         """
         return self.__basic_piece.get_window_height()
 
