@@ -20,6 +20,13 @@ class MainMenu(Menu):
         The basic features of the game.
     __background : SimpleBackground
         The background of the menu.
+    __button_alignment : {1, 2, 3}
+            Represents is the alignment of the buttons:
+                1 - top alignment;
+                2 - center alignment;
+                3 - bottom alignment.
+    __credits_menu: CreditsMenu
+        The credits menu.
     """
 
     def __init__(
@@ -28,7 +35,8 @@ class MainMenu(Menu):
             background: SimpleBackground=SimpleBackground(
                 AnimatedFont(constants.MAIN_MENU_TITLE),
                 image_paths=constants.MAIN_MENU_IMAGES
-            )
+            ),
+            button_alignment: int=2
     ):
         """
         Initialize the main menu.
@@ -42,8 +50,13 @@ class MainMenu(Menu):
                 AnimatedFont(constants.MAIN_MENU_TITLE),
                 image_paths=constants.MAIN_MENU_IMAGES
             )).
+        button_alignment : {1, 2, 3}, optional
+            Represents is the alignment of the buttons (default is 2):
+                1 - top alignment;
+                2 - center alignment;
+                3 - bottom alignment.
         """
-        super().__init__(basic_piece, background)
+        super().__init__(basic_piece, background, button_alignment)
         self.__credits_menu = CreditsMenu(basic_piece)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
@@ -62,26 +75,9 @@ class MainMenu(Menu):
             Button(ButtonOption.START),
             Button(ButtonOption.OPTIONS),
             Button(ButtonOption.CREDITS),
-            Button(ButtonOption.QUIT),
+            Button(ButtonOption.QUIT)
         ]
-        return buttons
-
-    def align_buttons(self, buttons: list[Button]) -> list[Button]:
-        initial_center = super().get_window_height() // 2, super().get_game_pixel_dimension() * 15
-
-        for index, button in enumerate(buttons):
-            if index == 0:
-                button.set_center(initial_center)
-            else:
-                previous_button = buttons[index - 1]
-                center = self.__calculates_the_center_of_the_next_button(previous_button)
-                button.set_center(center)
-
         return buttons
 
     def other_drawings(self, window: Surface) -> None:
         pass
-
-    def __calculates_the_center_of_the_next_button(self, previous_button: Button) -> tuple[int, int]:
-        x, y = previous_button.get_bottom_shape_middle_bottom()
-        return x, y + super().get_game_pixel_dimension() * 2

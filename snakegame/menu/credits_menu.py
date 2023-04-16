@@ -20,6 +20,11 @@ class CreditsMenu(Menu):
         The basic features of the game.
     __background : SimpleBackground
         The background of the menu.
+    __button_alignment : {1, 2, 3}
+            Represents is the alignment of the buttons:
+                1 - top alignment;
+                2 - center alignment;
+                3 - bottom alignment.
     __credits : Text
         The credits that will be displayed.
     """
@@ -28,6 +33,7 @@ class CreditsMenu(Menu):
             self,
             basic_piece: BasicPiece,
             background: SimpleBackground=SimpleBackground(AnimatedText(constants.CREDITS_MENU_TITLE)),
+            button_alignment: int=3,
             credits: Text=Text(constants.CREDITS, constants.CREDITS_SIZE)
     ):
         """
@@ -39,10 +45,15 @@ class CreditsMenu(Menu):
             The basic features of the game.
         background : SimpleBackground, optional
             The background of the menu (default is SimpleBackground(AnimatedText(constants.CREDITS_MENU_TITLE))).
+        button_alignment : {1, 2, 3}, optional
+            Represents is the alignment of the buttons (default is 3):
+                1 - top alignment;
+                2 - center alignment;
+                3 - bottom alignment.
         credits: Text, optional
             The credits that will be displayed (default is Text(constants.CREDITS, constants.CREDITS_SIZE)).
         """
-        super().__init__(basic_piece, background)
+        super().__init__(basic_piece, background, button_alignment)
         self.__credits = self.__align_credits(credits)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
@@ -51,15 +62,6 @@ class CreditsMenu(Menu):
 
     def create_buttons(self) -> list[Button]:
         return [Button(ButtonOption.BACK)]
-
-    def align_buttons(self, buttons: list[Button]) -> list[Button]:
-        center = super().get_window_width() // 2, \
-            super().get_window_height() - super().get_game_pixel_dimension()*5
-
-        for button in buttons:
-            button.set_center(center)
-
-        return buttons
 
     def other_drawings(self, window: Surface) -> None:
         self.__credits.draw(window)
