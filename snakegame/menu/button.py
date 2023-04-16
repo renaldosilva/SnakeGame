@@ -40,10 +40,24 @@ class Button:
     """
 
     TEXT_SIZE_PERCENTAGE = 0.5
+    """The percentage of the button text size.
+    """
+
     BORDER_RADIUS_PERCENTAGE = 0.2
+    """The radius percentage of the button borders.
+    """
+
     BOTTOM_BACKGROUND_DISTANCE_PERCENTAGE = 0.1
+    """The percentage of distance from the bottom to the top of the button.
+    """
+
     EDGE_THICKNESS_PERCENTAGE = 0.09
+    """The percentage of the button's border thickness.
+    """
+
     WIDTH_FACTOR = 0.5
+    """The button width factor.
+    """
 
     def __init__(
             self,
@@ -172,7 +186,7 @@ class Button:
             The option that the button represents when it is clicked,
             or the ButtonOption.NONE option otherwise.
         """
-        result = self.selector_next_to_the_button(selector_coordinate)
+        result = self.the_selector_is_next_to_the_button(selector_coordinate[1])
         self.__enable_accent_color(result)
         return self.__manage_click(result, is_clicking)
 
@@ -234,14 +248,21 @@ class Button:
         """
         return self.__bottom_shape.midbottom
 
-    def selector_next_to_the_button(self, coordinate: tuple[int, int]) -> bool:
-        x = coordinate[0]
-        y = coordinate[1]
+    def the_selector_is_next_to_the_button(self, selector_coordinate_y: int) -> bool:
+        """
+        Checks if the selector is at the same y-coordinate as the button.
 
-        result = self.__top_shape.topleft[0]<x<self.__top_shape.topright[0] \
-                 or self.__top_shape.topleft[1]<y< self.__top_shape.bottomleft[1]
+        Parameters
+        ----------
+        selector_coordinate_y : int
+            The y-coordinate of the selector
 
-        return result
+        Returns
+        -------
+        bool
+            True if the selector is at the same y-coordinate as the button, False otherwise.
+        """
+        return self.__top_shape.topleft[1]<selector_coordinate_y< self.__top_shape.bottomleft[1]
 
     def __enable_accent_color(self, wish: bool) -> None:
         if wish:
@@ -268,7 +289,6 @@ class Button:
         height = self.__size
 
         return Rect(self.__coordinate, (width, height))
-
 
     def __configure_text(self, font_path: str) -> Text:
         size = int(self.__size * Button.TEXT_SIZE_PERCENTAGE)
