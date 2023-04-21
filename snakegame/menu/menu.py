@@ -8,7 +8,7 @@ from pygame.key import ScancodeWrapper
 from snakegame.enuns.button_option import ButtonOption
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
-from snakegame.menu.simple_background import SimpleBackground
+from snakegame.menu.background import Background
 from snakegame.text.animated_text import AnimatedText
 
 
@@ -20,7 +20,7 @@ class Menu(ABC):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
-    __background : SimpleBackground
+    __background : Background
         The background of the menu.
     __button_alignment : {1, 2, 3}
             Represents is the alignment of the buttons:
@@ -51,10 +51,18 @@ class Menu(ABC):
     """The menu selector symbol.
     """
 
+    BUTTON_SPACING_PERCENTAGE = 0.1
+    """The percentage of space between buttons.
+    """
+
+    BUTTONS_MARGIN_PERCENTAGE = 0.15
+    """The percentage of distance the buttons are from the background.
+    """
+
     def __init__(
             self,
             basic_piece: BasicPiece,
-            background: SimpleBackground,
+            background: Background,
             button_alignment: int=1
     ):
         """
@@ -64,7 +72,7 @@ class Menu(ABC):
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
-        background : SimpleBackground
+        background : Background
             The background of the menu.
         button_alignment : {1, 2, 3}, optional
             Represents is the alignment of the buttons (default is 1):
@@ -110,38 +118,16 @@ class Menu(ABC):
         """Returns to the main menu screen."""
         self.__selected_option = ButtonOption.NONE
 
-    def get_window_height(self) -> int:
+    def get_background_center(self) -> tuple[int, int]:
         """
-        Returns the height of the window.
+        Returns the center coordinate of the background.
 
         Returns
         -------
-        int
-            The height of the window.
+        tuple[int, int]
+            The center coordinate.
         """
-        return self.__basic_piece.get_window_height()
-
-    def get_window_width(self) -> int:
-        """
-        Returns the width of the window.
-
-        Returns
-        -------
-        int
-            The width of the window.
-        """
-        return self.__basic_piece.get_window_width()
-
-    def get_game_pixel_dimension(self) -> int:
-        """
-        returns the pixel dimension used in the game.
-
-        Returns
-        -------
-        int
-            The pixel dimension.
-        """
-        return self.__basic_piece.get_game_pixel_dimension()
+        return self.__background.get_center()
 
     def __run_this(self) -> None:
         self.__events()
@@ -158,10 +144,12 @@ class Menu(ABC):
         self.__selected_option = self.__button_events()
 
     def __draw(self) -> None:
-        self.__background.draw(self.__basic_piece.get_window())
-        self.__draw_buttons()
-        self.__selector.draw(self.__basic_piece.get_window())
-        self.other_drawings(self.__basic_piece.get_window())
+        window = self.__basic_piece.get_window()
+
+        self.__background.draw(window)
+        self.__draw_buttons(window)
+        self.__selector.draw(window)
+        self.other_drawings(window)
 
     def __update(self) -> None:
         self.__basic_piece.update_window()
@@ -186,57 +174,68 @@ class Menu(ABC):
         pass
 
     def __align_buttons(self, buttons: list[Button]) -> list[Button]:
-        distance_between_centers = self.__basic_piece.get_game_pixel_dimension() * 4
+        button_box_height_without_spaces = self.__calculate_button_box_height(buttons)
+        space_between_buttons = int(
+            button_box_height_without_spaces * Menu.BUTTON_SPACING_PERCENTAGE
+        ) // len(buttons)
 
         if self.__button_alignment == 1:
-            buttons = self.__align_buttons_on_top(buttons, distance_between_centers)
+            buttons = self.__align_buttons_on_top(buttons, space_between_buttons)
         elif self.__button_alignment == 2:
-            buttons = self.__align_buttons_on_center(buttons, distance_between_centers)
+            buttons = self.__align_buttons_on_center(buttons, space_between_buttons)
         else:
-            buttons = self.__align_buttons_on_bottom(buttons, distance_between_centers)
+            buttons = self.__align_buttons_on_bottom(buttons, space_between_buttons)
 
         return buttons
 
-    def __align_buttons_on_top(self, buttons: list[Button], distance_between_centers: int) -> list[Button]:
-        window_center_x = self.__basic_piece.get_window_width() // 2
-        center_y = self.__basic_piece.get_game_pixel_dimension() * 7
-        initial_center = window_center_x, center_y
+    @staticmethod
+    def __calculate_button_box_height(buttons: list[Button], space_between_buttons: int=0) -> int:
+        overall_spacing_between_buttons = (len(buttons) - 1) * space_between_buttons
+        button_box_height =  sum([button.get_height() for button in buttons]) \
+                             + overall_spacing_between_buttons
 
-        return self.__adjust_the_center_coordinate_of_the_buttons(buttons, initial_center, distance_between_centers)
+        return button_box_height
 
-    def __align_buttons_on_center(self, buttons: list[Button], distance_between_centers: int) -> list[Button]:
-        window_center_x = self.__basic_piece.get_window_width() // 2
-        window_center_y = self.__basic_piece.get_window_height() // 2
-        center_y = window_center_y - len(buttons)//2 * distance_between_centers
+    def __align_buttons_on_top(self, buttons: list[Button], space_between_buttons: int) -> list[Button]:
+        midtop_x, midtop_y = self.__background.get_midtop()
 
-        if len(buttons) % 2 == 0:
-            center_y += distance_between_centers//2
+        new_midtop_y = midtop_y + int(self.__background.get_height() * Menu.BUTTONS_MARGIN_PERCENTAGE)
+        initial_midtop = midtop_x, new_midtop_y
 
-        initial_center = window_center_x, center_y
-        return self.__adjust_the_center_coordinate_of_the_buttons(buttons, initial_center, distance_between_centers)
+        return self.__adjust_button_alignment(buttons, initial_midtop, space_between_buttons)
 
-    def __align_buttons_on_bottom(self, buttons: list[Button], distance_between_centers: int) -> list[Button]:
-        window_center_x = self.__basic_piece.get_window_width() // 2
-        last_center_coordinate_y = self.__basic_piece.get_window_height() \
-                                   - self.__basic_piece.get_game_pixel_dimension()*7
-        center_y = last_center_coordinate_y - (len(buttons) - 1)*distance_between_centers
+    def __align_buttons_on_center(self, buttons: list[Button], space_between_buttons: int) -> list[Button]:
+        center_x, center_y = self.__background.get_center()
+        button_box_height = self.__calculate_button_box_height(buttons, space_between_buttons)
 
-        initial_center = window_center_x, center_y
-        return self.__adjust_the_center_coordinate_of_the_buttons(buttons, initial_center, distance_between_centers)
+        midtop_y = center_y - button_box_height // 2
+        initial_midtop = center_x, midtop_y
+
+        return self.__adjust_button_alignment(buttons, initial_midtop, space_between_buttons)
+
+    def __align_buttons_on_bottom(self, buttons: list[Button], space_between_buttons: int) -> list[Button]:
+        midbottom_x, midbottom_y = self.__background.get_midbottom()
+        button_box_height = self.__calculate_button_box_height(buttons, space_between_buttons)
+
+        midtop_y = midbottom_y - button_box_height \
+                       - int(self.__background.get_height() * Menu.BUTTONS_MARGIN_PERCENTAGE)
+        initial_midtop = midbottom_x, midtop_y
+
+        return self.__adjust_button_alignment(buttons, initial_midtop, space_between_buttons)
 
     @staticmethod
-    def __adjust_the_center_coordinate_of_the_buttons(
+    def __adjust_button_alignment(
             buttons: list[Button],
-            initial_center: tuple[int, int],
-            distance_between_centers: int
+            initial_midtop: tuple[int, int],
+            space_between_buttons: int
     ) -> list[Button]:
         for index, button in enumerate(buttons):
             if index == 0:
-                button.set_center(initial_center)
+                button.set_top_shape_midtop(initial_midtop)
             else:
-                previous_center_x, previous_center_y = buttons[index - 1].get_center()
-                new_center_y = previous_center_y + distance_between_centers
-                button.set_center((previous_center_x, new_center_y))
+                previous_midbottom = buttons[index - 1].get_bottom_shape_midbottom()
+                midtop_y = previous_midbottom[1] + space_between_buttons
+                button.set_top_shape_midtop((previous_midbottom[0], midtop_y))
 
         return buttons
 
@@ -273,8 +272,8 @@ class Menu(ABC):
             self.__selector.set_center(center)
 
     def __calculate_selector_center(self, current_button: Button) -> tuple[int, int]:
-        x = current_button.get_bottom_shape_middle_left()[0] - self.__selector.get_width()
-        y = current_button.get_bottom_shape_middle_left()[1]
+        x = current_button.get_bottom_shape_midleft()[0] - self.__selector.get_width()
+        y = current_button.get_bottom_shape_midleft()[1]
 
         return x, y
 
@@ -315,9 +314,9 @@ class Menu(ABC):
         self.__selected_option = ButtonOption.NONE
         self.__is_running = True
 
-    def __draw_buttons(self) -> None:
+    def __draw_buttons(self, window: Surface) -> None:
         for button in self.__buttons:
-            button.draw(self.__basic_piece.get_window())
+            button.draw(window)
 
     @staticmethod
     def __check_button_alignment(button_alignment: int) -> int:

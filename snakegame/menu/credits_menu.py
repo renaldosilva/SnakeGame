@@ -4,7 +4,7 @@ from snakegame.enuns.button_option import ButtonOption
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
 from snakegame.menu.menu import Menu
-from snakegame.menu.simple_background import SimpleBackground
+from snakegame.menu.background import Background
 from snakegame.text.animated_text import AnimatedText
 from snakegame.text.text import Text
 from snakegame import constants
@@ -18,7 +18,7 @@ class CreditsMenu(Menu):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
-    __background : SimpleBackground
+    __background : Background
         The background of the menu.
     __button_alignment : {1, 2, 3}
             Represents is the alignment of the buttons:
@@ -32,12 +32,14 @@ class CreditsMenu(Menu):
     def __init__(
             self,
             basic_piece: BasicPiece,
-            background: SimpleBackground=SimpleBackground(AnimatedText(constants.CREDITS_MENU_TITLE)),
+            background: Background=Background(
+                AnimatedText(constants.CREDITS_MENU_TITLE)
+            ),
             button_alignment: int=3,
             credits: Text=Text(constants.CREDITS, constants.CREDITS_SIZE)
     ):
         """
-        Initialize the credits menu.
+        Initialize the credits' menu.
 
         Parameters
         ----------
@@ -67,7 +69,7 @@ class CreditsMenu(Menu):
         self.__credits.draw(window)
 
     def __align_credits(self, credits: Text) -> Text:
-        center = super().get_window_width() // 2, super().get_window_height() // 2
+        center = super().get_background_center()
         credits.set_center(center)
 
         return credits

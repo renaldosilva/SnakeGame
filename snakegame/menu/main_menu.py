@@ -5,7 +5,7 @@ from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
 from snakegame.menu.credits_menu import CreditsMenu
 from snakegame.menu.menu import Menu
-from snakegame.menu.simple_background import SimpleBackground
+from snakegame.menu.background import Background
 from snakegame import constants
 from snakegame.text.animated_font import AnimatedFont
 
@@ -18,7 +18,7 @@ class MainMenu(Menu):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
-    __background : SimpleBackground
+    __background : Background
         The background of the menu.
     __button_alignment : {1, 2, 3}
             Represents is the alignment of the buttons:
@@ -26,13 +26,13 @@ class MainMenu(Menu):
                 2 - center alignment;
                 3 - bottom alignment.
     __credits_menu: CreditsMenu
-        The credits menu.
+        The credits' menu.
     """
 
     def __init__(
             self,
             basic_piece: BasicPiece,
-            background: SimpleBackground=SimpleBackground(
+            background: Background=Background(
                 AnimatedFont(constants.MAIN_MENU_TITLE),
                 image_paths=constants.MAIN_MENU_IMAGES
             ),
