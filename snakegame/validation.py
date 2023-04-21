@@ -55,6 +55,33 @@ def is_positive(value: int, error_message: str) -> int:
     return value
 
 
+def is_valid_dimensions(dimensions: tuple[int, int], error_message: str) -> tuple[int, int]:
+    """
+    checks if dimensions are positive.
+
+    Parameters
+    ----------
+    dimensions : tuple[int, int]
+        The width and height dimensions.
+    error_message : str
+        The error message that will be displayed.
+
+    Returns
+    -------
+    dimensions : tuple[int, int]
+        If the dimensions are positive.
+
+    Raises
+    ------
+    ValueError
+        If any dimension is not positive.
+    """
+    is_positive(dimensions[0], "Width error. " + error_message)
+    is_positive(dimensions[1], "Height error. " + error_message)
+
+    return dimensions
+
+
 def is_valid_rgb(color: tuple[int, int, int], error_message: str) -> tuple[int, int, int]:
     """
     Checks if a rgb color is valid.
@@ -108,6 +135,7 @@ def is_valid_path(path: str, error_message: str) -> str:
         raise FileNotFoundError(error_message + " Path: " + path)
 
     return path
+
 
 def check_paths(font_paths: list[str], error_message: str, may_be_empty: bool=False) -> list[str]:
     """
