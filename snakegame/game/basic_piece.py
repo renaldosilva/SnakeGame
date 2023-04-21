@@ -24,8 +24,6 @@ class BasicPiece:
         The target number of frames per second for the game (default is constants.GAME_FPS).
     color : tuple[int, int, int], optional
         The RGB color tuple used to fill the game's display window (default is constants.LIGHT_GREEN_1).
-    game_pixel_dimension : int, optional
-        The pixel dimension used in the game (default is constants.GAME_PIXEL_DIMENSION).
     is_running : bool
         A boolean value that indicates whether the game loop is still running.
     """
@@ -35,8 +33,7 @@ class BasicPiece:
         window: Surface,
         clock: Clock,
         fps: int=constants.GAME_FPS,
-        color: tuple[int, int, int]=constants.LIGHT_GREEN_1,
-        game_pixel_dimension: int=constants.GAME_PIXEL_DIMENSION
+        color: tuple[int, int, int]=constants.LIGHT_GREEN_1
     ):
         """
         Initializes a new instance of the BasicPiece class.
@@ -56,10 +53,6 @@ class BasicPiece:
         self.__clock = clock
         self.__fps = validation.is_positive(fps, "'fps' cannot be less than 1!")
         self.__color = validation.is_valid_rgb(color, "'color' out of RGB range!")
-        self.__game_pixel_dimension = validation.is_positive(
-            game_pixel_dimension,
-            "'game_pixel_dimension' cannot be less than 1!"
-        )
         self.__is_running = True
 
     def get_window(self) -> Surface:
@@ -72,39 +65,6 @@ class BasicPiece:
             The game window.
         """
         return self.__window
-
-    def get_window_height(self) -> int:
-        """
-        Returns the height of the window.
-
-        Returns
-        -------
-        int
-            The height of the window.
-        """
-        return self.__window.get_height()
-
-    def get_window_width(self) -> int:
-        """
-        Returns the width of the window.
-
-        Returns
-        -------
-        int
-            The width of the window.
-        """
-        return self.__window.get_width()
-
-    def get_game_pixel_dimension(self) -> int:
-        """
-        returns the pixel dimension used in the game.
-
-        Returns
-        -------
-        int
-            The pixel dimension.
-        """
-        return self.__game_pixel_dimension
 
     def is_running(self) -> bool:
         """

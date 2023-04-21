@@ -20,11 +20,11 @@ class Button:
     __size : int
         The size of the button.
     __main_color : tuple[int, int, int]
-        The RGB color of the button.
+        The main RGB color of the button.
     __secondary_color : tuple[int, int, int]
         The secondary RGB color of the button.
     __accent_color : tuple[int, int, int]
-        The RGB color of the button's accent.
+        the accent RGB color of the button.
     __coordinate : tuple[int, int]
         The coordinate of the top-left corner of the button.
     __text : Text
@@ -111,17 +111,6 @@ class Button:
         self.__align_elements()
         self.__click_animation = self.__configure_animation()
 
-    def get_size(self) -> int:
-        """
-        Returns the size of the button.
-
-        Returns
-        -------
-        size : int
-            The size of the button.
-        """
-        return self.__size
-
     def get_height(self) -> int:
         """
         Returns the height of the button.
@@ -200,30 +189,6 @@ class Button:
         result = self.the_selector_is_next_to_the_button(selector_coordinate[1])
         self.__enable_accent_color(result)
         return self.__manage_click(result, is_clicking)
-
-    def set_size_keeping_center_coordinate(self, size) -> None:
-        """
-        Changes the size of the button, keeping the center coordinate unchanged.
-
-        Parameters
-        ----------
-        size : int
-            The new button size.
-        """
-        current_center = self.__top_shape.center
-        self.set_size(size)
-        self.set_center(current_center)
-
-    def get_center(self) -> tuple[int, int]:
-        """
-        Returns the center coordinate of the button.
-
-        Returns
-        -------
-        center : tuple[int, int]
-            The center coordinate.
-        """
-        return self.__top_shape.center
 
     def set_center(self, center: tuple[int, int]) -> None:
         """
