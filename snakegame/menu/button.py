@@ -122,6 +122,17 @@ class Button:
         """
         return self.__size
 
+    def get_height(self) -> int:
+        """
+        Returns the height of the button.
+
+        Returns
+        -------
+        int
+            The height of the button.
+        """
+        return self.__bottom_shape.bottomleft[1] - self.__top_shape.topleft[1]
+
     def set_size(self, size: int) -> None:
         """
         Set the size of the button.
@@ -226,7 +237,19 @@ class Button:
         self.__top_shape.center = center
         self.set_coordinate((self.__top_shape.x, self.__top_shape.y))
 
-    def get_bottom_shape_middle_left(self) -> tuple[int, int]:
+    def set_top_shape_midtop(self, midtop: tuple[int, int]) -> None:
+        """
+        Changes the center coordinate of the top edge of the top shape.
+
+        Parameters
+        ----------
+        midtop : tuple[int, int]
+            The new top coordinate of the button.
+        """
+        self.__top_shape.midtop = midtop
+        self.set_coordinate((self.__top_shape.x, self.__top_shape.y))
+
+    def get_bottom_shape_midleft(self) -> tuple[int, int]:
         """
         Returns the center coordinates of the left edge of the bottom shape
 
@@ -237,7 +260,7 @@ class Button:
         """
         return self.__bottom_shape.midleft
 
-    def get_bottom_shape_middle_bottom(self):
+    def get_bottom_shape_midbottom(self):
         """
         Returns the center coordinates of the bottom edge of the bottom shape
 
