@@ -7,18 +7,22 @@ class ButtonOption(Enum):
 
     Attributes
     ----------
-    NONE: int
+    NONE : int
         A button option that does not correspond to any particular action.
-    START: int
+    START : int
         A button option that starts a new game.
-    OPTIONS: int
-        A button option that opens the options menu.
-    CREDITS: int
+    OPTIONS : int
+        A button option that opens the options' menu.
+    CREDITS : int
         A button option that displays the game's credits.
-    QUIT: int
+    QUIT : int
         A button option that quits the game.
-    BACK: int
+    BACK : int
         A button option that goes back to the previous menu.
+    VOLUME_UP : int
+        Volume up button.
+    VOLUME_DOWN : int
+        Volume down button.
     """
 
     NONE = 0
@@ -27,3 +31,5 @@ class ButtonOption(Enum):
     CREDITS = 5
     QUIT = 6
     BACK = 7
+    VOLUME_UP = 8
+    VOLUME_DOWN = 9

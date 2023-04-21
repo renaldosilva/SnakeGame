@@ -7,6 +7,7 @@ from snakegame.menu.credits_menu import CreditsMenu
 from snakegame.menu.menu import Menu
 from snakegame.menu.background import Background
 from snakegame import constants
+from snakegame.menu.options_menu import OptionsMenu
 from snakegame.text.animated_font import AnimatedFont
 
 
@@ -58,11 +59,13 @@ class MainMenu(Menu):
         """
         super().__init__(basic_piece, background, button_alignment)
         self.__credits_menu = CreditsMenu(basic_piece)
+        self.__options_menu = OptionsMenu(basic_piece)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.START:
             super().quit()
         elif selected_option == ButtonOption.OPTIONS:
+            self.__options_menu.start()
             super().back_to_main_menu()
         elif selected_option == ButtonOption.CREDITS:
             self.__credits_menu.start()

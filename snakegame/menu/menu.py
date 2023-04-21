@@ -129,6 +129,28 @@ class Menu(ABC):
         """
         return self.__background.get_center()
 
+    def get_background_midtop(self) -> tuple[int, int]:
+        """
+        Returns the midtop coordinates of the background.
+
+        Returns
+        -------
+        tuple[int, int]
+            The midtop-coordinate.
+        """
+        return self.__background.get_midtop()
+
+    def get_background_height(self) -> int:
+        """
+        Returns the height of the background.
+
+        Returns
+        -------
+        int
+            The height of the background.
+        """
+        return self.__background.get_height()
+
     def __run_this(self) -> None:
         self.__events()
         self.__draw()
