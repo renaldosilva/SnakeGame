@@ -142,8 +142,12 @@ class Menu(ABC):
         background: Background
             The new background
         """
+        last_height = self.__background.get_height()
         self.__background = background
-        self.__buttons = self.__align_buttons(self.__buttons)
+        current_height = self.__background.get_height()
+
+        if current_height != last_height:
+            self.__buttons = self.__align_buttons(self.__buttons)
 
     def get_background(self) -> Background:
         """
