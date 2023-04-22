@@ -37,6 +37,10 @@ class Button:
         The border shape of the button.
     __click_animation : Click
         The animation that simulates the button click.
+    __border_radius : int
+        The radius of the button.
+    __edge_thickness : int
+        The thickness of the button border.
     """
 
     TEXT_SIZE_PERCENTAGE = 0.5
@@ -107,9 +111,21 @@ class Button:
         self.__text = self.__configure_text(font_path)
         self.__top_shape = self.__configure_top_background()
         self.__bottom_shape = self.__top_shape.copy()
-        self.__border_shape = self.__top_shape.copy()
         self.__align_elements()
         self.__click_animation = self.__configure_animation()
+        self.__border_radius = int(self.__size * Button.BORDER_RADIUS_PERCENTAGE)
+        self.__edge_thickness = int(self.__size * Button.EDGE_THICKNESS_PERCENTAGE)
+
+    def get_option(self) -> ButtonOption:
+        """
+        Returns button option.
+
+        Returns
+        -------
+        option : ButtonOption
+            The button option.
+        """
+        return self.__option
 
     def get_height(self) -> int:
         """
@@ -160,13 +176,19 @@ class Button:
         window : Surface
             The window where the button will be drawn.
         """
-        border_radius = int(self.__size * Button.BORDER_RADIUS_PERCENTAGE)
-        edge_thickness = int(self.__size * Button.EDGE_THICKNESS_PERCENTAGE)
+        pygame.draw.rect(
+            window, self.__main_color, self.__bottom_shape,
+            border_radius=self.__border_radius
+        )
+        pygame.draw.rect(
+            window, self.__main_color, self.__top_shape,
+            border_radius=self.__border_radius
+        )
+        pygame.draw.rect(
+            window, self.__current_accent_color, self.__top_shape,
+            self.__edge_thickness, self.__border_radius
+        )
 
-        self.__draw_shape(self.__bottom_shape, window, border_radius, self.__main_color)
-        self.__draw_shape(self.__top_shape, window, border_radius, self.__main_color)
-        self.__draw_shape(self.__border_shape, window, border_radius,
-                          self.__current_accent_color, edge_thickness)
         self.__draw_text(window)
 
     def events(self, selector_coordinate: tuple[int, int], is_clicking: bool) -> ButtonOption:
@@ -258,16 +280,6 @@ class Button:
         else:
             self.__current_accent_color = self.__secondary_color
 
-    @staticmethod
-    def __draw_shape(
-            background: Rect | RectType,
-            window: Surface,
-            border_radius: int,
-            color: tuple[int, int, int],
-            edge_thickness: int=0
-    ) -> None:
-        pygame.draw.rect(window, color, background, edge_thickness, border_radius)
-
     def __draw_text(self, window: Surface) -> None:
         self.__text.set_color(self.__current_accent_color)
         self.__text.draw(window)
@@ -287,7 +299,7 @@ class Button:
         return Click(
             self.__top_shape,
             self.__bottom_shape,
-            [self.__border_shape, self.__text.get_rect()],
+            [self.__text.get_rect()]
         )
 
     def __reload_button(self) -> None:
@@ -308,13 +320,12 @@ class Button:
         self.__click_animation.reload_click(
             self.__top_shape,
             self.__bottom_shape,
-            [self.__border_shape, self.__text.get_rect()],
+            [self.__text.get_rect()]
         )
 
     def __align_elements(self) -> None:
         self.__bottom_shape.center = self.__top_shape.center
         self.__bottom_shape.move_ip(0, self.__size * Button.BOTTOM_BACKGROUND_DISTANCE_PERCENTAGE)
-        self.__border_shape.center = self.__top_shape.center
         self.__text.set_center(self.__top_shape.center)
 
     def __manage_click(self, selector_over_button: bool, is_clicking: bool) -> ButtonOption:
