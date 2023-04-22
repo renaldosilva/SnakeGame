@@ -21,7 +21,7 @@ class Menu(ABC):
     __basic_piece : BasicPiece
         The basic features of the game.
     __background : Background
-        The background of the menu.
+        The menu background.
     __button_alignment : {1, 2, 3}
             Represents is the alignment of the buttons:
                 1 - top alignment;
@@ -35,6 +35,8 @@ class Menu(ABC):
         The index of the current button where the selector is on.
     __selected_option : ButtonOption
         The current menu option.
+    __last_selected_option : ButtonOption
+        The last option that was selected in the menu.
     __is_running : bool
         Indicates whether the menu is running.
     """
@@ -87,17 +89,27 @@ class Menu(ABC):
         self.__buttons = self.__configure_buttons()
         self.__current_button = 0
         self.__selected_option = ButtonOption.NONE
+        self.__last_selected_option = ButtonOption.NONE
         self.__is_running = True
 
-    def start(self) -> None:
-        """Start the menu."""
+    def start(self) -> ButtonOption:
+        """
+        Start the menu.
+
+        Returns
+        -------
+        last_selected_option : ButtonOption
+            The last option that was selected in the menu.
+        """
         self.__loop()
+        return self.__last_selected_option
 
     def __loop(self) -> None:
         while self.__is_running:
             if self.__selected_option == ButtonOption.NONE:
                 self.__run_this()
             else:
+                self.__last_selected_option = self.__selected_option
                 self.run_another_action(self.__selected_option)
             self.__basic_piece.clock_tick()
         self.__reset_state()
@@ -118,38 +130,42 @@ class Menu(ABC):
         """Returns to the main menu screen."""
         self.__selected_option = ButtonOption.NONE
 
-    def get_background_center(self) -> tuple[int, int]:
+    def get_current_button_option(self) -> ButtonOption:
+        return self.__buttons[self.__current_button].get_option()
+
+    def set_background(self, background: Background) -> None:
         """
-        Returns the center coordinate of the background.
+        Change the background.
+
+        Parameters
+        ----------
+        background: Background
+            The new background
+        """
+        self.__background = background
+        self.__buttons = self.__align_buttons(self.__buttons)
+
+    def get_background(self) -> Background:
+        """
+        Returns the background of the menu.
 
         Returns
         -------
-        tuple[int, int]
-            The center coordinate.
+        background : Background
+            The background.
         """
-        return self.__background.get_center()
+        return self.__background
 
-    def get_background_midtop(self) -> tuple[int, int]:
+    def get_basic_piece(self) -> BasicPiece:
         """
-        Returns the midtop coordinates of the background.
-
-        Returns
-        -------
-        tuple[int, int]
-            The midtop-coordinate.
-        """
-        return self.__background.get_midtop()
-
-    def get_background_height(self) -> int:
-        """
-        Returns the height of the background.
+        Returns the basic piece of the game.
 
         Returns
         -------
-        int
-            The height of the background.
+        basic_piece: BasicPiece
+            The basic piece.
         """
-        return self.__background.get_height()
+        return self.__basic_piece
 
     def __run_this(self) -> None:
         self.__events()
@@ -176,6 +192,7 @@ class Menu(ABC):
     def __update(self) -> None:
         self.__basic_piece.update_window()
         self.__update_selector_position()
+        self.other_updates()
 
     def __configure_buttons(self) -> list[Button]:
         buttons = self.create_buttons()
@@ -197,9 +214,8 @@ class Menu(ABC):
 
     def __align_buttons(self, buttons: list[Button]) -> list[Button]:
         button_box_height_without_spaces = self.__calculate_button_box_height(buttons)
-        space_between_buttons = int(
-            button_box_height_without_spaces * Menu.BUTTON_SPACING_PERCENTAGE
-        ) // len(buttons)
+        space_between_buttons = int(button_box_height_without_spaces * Menu.BUTTON_SPACING_PERCENTAGE) \
+                                // len(buttons)
 
         if self.__button_alignment == 1:
             buttons = self.__align_buttons_on_top(buttons, space_between_buttons)
@@ -213,8 +229,8 @@ class Menu(ABC):
     @staticmethod
     def __calculate_button_box_height(buttons: list[Button], space_between_buttons: int=0) -> int:
         overall_spacing_between_buttons = (len(buttons) - 1) * space_between_buttons
-        button_box_height =  sum([button.get_height() for button in buttons]) \
-                             + overall_spacing_between_buttons
+        button_box_height = sum([button.get_height() for button in buttons]) \
+                            + overall_spacing_between_buttons
 
         return button_box_height
 
@@ -271,6 +287,11 @@ class Menu(ABC):
         window : Surface
             The window where other things can be drawn.
         """
+        pass
+
+    @abstractmethod
+    def other_updates(self) -> None:
+        """Manage other updates in the menu."""
         pass
 
     def __button_events(self) -> ButtonOption:
