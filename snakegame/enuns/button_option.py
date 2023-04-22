@@ -23,6 +23,12 @@ class ButtonOption(Enum):
         Volume up button.
     VOLUME_DOWN : int
         Volume down button.
+    EASY : int
+        Easy difficulty button.
+    MEDIUM : int
+        Medium difficulty button.
+    HARD : int
+        Hard difficulty button.
     """
 
     NONE = 0
@@ -33,3 +39,6 @@ class ButtonOption(Enum):
     BACK = 7
     VOLUME_UP = 8
     VOLUME_DOWN = 9
+    EASY = 10
+    MEDIUM = 11
+    HARD = 12

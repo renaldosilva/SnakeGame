@@ -8,6 +8,7 @@ from pygame.time import Clock
 
 from snakegame import constants
 from snakegame import validation
+from snakegame.enuns.difficulty import Difficulty
 
 
 class BasicPiece:
@@ -16,16 +17,18 @@ class BasicPiece:
 
     Attributes
     ----------
-    window : Surface
+    __window : Surface
         The surface to use as the game's main display window.
-    clock : Clock
+    __clock : Clock
         The clock object used to manage the game's frame rate.
-    fps : int, optional
-        The target number of frames per second for the game (default is constants.GAME_FPS).
-    color : tuple[int, int, int], optional
-        The RGB color tuple used to fill the game's display window (default is constants.LIGHT_GREEN_1).
-    is_running : bool
+    __fps : int, optional
+        The target number of frames per second for the game.
+    __color : tuple[int, int, int]
+        The RGB color tuple used to fill the game's display window.
+    __is_running : bool
         A boolean value that indicates whether the game loop is still running.
+    __difficulty : Difficulty
+        The difficulty of the game.
     """
 
     def __init__(
@@ -53,6 +56,7 @@ class BasicPiece:
         self.__clock = clock
         self.__fps = validation.is_positive(fps, "'fps' cannot be less than 1!")
         self.__color = validation.is_valid_rgb(color, "'color' out of RGB range!")
+        self.__difficulty = Difficulty.NONE
         self.__is_running = True
 
     def get_window(self) -> Surface:
@@ -77,6 +81,28 @@ class BasicPiece:
         """
         return self.__is_running
 
+    def set_difficulty(self, difficulty: Difficulty) -> None:
+        """
+        Set the difficulty of the game.
+
+        Parameters
+        ----------
+        difficulty : Difficulty
+            The new difficulty of the game.
+        """
+        self.__difficulty = difficulty
+
+    def get_difficulty(self) -> Difficulty:
+        """
+        Returns game difficulty.
+
+        Returns
+        -------
+        difficulty : Difficulty
+            The difficulty of the game.
+        """
+        return self.__difficulty
+
     def clock_tick(self) -> None:
         """Regulates the game's frame rate by calling the Pygame Clock's tick() method with the FPS value."""
         self.__clock.tick(self.__fps)
@@ -87,7 +113,14 @@ class BasicPiece:
         return pygame.event.get()
 
     def check_quit(self, event: Event) -> None:
-        """Checks for a quit event from the Pygame event queue, and sets is_running to False if found."""
+        """
+        Checks for a quit event from the Pygame event queue, and sets is_running to False if found.
+
+        Parameters
+        ----------
+        event : Event
+            The game event.
+        """
         if event.type == pygame.QUIT:
             self.__is_running = False
 
