@@ -21,10 +21,10 @@ class CreditsMenu(Menu):
     __background : Background
         The credits menu background.
     __button_alignment : {1, 2, 3}
-            Represents is the alignment of the buttons:
-                1 - top alignment;
-                2 - center alignment;
-                3 - bottom alignment.
+        Represents is the alignment of the buttons:
+            1 - top alignment;
+            2 - center alignment;
+            3 - bottom alignment.
     __credits : Text
         The credits that will be displayed.
     """
@@ -48,10 +48,10 @@ class CreditsMenu(Menu):
         background : Background, optional
             The credits menu background (default is Background(AnimatedText(constants.CREDITS_MENU_TITLE))).
         button_alignment : {1, 2, 3}, optional
-                Represents is the alignment of the buttons (default is constants.CREDITS_MENU_BUTTON_ALIGNMENT):
-                    1 - top alignment;
-                    2 - center alignment;
-                    3 - bottom alignment.
+            Represents is the alignment of the buttons (default is constants.CREDITS_MENU_BUTTON_ALIGNMENT):
+                1 - top alignment;
+                2 - center alignment;
+                3 - bottom alignment.
         credits : Text, optional
             The credits that will be displayed (default is Text(constants.CREDITS, constants.CREDITS_SIZE)).
         """

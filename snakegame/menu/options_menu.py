@@ -22,10 +22,10 @@ class OptionsMenu(Menu):
     __background : Background
         The options menu background.
     __button_alignment : {1, 2, 3}
-            Represents is the alignment of the buttons:
-                1 - top alignment;
-                2 - center alignment;
-                3 - bottom alignment.
+        Represents is the alignment of the buttons:
+            1 - top alignment;
+            2 - center alignment;
+            3 - bottom alignment.
     __volume_bar: VolumeBar
         The volume bar.
     """
@@ -53,10 +53,10 @@ class OptionsMenu(Menu):
         background : Background, optional
             The options menu background (default is Background(AnimatedText(constants.OPTIONS_MENU_TITLE))).
         button_alignment : {1, 2, 3}, optional
-                Represents is the alignment of the buttons (default is constants.OPTIONS_MENU_BUTTON_ALIGNMENT):
-                    1 - top alignment;
-                    2 - center alignment;
-                    3 - bottom alignment.
+            Represents is the alignment of the buttons (default is constants.OPTIONS_MENU_BUTTON_ALIGNMENT):
+                1 - top alignment;
+                2 - center alignment;
+                3 - bottom alignment.
         volume_bar: VolumeBar, optional
             The volume bar (default is VolumeBar()).
         """

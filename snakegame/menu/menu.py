@@ -23,10 +23,10 @@ class Menu(ABC):
     __background : Background
         The menu background.
     __button_alignment : {1, 2, 3}
-            Represents is the alignment of the buttons:
-                1 - top alignment;
-                2 - center alignment;
-                3 - bottom alignment.
+        Represents is the alignment of the buttons:
+            1 - top alignment;
+            2 - center alignment;
+            3 - bottom alignment.
     __selector : AnimatedText
         The selector used to move around in the menu.
     __buttons : list[Button]
