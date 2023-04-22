@@ -12,14 +12,14 @@ from snakegame import constants
 
 class CreditsMenu(Menu):
     """
-    Credits menu.
+    Represents a credits menu.
 
     Attributes
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
     __background : Background
-        The background of the menu.
+        The credits menu background.
     __button_alignment : {1, 2, 3}
             Represents is the alignment of the buttons:
                 1 - top alignment;
@@ -35,7 +35,7 @@ class CreditsMenu(Menu):
             background: Background=Background(
                 AnimatedText(constants.CREDITS_MENU_TITLE)
             ),
-            button_alignment: int=3,
+            button_alignment: int=constants.CREDITS_MENU_BUTTON_ALIGNMENT,
             credits: Text=Text(constants.CREDITS, constants.CREDITS_SIZE)
     ):
         """
@@ -45,14 +45,14 @@ class CreditsMenu(Menu):
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
-        background : SimpleBackground, optional
-            The background of the menu (default is SimpleBackground(AnimatedText(constants.CREDITS_MENU_TITLE))).
+        background : Background, optional
+            The credits menu background (default is Background(AnimatedText(constants.CREDITS_MENU_TITLE))).
         button_alignment : {1, 2, 3}, optional
-            Represents is the alignment of the buttons (default is 3):
-                1 - top alignment;
-                2 - center alignment;
-                3 - bottom alignment.
-        credits: Text, optional
+                Represents is the alignment of the buttons (default is constants.CREDITS_MENU_BUTTON_ALIGNMENT):
+                    1 - top alignment;
+                    2 - center alignment;
+                    3 - bottom alignment.
+        credits : Text, optional
             The credits that will be displayed (default is Text(constants.CREDITS, constants.CREDITS_SIZE)).
         """
         super().__init__(basic_piece, background, button_alignment)
@@ -68,8 +68,11 @@ class CreditsMenu(Menu):
     def other_drawings(self, window: Surface) -> None:
         self.__credits.draw(window)
 
+    def other_updates(self) -> None:
+        pass
+
     def __align_credits(self, credits: Text) -> Text:
-        center = super().get_background_center()
+        center = super().get_background().get_center()
         credits.set_center(center)
 
         return credits
