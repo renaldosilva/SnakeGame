@@ -5,6 +5,8 @@ class Difficulty(Enum):
     """
     An enumeration representing the difficulties of the game.
 
+    Attributes
+    ----------
     NONE : int
         Neutral value that does not correspond to any difficulty.
     EASY : int

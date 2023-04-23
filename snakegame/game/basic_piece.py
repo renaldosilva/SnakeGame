@@ -9,6 +9,7 @@ from pygame.time import Clock
 from snakegame import constants
 from snakegame import validation
 from snakegame.enuns.difficulty import Difficulty
+from snakegame.enuns.game_state import GameState
 
 
 class BasicPiece:
@@ -17,6 +18,8 @@ class BasicPiece:
 
     Attributes
     ----------
+    __game_state : GameState
+        Indicates the state of the game.
     __window : Surface
         The surface to use as the game's main display window.
     __clock : Clock
@@ -52,12 +55,35 @@ class BasicPiece:
         color : tuple[int, int, int], optional
             The RGB color tuple used to fill the game's display window (default is constants.LIGHT_GREEN_1).
         """
+        self.__game_state = GameState.MENU
         self.__window = window
         self.__clock = clock
         self.__fps = validation.is_positive(fps, "'fps' cannot be less than 1!")
         self.__color = validation.is_valid_rgb(color, "'color' out of RGB range!")
         self.__difficulty = Difficulty.NONE
         self.__is_running = True
+
+    def set_game_state(self, game_state: GameState) -> None:
+        """
+        Set the game state.
+
+        Parameters
+        ----------
+        game_state : GameState
+            The new game state.
+        """
+        self.__game_state = game_state
+
+    def get_game_state(self) -> GameState:
+        """
+        Returns the state of the game.
+
+        Returns
+        -------
+        game_state : GameState
+            The game state.
+        """
+        return self.__game_state
 
     def get_window(self) -> Surface:
         """

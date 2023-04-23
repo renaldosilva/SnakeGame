@@ -1,6 +1,7 @@
 from pygame import Surface
 
 from snakegame.enuns.button_option import ButtonOption
+from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
 from snakegame.menu.credits_menu import CreditsMenu
@@ -9,6 +10,7 @@ from snakegame.menu.menu import Menu
 from snakegame.menu.background import Background
 from snakegame import constants
 from snakegame.menu.options_menu import OptionsMenu
+from snakegame.menu.pause_menu import PauseMenu
 from snakegame.text.animated_font import AnimatedFont
 
 
@@ -66,6 +68,7 @@ class MainMenu(Menu):
         self.__credits_menu = CreditsMenu(basic_piece)
         self.__options_menu = OptionsMenu(basic_piece)
         self.__difficulty_menu = DifficultyMenu(basic_piece)
+        self.__pause_menu = PauseMenu(basic_piece)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.START:
@@ -73,10 +76,10 @@ class MainMenu(Menu):
             self.__manage_start(option)
         elif selected_option == ButtonOption.OPTIONS:
             self.__options_menu.start()
-            super().back_to_main_menu()
+            super().back_to_menu()
         elif selected_option == ButtonOption.CREDITS:
             self.__credits_menu.start()
-            super().back_to_main_menu()
+            super().back_to_menu()
         elif selected_option == ButtonOption.QUIT:
             super().close_all()
 
@@ -97,6 +100,11 @@ class MainMenu(Menu):
 
     def __manage_start(self, option: ButtonOption) -> None:
         if option == ButtonOption.BACK:
-            super().back_to_main_menu()
+            super().back_to_menu()
         else:
+            super().get_basic_piece().set_game_state(GameState.GAME)
             super().quit()
+
+    def start_pause_menu(self) -> None:
+        """Start the pause menu."""
+        self.__pause_menu.start()

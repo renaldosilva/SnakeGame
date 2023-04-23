@@ -66,10 +66,10 @@ class OptionsMenu(Menu):
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.VOLUME_UP:
             self.__volume_bar.volume_up()
-            super().back_to_main_menu()
+            super().back_to_menu()
         elif selected_option == ButtonOption.VOLUME_DOWN:
             self.__volume_bar.volume_down()
-            super().back_to_main_menu()
+            super().back_to_menu()
         elif selected_option == ButtonOption.BACK:
             super().quit()
 

@@ -85,12 +85,13 @@ class Menu(ABC):
         self.__basic_piece = basic_piece
         self.__background = background
         self.__button_alignment = self.__check_button_alignment(button_alignment)
-        self.__selector = AnimatedText(Menu.SELECTOR_SYMBOL)
         self.__buttons = self.__configure_buttons()
         self.__current_button = 0
         self.__selected_option = ButtonOption.NONE
         self.__last_selected_option = ButtonOption.NONE
         self.__is_running = True
+        self.__selector = AnimatedText(Menu.SELECTOR_SYMBOL)
+        self.__update_selector_position()
 
     def start(self) -> ButtonOption:
         """
@@ -126,8 +127,8 @@ class Menu(ABC):
         """
         pass
 
-    def back_to_main_menu(self) -> None:
-        """Returns to the main menu screen."""
+    def back_to_menu(self) -> None:
+        """Returns to the menu screen."""
         self.__selected_option = ButtonOption.NONE
 
     def get_current_button_option(self) -> ButtonOption:

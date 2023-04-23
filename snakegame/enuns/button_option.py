@@ -29,6 +29,10 @@ class ButtonOption(Enum):
         Medium difficulty button.
     HARD : int
         Hard difficulty button.
+    CONTINUE : int
+        A button to continue the game.
+    BACK_TO_MAIN_MENU : int
+        A button to go back to the main menu.
     """
 
     NONE = 0
@@ -42,3 +46,5 @@ class ButtonOption(Enum):
     EASY = 10
     MEDIUM = 11
     HARD = 12
+    CONTINUE = 13
+    BACK_TO_MAIN_MENU = 14

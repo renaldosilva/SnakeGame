@@ -7,7 +7,8 @@ from snakegame import util
 
 # Data directories
 FONT_DIRECTORY = os.path.join('.', 'data', 'font')
-FRUIT_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images')
+FRUIT_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'fruits')
+MENU_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'menu')
 
 
 # Colors
@@ -63,8 +64,8 @@ BUTTON_SIZE = GAME_PIXEL_DIMENSION * 3
 MAIN_MENU_TITLE = GAME_NAME
 MAIN_MENU_BUTTON_ALIGNMENT = 2
 MAIN_MENU_IMAGES = [
-    os.path.join(FRUIT_IMAGE_DIRECTORY, 'snake_menu_1.png'),
-    os.path.join(FRUIT_IMAGE_DIRECTORY, 'snake_menu_2.png')
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_1.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_2.png')
 ]
 
 
@@ -82,8 +83,15 @@ CREDITS_SIZE = GAME_PIXEL_DIMENSION
 
 
 # Difficulty Menu
-DIFFICULTY_MENU_BUTTON_ALIGNMENT = 3
 EASY_MENU_TITLE = "EASY DIFFICULTY"
 MEDIUM_MENU_TITLE = "MEDIUM DIFFICULTY"
 HARD_MENU_TITLE = "HARD DIFFICULTY"
 NEUTRAL_MENU_TITLE = "WILL GIVE UP?"
+DIFFICULTY_MENU_BUTTON_ALIGNMENT = 3
+
+
+# Pause Menu
+PAUSE_MENU_TITLE = "PAUSE"
+PAUSE_MENU_BUTTON_ALIGNMENT = 3
+PAUSE_MENU_DIMENSIONS = WINDOW_DIMENSION, int(WINDOW_DIMENSION * 0.7)
+PAUSE_MENU_CENTER = WINDOW_DIMENSION // 2, WINDOW_DIMENSION // 2
