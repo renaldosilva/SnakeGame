@@ -4,8 +4,10 @@ import pygame
 from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
+from pygame.mixer import Sound
 
 from snakegame.enuns.button_option import ButtonOption
+from snakegame.menu.sound_manager import sound_manager
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
 from snakegame.menu.background import Background
@@ -27,6 +29,8 @@ class Menu(ABC):
             1 - top alignment;
             2 - center alignment;
             3 - bottom alignment.
+    __scroll_sound : Sound
+        The menu scroll sound.
     __selector : AnimatedText
         The selector used to move around in the menu.
     __buttons : list[Button]
@@ -65,10 +69,11 @@ class Menu(ABC):
             self,
             basic_piece: BasicPiece,
             background: Background,
-            button_alignment: int=1
+            button_alignment: int=1,
+            scroll_sound: Sound=sound_manager.get_menu_scroll_sound()
     ):
         """
-        Initialize the menu.
+        Initialize the Menu.
 
         Parameters
         ----------
@@ -81,10 +86,18 @@ class Menu(ABC):
                 1 - top alignment;
                 2 - center alignment;
                 3 - bottom alignment.
+        scroll_sound : Sound, optional
+            The menu scroll sound (default is sound_manager.get_menu_scroll_sound()).
+
+        Raises
+        ------
+        ValueError
+            If the 'button_alignment' value is not in the range (1-3).
         """
         self.__basic_piece = basic_piece
         self.__background = background
         self.__button_alignment = self.__check_button_alignment(button_alignment)
+        self.__scroll_sound = scroll_sound
         self.__buttons = self.__configure_buttons()
         self.__current_button = 0
         self.__selected_option = ButtonOption.NONE
@@ -102,8 +115,14 @@ class Menu(ABC):
         last_selected_option : ButtonOption
             The last option that was selected in the menu.
         """
+        self.start_other_elements()
         self.__loop()
         return self.__last_selected_option
+
+    @abstractmethod
+    def start_other_elements(self) -> None:
+        """start other elements in the menu."""
+        pass
 
     def __loop(self) -> None:
         while self.__is_running:
@@ -132,6 +151,14 @@ class Menu(ABC):
         self.__selected_option = ButtonOption.NONE
 
     def get_current_button_option(self) -> ButtonOption:
+        """
+        Get current button option.
+
+        Returns
+        -------
+        ButtonOption
+            The button option.
+        """
         return self.__buttons[self.__current_button].get_option()
 
     def set_background(self, background: Background) -> None:
@@ -338,12 +365,16 @@ class Menu(ABC):
             else:
                 self.__current_button = len(self.__buttons) - 1
 
+            self.__scroll_sound.play()
+
     def __pressed_down(self, pressed_keys: ScancodeWrapper) -> None:
         if pressed_keys[Menu.KEYS["down"]]:
             if self.__current_button + 1 in range(0, len(self.__buttons)):
                 self.__current_button += 1
             else:
                 self.__current_button = 0
+
+            self.__scroll_sound.play()
 
     def __check_close_all(self, event: Event) -> None:
         if event.type == pygame.QUIT:

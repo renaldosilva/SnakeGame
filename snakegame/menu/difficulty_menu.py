@@ -53,7 +53,7 @@ class DifficultyMenu(Menu):
             button_alignment: int=constants.DIFFICULTY_MENU_BUTTON_ALIGNMENT
     ):
         """
-        Initialize difficulty menu.
+        Initialize the DifficultyMenu.
 
         Parameters
         ----------
@@ -71,10 +71,17 @@ class DifficultyMenu(Menu):
                 1 - top alignment;
                 2 - center alignment;
                 3 - bottom alignment.
+
+        Raises
+        ------
+        ValueError
+            If the 'button_alignment' value is not in the range (1-3).
         """
         super().__init__(basic_piece, backgrounds[0], button_alignment)
         self.__backgrounds = backgrounds
 
+    def start_other_elements(self) -> None:
+        pass
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.EASY:

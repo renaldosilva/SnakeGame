@@ -1,6 +1,8 @@
 from pygame import Surface
+from pygame.mixer import Sound
 
 from snakegame.enuns.button_option import ButtonOption
+from snakegame.menu.sound_manager import sound_manager
 from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
@@ -29,6 +31,8 @@ class MainMenu(Menu):
             1 - top alignment;
             2 - center alignment;
             3 - bottom alignment.
+    __background_sound : Sound
+        The background sound of the menu
     __credits_menu : CreditsMenu
         The game credits menu.
     __options_menu : OptionsMenu
@@ -44,10 +48,11 @@ class MainMenu(Menu):
                 AnimatedFont(constants.MAIN_MENU_TITLE),
                 image_paths=constants.MAIN_MENU_IMAGES
             ),
-            button_alignment: int=constants.MAIN_MENU_BUTTON_ALIGNMENT
+            button_alignment: int=constants.MAIN_MENU_BUTTON_ALIGNMENT,
+            background_sound: Sound=sound_manager.get_menu_background_sound()
     ):
         """
-        Initialize the main menu.
+        Initialize the MainMenu.
 
         Parameters
         ----------
@@ -63,12 +68,23 @@ class MainMenu(Menu):
                 1 - top alignment;
                 2 - center alignment;
                 3 - bottom alignment.
+        background_sound : Sound, optional
+            The background sound of the menu (default is sound_manager.get_menu_background_sound())
+
+        Raises
+        ------
+        ValueError
+            If the 'button_alignment' value is not in the range (1-3).
         """
         super().__init__(basic_piece, background, button_alignment)
+        self.__background_sound = background_sound
         self.__credits_menu = CreditsMenu(basic_piece)
         self.__options_menu = OptionsMenu(basic_piece)
         self.__difficulty_menu = DifficultyMenu(basic_piece)
         self.__pause_menu = PauseMenu(basic_piece)
+
+    def start_other_elements(self) -> None:
+        self.__background_sound.play(-1)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.START:
@@ -103,6 +119,7 @@ class MainMenu(Menu):
             super().back_to_menu()
         else:
             super().get_basic_piece().set_game_state(GameState.GAME)
+            self.__background_sound.stop()
             super().quit()
 
     def start_pause_menu(self) -> None:

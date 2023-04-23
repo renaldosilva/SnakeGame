@@ -6,9 +6,10 @@ from snakegame import util
 
 
 # Data directories
-FONT_DIRECTORY = os.path.join('.', 'data', 'font')
+FONT_DIRECTORY = os.path.join('.', 'data', 'fonts')
 FRUIT_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'fruits')
 MENU_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'menu')
+MUSIC_DIRECTORY = os.path.join('.', 'data', 'sounds')
 
 
 # Colors
@@ -33,6 +34,15 @@ FONTS = [
     os.path.join(FONT_DIRECTORY, 'Old Typewriter.ttf'),
     os.path.join(FONT_DIRECTORY, 'Type Keys Filled.ttf')
 ]
+
+
+# Musics
+INITIAL_VOLUME = 5
+SOUNDS = {
+    "click": os.path.join(MUSIC_DIRECTORY, 'click.wav'),
+    "menu": os.path.join(MUSIC_DIRECTORY, 'menu.ogg'),
+    "scroll": os.path.join(MUSIC_DIRECTORY, 'scrolling.wav')
+}
 
 
 # Window

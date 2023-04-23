@@ -1,8 +1,10 @@
 import pygame.draw
 from pygame import Rect, Surface
+from pygame.mixer import Sound
 from pygame.rect import RectType
 
 from snakegame.animation.click import Click
+from snakegame.menu.sound_manager import sound_manager
 from snakegame.enuns.button_option import ButtonOption
 from snakegame import constants
 from snakegame import validation
@@ -27,6 +29,8 @@ class Button:
         the accent RGB color of the button.
     __coordinate : tuple[int, int]
         The coordinate of the top-left corner of the button.
+    __click_sound : Sound
+        The button click sound.
     __text : Text
         The text that will be displayed on the button.
     __top_shape : Rect | RectType
@@ -71,10 +75,11 @@ class Button:
             secondary_color: tuple[int, int, int]=constants.GREEN_2,
             accent_color: tuple[int, int, int]=constants.LIGHT_GREEN_2,
             font_path: str=constants.FONT,
-            coordinate: tuple[int, int]=(0, 0)
+            coordinate: tuple[int, int]=(0, 0),
+            click_sound: Sound=sound_manager.get_click_sound()
     ):
         """
-        Initializes the Button class.
+        Initializes the Button.
 
         Parameters
         ----------
@@ -89,9 +94,11 @@ class Button:
         accent_color : tuple[int, int, int], optional
             The RGB color of the button's accent (default is constants.LIGHT_GREEN_2).
         font_path : str, optional
-            The path of the font used in the button's text (default is constants.FONT).
+            The path of the fonts used in the button's text (default is constants.FONT).
         coordinate : tuple[int, int], optional
             The coordinate of the top-left corner of the button (default is (0, 0)).
+        click_sound : Sound, optional
+            The button click sound (default is sound_manager.get_click_sound()).
 
         Raises
         ------
@@ -108,6 +115,7 @@ class Button:
         self.__accent_color = validation.is_valid_rgb(accent_color, "'accent_color' out of RGB range!")
         self.__current_accent_color = self.__secondary_color
         self.__coordinate = coordinate
+        self.__click_sound = click_sound
         self.__text = self.__configure_text(font_path)
         self.__top_shape = self.__configure_top_background()
         self.__bottom_shape = self.__top_shape.copy()
@@ -332,6 +340,7 @@ class Button:
         self.__click_animation.animate((selector_over_button, is_clicking))
 
         if self.__click_animation.click_done():
+            self.__click_sound.play()
             return self.__option
         else:
             return ButtonOption.NONE

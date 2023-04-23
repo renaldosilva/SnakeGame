@@ -44,7 +44,7 @@ class OptionsMenu(Menu):
             volume_bar=VolumeBar()
     ):
         """
-        Initialize the options' menu.
+        Initialize the OptionsMenu.
 
         Parameters
         ----------
@@ -59,9 +59,17 @@ class OptionsMenu(Menu):
                 3 - bottom alignment.
         volume_bar: VolumeBar, optional
             The volume bar (default is VolumeBar()).
+
+        Raises
+        ------
+        ValueError
+            If the 'button_alignment' value is not in the range (1-3).
         """
         super().__init__(basic_piece, background, button_alignment)
         self.__volume_bar = self.__align_volume_bar(volume_bar)
+
+    def start_other_elements(self) -> None:
+        pass
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.VOLUME_UP:

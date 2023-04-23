@@ -38,7 +38,7 @@ class PauseMenu(Menu):
             button_alignment: int = constants.PAUSE_MENU_BUTTON_ALIGNMENT
     ):
         """
-        Initialize the credits' menu.
+        Initialize the PauseMenu.
 
         Parameters
         ----------
@@ -51,8 +51,16 @@ class PauseMenu(Menu):
                 1 - top alignment;
                 2 - center alignment;
                 3 - bottom alignment.
+
+        Raises
+        ------
+        ValueError
+            If the 'button_alignment' value is not in the range (1-3).
         """
         super().__init__(basic_piece, background, button_alignment)
+
+    def start_other_elements(self) -> None:
+        pass
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.CONTINUE:

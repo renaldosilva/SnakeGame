@@ -4,16 +4,12 @@ from snakegame import constants, util
 from snakegame.game.game import Game
 from snakegame.game.basic_piece import BasicPiece
 
-
 pygame.init()
-
-
-# Load
-icon = util.load_image(constants.WINDOW_ICON_IMAGE_PATH)
 
 # Window
 window = pygame.display.set_mode(constants.WINDOW_DIMENSIONS)
 pygame.display.set_caption(constants.GAME_NAME)
+icon = util.load_image(constants.WINDOW_ICON_IMAGE_PATH)
 pygame.display.set_icon(icon)
 
 # Clock

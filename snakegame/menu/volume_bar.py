@@ -3,6 +3,7 @@ from pygame import Rect, Surface
 from pygame.rect import RectType
 
 from snakegame import constants, validation
+from snakegame.menu.sound_manager import sound_manager
 
 
 class VolumeBar:
@@ -46,13 +47,14 @@ class VolumeBar:
     def __init__(
             self,
             size: int=constants.VOLUME_BAR_SIZE,
+            initial_volume: int=constants.INITIAL_VOLUME,
             main_color: tuple[int, int, int]=constants.DARK_GREEN,
             secondary_color: tuple[int, int, int]=constants.GREEN_2,
             accent_color: tuple[int, int, int]=constants.LIGHT_GREEN_2,
             coordinate: tuple[int, int]=(0, 0)
     ):
         """
-        Initializes the VolumeBar class.
+        Initializes the VolumeBar.
 
         Parameters
         ----------
@@ -66,16 +68,22 @@ class VolumeBar:
             The accent RGB color of the volume bar used in the top shape (default is constants.LIGHT_GREEN_2).
         coordinate : tuple[int, int], optional
             The coordinate of the top-left corner of the volume bar (default is (0, 0)).
+
+        Raises
+        ------
+        ValueError
+            If 'size' is less than 1 or
+            if the colors are not in the RGB range (0-255, 0-255, 0-255).
         """
         self.__size = validation.is_positive(size, "'size' cannot be less than 1!")
         self.__main_color = validation.is_valid_rgb(main_color, "'main_color' out of RGB range!")
         self.__secondary_color = validation.is_valid_rgb(secondary_color, "'secondary_color' out of RGB range!")
         self.__accent_color = validation.is_valid_rgb(accent_color, "'accent_color' out of RGB range!")
-        self.__top_shape = self.__configure_top_shape(coordinate)
-        self.__bottom_shape = self.__top_shape.copy()
+        self.__top_shape, self.__bottom_shape = self.__configure_shapes(coordinate)
         self.__border_radius = int(self.__size * VolumeBar.BORDER_RADIUS_PERCENTAGE)
         self.__edge_thickness = int(self.__size * VolumeBar.EDGE_THICKNESS_PERCENTAGE)
         self.__volume_step = self.__bottom_shape.width // VolumeBar.WIDTH_FACTOR
+        self.__apply_initial_volume(initial_volume, self.__volume_step)
 
     def draw(self, window: Surface) -> None:
         """
@@ -103,11 +111,13 @@ class VolumeBar:
         """Turn up the volume level."""
         if self.__top_shape.width < self.__bottom_shape.width:
             self.__top_shape.width += self.__volume_step
+            sound_manager.volume_up()
 
     def volume_down(self) -> None:
         """Turn down the volume level."""
         if self.__top_shape.width > 0:
             self.__top_shape.width -= self.__volume_step
+            sound_manager.volume_down()
 
     def set_center(self, center) -> None:
         """
@@ -118,8 +128,8 @@ class VolumeBar:
         center : tuple[int, int]
             The new coordinate of the volume bar center.
         """
-        self.__top_shape.center = center
-        self.set_coordinate((self.__top_shape.x, self.__top_shape.y))
+        self.__bottom_shape.center = center
+        self.set_coordinate((self.__bottom_shape.x, self.__bottom_shape.y))
 
     def set_coordinate(self, coordinate: tuple[int, int]) -> None:
         """
@@ -133,7 +143,16 @@ class VolumeBar:
         self.__top_shape.topleft = coordinate
         self.__bottom_shape.topleft = coordinate
 
-    def __configure_top_shape(self, coordinate: tuple[int, int]) -> Rect:
+    def __configure_shapes(self, coordinate: tuple[int, int]) -> tuple[Rect, Rect]:
         width, height =  self.__size*VolumeBar.WIDTH_FACTOR, self.__size
+        top_shape = pygame.Rect(coordinate, (width, height))
+        bottom_shape = top_shape.copy()
 
-        return pygame.Rect(coordinate, (width, height))
+        return top_shape, bottom_shape
+
+    def __apply_initial_volume(self, initial_volume: int, volume_step: int) -> None:
+        self.__top_shape.width -= self.__top_shape.width
+
+        for i in range(initial_volume):
+            if self.__top_shape.width < self.__bottom_shape.width:
+                self.__top_shape.width += volume_step

@@ -51,7 +51,7 @@ class Background:
             )
     ):
         """
-        Initialize a background.
+        Initialize a Background.
 
         Parameters
         ----------

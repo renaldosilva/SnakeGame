@@ -39,7 +39,7 @@ class CreditsMenu(Menu):
             credits: Text=Text(constants.CREDITS, constants.CREDITS_SIZE)
     ):
         """
-        Initialize the credits' menu.
+        Initialize the CreditsMenu.
 
         Parameters
         ----------
@@ -54,9 +54,17 @@ class CreditsMenu(Menu):
                 3 - bottom alignment.
         credits : Text, optional
             The credits that will be displayed (default is Text(constants.CREDITS, constants.CREDITS_SIZE)).
+
+        Raises
+        ------
+        ValueError
+            If the 'button_alignment' value is not in the range (1-3).
         """
         super().__init__(basic_piece, background, button_alignment)
         self.__credits = self.__align_credits(credits)
+
+    def start_other_elements(self) -> None:
+        pass
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.BACK:

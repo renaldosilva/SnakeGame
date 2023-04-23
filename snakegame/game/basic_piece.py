@@ -34,6 +34,10 @@ class BasicPiece:
         The difficulty of the game.
     """
 
+    WAITING_TIME_TO_CLOSE = 300
+    """Wait time to close (milliseconds).
+    """
+
     def __init__(
         self,
         window: Surface,
@@ -162,5 +166,6 @@ class BasicPiece:
     @staticmethod
     def close_all() -> None:
         """Closes the Pygame window and exits the program."""
+        pygame.time.wait(BasicPiece.WAITING_TIME_TO_CLOSE)
         pygame.quit()
         sys.exit()
