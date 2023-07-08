@@ -4,6 +4,7 @@ from pygame.key import ScancodeWrapper
 from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.main_menu import MainMenu
+from snakegame.menu.sound_manager import SoundManager
 
 
 class Game:
@@ -14,13 +15,20 @@ class Game:
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
+    __sound_manager : SoundManager
+        The sound manager of the game.
     __menu : MainMenu
         The game menu.
     """
 
+    KEYS = {
+        "pause": pygame.K_p
+    }
+
     def __init__(
             self,
-            basic_piece: BasicPiece
+            basic_piece: BasicPiece,
+            sound_manager: SoundManager
     ):
         """
         Initialize a Game object.
@@ -29,9 +37,12 @@ class Game:
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
+        sound_manager : SoundManager
+            The sound manager of the game.
         """
         self.__basic_piece = basic_piece
-        self.__menu = MainMenu(basic_piece)
+        self.__sound_manager = sound_manager
+        self.__menu = MainMenu(basic_piece, sound_manager)
 
     def start(self) -> None:
         """Starts the game loop."""
@@ -66,5 +77,5 @@ class Game:
         self.__basic_piece.draw_window()
 
     def __manage_pause(self, pressed_keys: ScancodeWrapper) -> None:
-        if pressed_keys[pygame.K_p]:
+        if pressed_keys[Game.KEYS.get("pause")]:
             self.__basic_piece.set_game_state(GameState.PAUSE)

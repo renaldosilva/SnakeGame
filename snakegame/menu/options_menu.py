@@ -7,6 +7,7 @@ from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
 from snakegame.menu.menu import Menu
 from snakegame.menu.background import Background
+from snakegame.menu.sound_manager import SoundManager
 from snakegame.menu.volume_bar import VolumeBar
 from snakegame.text.animated_text import AnimatedText
 
@@ -19,6 +20,8 @@ class OptionsMenu(Menu):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
+    __sound_manager : SoundManager
+            The sound manager of the game.
     __background : Background
         The options menu background.
     __button_alignment : {1, 2, 3}
@@ -37,6 +40,7 @@ class OptionsMenu(Menu):
     def __init__(
             self,
             basic_piece: BasicPiece,
+            sound_manager: SoundManager,
             background: Background=Background(
                 AnimatedText(constants.OPTIONS_MENU_TITLE)
             ),
@@ -50,6 +54,8 @@ class OptionsMenu(Menu):
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
+        sound_manager : SoundManager
+            The sound manager of the game.
         background : Background, optional
             The options menu background (default is Background(AnimatedText(constants.OPTIONS_MENU_TITLE))).
         button_alignment : {1, 2, 3}, optional
@@ -65,7 +71,7 @@ class OptionsMenu(Menu):
         ValueError
             If the 'button_alignment' value is not in the range (1-3).
         """
-        super().__init__(basic_piece, background, button_alignment)
+        super().__init__(basic_piece, sound_manager, background, button_alignment)
         self.__volume_bar = self.__align_volume_bar(volume_bar)
 
     def start_other_elements(self) -> None:
@@ -73,19 +79,21 @@ class OptionsMenu(Menu):
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.VOLUME_UP:
-            self.__volume_bar.volume_up()
-            super().back_to_menu()
+            super().get_sound_manager().volume_up()
+            self.__volume_bar.set_volume_level(super().get_sound_manager().get_current_volume())
+            super().reset_selected_option()
         elif selected_option == ButtonOption.VOLUME_DOWN:
-            self.__volume_bar.volume_down()
-            super().back_to_menu()
+            super().get_sound_manager().volume_down()
+            self.__volume_bar.set_volume_level(super().get_sound_manager().get_current_volume())
+            super().reset_selected_option()
         elif selected_option == ButtonOption.BACK:
             super().quit()
 
     def create_buttons(self) -> list[Button]:
         buttons = [
-            Button(ButtonOption.VOLUME_UP),
-            Button(ButtonOption.VOLUME_DOWN),
-            Button(ButtonOption.BACK)
+            Button(ButtonOption.VOLUME_UP, super().get_sound_manager()),
+            Button(ButtonOption.VOLUME_DOWN, super().get_sound_manager()),
+            Button(ButtonOption.BACK, super().get_sound_manager())
         ]
         return buttons
 

@@ -4,10 +4,9 @@ import pygame
 from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
-from pygame.mixer import Sound
 
 from snakegame.enuns.button_option import ButtonOption
-from snakegame.menu.sound_manager import sound_manager
+from snakegame.menu.sound_manager import SoundManager
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
 from snakegame.menu.background import Background
@@ -22,6 +21,8 @@ class Menu(ABC):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
+    __sound_manager : SoundManager
+        The sound manager of the game.
     __background : Background
         The menu background.
     __button_alignment : {1, 2, 3}
@@ -29,8 +30,6 @@ class Menu(ABC):
             1 - top alignment;
             2 - center alignment;
             3 - bottom alignment.
-    __scroll_sound : Sound
-        The menu scroll sound.
     __selector : AnimatedText
         The selector used to move around in the menu.
     __buttons : list[Button]
@@ -68,9 +67,9 @@ class Menu(ABC):
     def __init__(
             self,
             basic_piece: BasicPiece,
+            sound_manager: SoundManager,
             background: Background,
-            button_alignment: int=1,
-            scroll_sound: Sound=sound_manager.get_menu_scroll_sound()
+            button_alignment: int=1
     ):
         """
         Initialize the Menu.
@@ -79,6 +78,8 @@ class Menu(ABC):
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
+        sound_manager : SoundManager
+            The sound manager of the game.
         background : Background
             The background of the menu.
         button_alignment : {1, 2, 3}, optional
@@ -86,8 +87,6 @@ class Menu(ABC):
                 1 - top alignment;
                 2 - center alignment;
                 3 - bottom alignment.
-        scroll_sound : Sound, optional
-            The menu scroll sound (default is sound_manager.get_menu_scroll_sound()).
 
         Raises
         ------
@@ -95,9 +94,9 @@ class Menu(ABC):
             If the 'button_alignment' value is not in the range (1-3).
         """
         self.__basic_piece = basic_piece
+        self.__sound_manager = sound_manager
         self.__background = background
         self.__button_alignment = self.__check_button_alignment(button_alignment)
-        self.__scroll_sound = scroll_sound
         self.__buttons = self.__configure_buttons()
         self.__current_button = 0
         self.__selected_option = ButtonOption.NONE
@@ -146,8 +145,8 @@ class Menu(ABC):
         """
         pass
 
-    def back_to_menu(self) -> None:
-        """Returns to the menu screen."""
+    def reset_selected_option(self) -> None:
+        """Resets selected option to default value (default is ButtonOption.NONE)."""
         self.__selected_option = ButtonOption.NONE
 
     def get_current_button_option(self) -> ButtonOption:
@@ -198,6 +197,17 @@ class Menu(ABC):
             The basic piece.
         """
         return self.__basic_piece
+
+    def get_sound_manager(self) -> SoundManager:
+        """
+        Returns the sound manager of the game.
+
+        Returns
+        -------
+        sound_manager: SoundManager
+            The sound manager.
+        """
+        return self.__sound_manager
 
     def __run_this(self) -> None:
         self.__events()
@@ -365,7 +375,7 @@ class Menu(ABC):
             else:
                 self.__current_button = len(self.__buttons) - 1
 
-            self.__scroll_sound.play()
+            self.__sound_manager.play_sound("scroll")
 
     def __pressed_down(self, pressed_keys: ScancodeWrapper) -> None:
         if pressed_keys[Menu.KEYS["down"]]:
@@ -374,7 +384,7 @@ class Menu(ABC):
             else:
                 self.__current_button = 0
 
-            self.__scroll_sound.play()
+            self.__sound_manager.play_sound("scroll")
 
     def __check_close_all(self, event: Event) -> None:
         if event.type == pygame.QUIT:

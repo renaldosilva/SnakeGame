@@ -48,7 +48,7 @@ SOUNDS = {
 # Window
 WINDOW_DIMENSION = SYSTEM_DISPLAY_HEIGHT * 0.7 // GAME_PIXEL_DIMENSION * GAME_PIXEL_DIMENSION
 WINDOW_DIMENSIONS = (WINDOW_DIMENSION, WINDOW_DIMENSION)
-WINDOW_ICON_IMAGE_PATH = os.path.join(FRUIT_IMAGE_DIRECTORY, 'fruit.png')
+WINDOW_ICON_IMAGE_PATH = os.path.join(FRUIT_IMAGE_DIRECTORY, 'apple.png')
 
 
 # Events
@@ -75,7 +75,12 @@ MAIN_MENU_TITLE = GAME_NAME
 MAIN_MENU_BUTTON_ALIGNMENT = 2
 MAIN_MENU_IMAGES = [
     os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_1.png'),
-    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_2.png')
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_2.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_3.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_4.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_5.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_6.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_7.png')
 ]
 
 
@@ -103,5 +108,3 @@ DIFFICULTY_MENU_BUTTON_ALIGNMENT = 3
 # Pause Menu
 PAUSE_MENU_TITLE = "PAUSE"
 PAUSE_MENU_BUTTON_ALIGNMENT = 3
-PAUSE_MENU_DIMENSIONS = WINDOW_DIMENSION, int(WINDOW_DIMENSION * 0.7)
-PAUSE_MENU_CENTER = WINDOW_DIMENSION // 2, WINDOW_DIMENSION // 2

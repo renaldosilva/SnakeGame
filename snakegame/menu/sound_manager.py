@@ -13,18 +13,6 @@ class SoundManager:
         The current volume of the game.
     __sounds: dict[str, Sound]
         The sounds of the game accompanied by their names.
-        Names must match this list:
-            - click;
-            - menu;
-            - scroll.
-    """
-
-    SOUND_NAMES = [
-        "click",
-        "menu",
-        "scroll"
-    ]
-    """Manager sound name list.
     """
 
     def __init__(
@@ -40,17 +28,10 @@ class SoundManager:
         initial_volume : int {0, 1, 2, 3, 4, 5, 6 ,7, 8, 9, 10}, optional
             The initial volume of the game (default is constants.INITIAL_VOLUME).
         sound_paths: dict[str, str], optional
-            The paths of sounds accompanied by their names.
-            Names must match this list (default is constants.SOUNDS):
-                - click;
-                - menu;
-                - scroll.
+            The paths of sounds accompanied by their names (default is constants.SOUNDS).
 
         Raises
         ------
-        ValueError
-            If the sound names are insufficient or incorrect and
-            if the initial volume is out of range (1-3).
         FileNotFoundError
             If the 'sound_paths' are not found.
         """
@@ -58,38 +39,36 @@ class SoundManager:
         self.__current_volume = self.__check_initial_volume(initial_volume)
         self.__sounds = self.__load_sounds(self.__check_sound_paths(sound_paths))
 
-    def get_click_sound(self) -> Sound:
+    def play_sound(self, name: str, loops: int=0) -> None:
         """
-        Get button click sound.
+        Play the sound, but only if the name exists.
 
-        Returns
-        -------
-        Sound
-            The click sound.
+        Parameters
+        ----------
+        name: str
+            The name of the sound.
+        loops: int, optional
+            The number of times the sound will be repeated (default is 0).
         """
-        return self.__sounds["click"]
+        sound = self.__sounds.get(name.lower())
 
-    def get_menu_background_sound(self) -> Sound:
-        """
-        Get menu background sound.
+        if sound:
+            sound.play(loops)
+            self.__sounds[name.lower()] = sound
 
-        Returns
-        -------
-        Sound
-            The menu background sound.
+    def stop_sound(self, name: str) -> None:
         """
-        return self.__sounds["menu"]
+        Stop the sound, but only if the name exists.
 
-    def get_menu_scroll_sound(self) -> Sound:
+        Parameters
+        ----------
+        name: str
+            The name of the sound.
         """
-        Get menu scroll sound.
+        sound = self.__sounds.get(name.lower())
 
-        Returns
-        -------
-        Sound
-            The menu scroll sound.
-        """
-        return self.__sounds["scroll"]
+        if sound is not None:
+            sound.stop()
 
     def volume_up(self) -> None:
         """Increase the volume level by 10%."""
@@ -103,6 +82,17 @@ class SoundManager:
             self.__current_volume -= 1
             self.__apply_volume()
 
+    def get_current_volume(self) -> int:
+        """
+        Returns the current volume level.
+
+        Returns
+        -------
+        current_volume: int
+            The volume level.
+        """
+        return self.__current_volume
+
     def __apply_volume(self) -> None:
         for music in self.__sounds.values():
             music.set_volume(self.__current_volume * 0.1)
@@ -112,37 +102,18 @@ class SoundManager:
         for name in sound_paths.keys():
             music = pygame.mixer.Sound(sound_paths[name])
             music.set_volume(self.__current_volume * 0.1)
-            musics[name] = music
+            musics[name.lower()] = music
 
         return musics
 
-    def __check_sound_paths(self, sound_paths: dict[str, str]) -> dict[str, str]:
+    @staticmethod
+    def __check_sound_paths(sound_paths: dict[str, str]) -> dict[str, str]:
         validation.check_paths(list(sound_paths.values()), "'path_of_music' not found!")
-        self.__check_sound_names(list(sound_paths.keys()))
-
         return sound_paths
-    @staticmethod
-    def __check_sound_names(sound_names: list[str]) -> None:
-        for name in sound_names:
-            if name not in SoundManager.SOUND_NAMES:
-                raise ValueError(
-                    "Sound name error! Names must match this list: ["
-                    + ", ".join(SoundManager.SOUND_NAMES) + "]."
-                )
-
-        if len(set(sound_names)) < len(SoundManager.SOUND_NAMES):
-            raise ValueError(
-                "Insufficient sounds! Names must match this list: ["
-                + ", ".join(SoundManager.SOUND_NAMES) + "]."
-            )
 
     @staticmethod
-    def __check_initial_volume(initial_volume: float) -> float:
-        if not (0 <= initial_volume <= 10):
+    def __check_initial_volume(volume: int) -> int:
+        if not (0 <= volume <= 10):
             raise ValueError("The volume must be between 0 and 10!")
 
-        return initial_volume
-
-
-# Initialize the sound manager.
-sound_manager = SoundManager()
+        return volume

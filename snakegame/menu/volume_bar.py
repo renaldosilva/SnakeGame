@@ -3,7 +3,6 @@ from pygame import Rect, Surface
 from pygame.rect import RectType
 
 from snakegame import constants, validation
-from snakegame.menu.sound_manager import sound_manager
 
 
 class VolumeBar:
@@ -60,6 +59,8 @@ class VolumeBar:
         ----------
         size : int, optional
             The size of the volume bar (default is constants.VOLUME_BAR_SIZE).
+        initial_volume : int {0, 1, 2, 3, 4, 5, 6 ,7, 8, 9, 10}, optional
+            The initial volume of the game (default is constants.INITIAL_VOLUME).
         main_color : tuple[int, int, int], optional
             The main RGB color of the volume bar used on the edge of the top shape (default is constants.DARK_GREEN).
         secondary_color : tuple[int, int, int], optional
@@ -83,7 +84,7 @@ class VolumeBar:
         self.__border_radius = int(self.__size * VolumeBar.BORDER_RADIUS_PERCENTAGE)
         self.__edge_thickness = int(self.__size * VolumeBar.EDGE_THICKNESS_PERCENTAGE)
         self.__volume_step = self.__bottom_shape.width // VolumeBar.WIDTH_FACTOR
-        self.__apply_initial_volume(initial_volume, self.__volume_step)
+        self.set_volume_level(self.__check_initial_volume(initial_volume))
 
     def draw(self, window: Surface) -> None:
         """
@@ -107,17 +108,22 @@ class VolumeBar:
             self.__edge_thickness, self.__border_radius
         )
 
-    def volume_up(self) -> None:
-        """Turn up the volume level."""
-        if self.__top_shape.width < self.__bottom_shape.width:
-            self.__top_shape.width += self.__volume_step
-            sound_manager.volume_up()
+    def set_volume_level(self, volume: int) -> None:
+        """
+        Adjusts the level of the volume bar. The level will only be adjusted
+        if the 'volume' is in the correct range.
 
-    def volume_down(self) -> None:
-        """Turn down the volume level."""
-        if self.__top_shape.width > 0:
-            self.__top_shape.width -= self.__volume_step
-            sound_manager.volume_down()
+        Parameters
+        ----------
+        volume : int {0, 1, 2, 3, 4, 5, 6 ,7, 8, 9, 10}
+            The volume level.
+        """
+        if 0 <= volume <= 10:
+            self.__top_shape.width -= self.__top_shape.width
+
+            for i in range(volume):
+                if self.__top_shape.width < self.__bottom_shape.width:
+                    self.__top_shape.width += self.__volume_step
 
     def set_center(self, center) -> None:
         """
@@ -150,9 +156,9 @@ class VolumeBar:
 
         return top_shape, bottom_shape
 
-    def __apply_initial_volume(self, initial_volume: int, volume_step: int) -> None:
-        self.__top_shape.width -= self.__top_shape.width
+    @staticmethod
+    def __check_initial_volume(volume: int) -> int:
+        if not (0 <= volume <= 10):
+            raise ValueError("The initial volume must be between 0 and 10!")
 
-        for i in range(initial_volume):
-            if self.__top_shape.width < self.__bottom_shape.width:
-                self.__top_shape.width += volume_step
+        return volume

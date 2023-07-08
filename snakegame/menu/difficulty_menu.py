@@ -7,6 +7,7 @@ from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.background import Background
 from snakegame.menu.button import Button
 from snakegame.menu.menu import Menu
+from snakegame.menu.sound_manager import SoundManager
 from snakegame.text.animated_text import AnimatedText
 
 
@@ -28,6 +29,8 @@ class DifficultyMenu(Menu):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
+    __sound_manager : SoundManager
+            The sound manager of the game.
     __backgrounds : tuple[Background, Background, Background, Background]
         The backgrounds of the difficulty selection menu.
         They are arranged in the following order:
@@ -49,6 +52,7 @@ class DifficultyMenu(Menu):
     def __init__(
             self,
             basic_piece: BasicPiece,
+            sound_manager: SoundManager,
             backgrounds: tuple[Background, Background, Background, Background]=BACKGROUNDS,
             button_alignment: int=constants.DIFFICULTY_MENU_BUTTON_ALIGNMENT
     ):
@@ -59,6 +63,8 @@ class DifficultyMenu(Menu):
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
+        sound_manager : SoundManager
+            The sound manager of the game.
         backgrounds : tuple[Background, Background, Background, Background], optional
             The backgrounds of the difficulty selection menu.
             They are arranged in the following order (default is BACKGROUNDS):
@@ -77,7 +83,7 @@ class DifficultyMenu(Menu):
         ValueError
             If the 'button_alignment' value is not in the range (1-3).
         """
-        super().__init__(basic_piece, backgrounds[0], button_alignment)
+        super().__init__(basic_piece, sound_manager, backgrounds[0], button_alignment)
         self.__backgrounds = backgrounds
 
     def start_other_elements(self) -> None:
@@ -98,10 +104,10 @@ class DifficultyMenu(Menu):
 
     def create_buttons(self) -> list[Button]:
         buttons = [
-            Button(ButtonOption.EASY),
-            Button(ButtonOption.MEDIUM),
-            Button(ButtonOption.HARD),
-            Button(ButtonOption.BACK)
+            Button(ButtonOption.EASY, super().get_sound_manager()),
+            Button(ButtonOption.MEDIUM, super().get_sound_manager()),
+            Button(ButtonOption.HARD, super().get_sound_manager()),
+            Button(ButtonOption.BACK, super().get_sound_manager())
         ]
         return buttons
 

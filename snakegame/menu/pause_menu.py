@@ -7,11 +7,8 @@ from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.background import Background
 from snakegame.menu.button import Button
 from snakegame.menu.menu import Menu
+from snakegame.menu.sound_manager import SoundManager
 from snakegame.text.animated_text import AnimatedText
-
-
-BACKGROUND = Background(AnimatedText(constants.PAUSE_MENU_TITLE), dimensions=constants.PAUSE_MENU_DIMENSIONS)
-BACKGROUND.set_center(constants.PAUSE_MENU_CENTER)
 
 
 class PauseMenu(Menu):
@@ -22,6 +19,8 @@ class PauseMenu(Menu):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
+    __sound_manager : SoundManager
+        The sound manager of the game.
     __background : Background
         The pause menu background.
     __button_alignment : {1, 2, 3}
@@ -34,7 +33,8 @@ class PauseMenu(Menu):
     def __init__(
             self,
             basic_piece: BasicPiece,
-            background: Background=BACKGROUND,
+            sound_manager: SoundManager,
+            background: Background=Background(AnimatedText(constants.PAUSE_MENU_TITLE)),
             button_alignment: int = constants.PAUSE_MENU_BUTTON_ALIGNMENT
     ):
         """
@@ -44,8 +44,10 @@ class PauseMenu(Menu):
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
+        sound_manager : SoundManager
+            The sound manager of the game.
         background : Background, optional
-            The pause menu background (default is BACKGROUND).
+            The pause menu background (default is Background(AnimatedText(constants.PAUSE_MENU_TITLE))).
         button_alignment : {1, 2, 3}, optional
             Represents is the alignment of the buttons (default is constants.PAUSE_MENU_BUTTON_ALIGNMENT):
                 1 - top alignment;
@@ -57,7 +59,7 @@ class PauseMenu(Menu):
         ValueError
             If the 'button_alignment' value is not in the range (1-3).
         """
-        super().__init__(basic_piece, background, button_alignment)
+        super().__init__(basic_piece, sound_manager, background, button_alignment)
 
     def start_other_elements(self) -> None:
         pass
@@ -72,8 +74,8 @@ class PauseMenu(Menu):
 
     def create_buttons(self) -> list[Button]:
         buttons = [
-            Button(ButtonOption.CONTINUE),
-            Button(ButtonOption.BACK_TO_MAIN_MENU)
+            Button(ButtonOption.CONTINUE, super().get_sound_manager()),
+            Button(ButtonOption.BACK_TO_MAIN_MENU, super().get_sound_manager())
         ]
         return buttons
 

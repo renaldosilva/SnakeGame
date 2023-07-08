@@ -1,10 +1,9 @@
 import pygame.draw
 from pygame import Rect, Surface
-from pygame.mixer import Sound
 from pygame.rect import RectType
 
 from snakegame.animation.click import Click
-from snakegame.menu.sound_manager import sound_manager
+from snakegame.menu.sound_manager import SoundManager
 from snakegame.enuns.button_option import ButtonOption
 from snakegame import constants
 from snakegame import validation
@@ -19,6 +18,8 @@ class Button:
     ----------
     __option : ButtonOption
         The option that the button represents.
+    __sound_manager : SoundManager
+        The sound manager of the game.
     __size : int
         The size of the button.
     __main_color : tuple[int, int, int]
@@ -29,8 +30,6 @@ class Button:
         the accent RGB color of the button.
     __coordinate : tuple[int, int]
         The coordinate of the top-left corner of the button.
-    __click_sound : Sound
-        The button click sound.
     __text : Text
         The text that will be displayed on the button.
     __top_shape : Rect | RectType
@@ -70,13 +69,13 @@ class Button:
     def __init__(
             self,
             option: ButtonOption,
+            sound_manager: SoundManager,
             size: int=constants.BUTTON_SIZE,
             main_color: tuple[int, int, int]=constants.DARK_GREEN,
             secondary_color: tuple[int, int, int]=constants.GREEN_2,
             accent_color: tuple[int, int, int]=constants.LIGHT_GREEN_2,
             font_path: str=constants.FONT,
-            coordinate: tuple[int, int]=(0, 0),
-            click_sound: Sound=sound_manager.get_click_sound()
+            coordinate: tuple[int, int]=(0, 0)
     ):
         """
         Initializes the Button.
@@ -85,6 +84,8 @@ class Button:
         ----------
         option : ButtonOption
             The option that the button represents.
+        sound_manager : SoundManager
+            The sound manager of the game.
         size : int, optional
             The size of the button (default is constants.BUTTON_SIZE).
         main_color : tuple[int, int, int], optional
@@ -97,8 +98,6 @@ class Button:
             The path of the fonts used in the button's text (default is constants.FONT).
         coordinate : tuple[int, int], optional
             The coordinate of the top-left corner of the button (default is (0, 0)).
-        click_sound : Sound, optional
-            The button click sound (default is sound_manager.get_click_sound()).
 
         Raises
         ------
@@ -109,13 +108,13 @@ class Button:
             If the 'font_path' is not found.
         """
         self.__option = option
+        self.__sound_manager = sound_manager
         self.__size = validation.is_positive(size, "'size' cannot be less than 1!")
         self.__main_color = validation.is_valid_rgb(main_color, "'main_color' out of RGB range!")
         self.__secondary_color = validation.is_valid_rgb(secondary_color, "'secondary_color' out of RGB range!")
         self.__accent_color = validation.is_valid_rgb(accent_color, "'accent_color' out of RGB range!")
         self.__current_accent_color = self.__secondary_color
         self.__coordinate = coordinate
-        self.__click_sound = click_sound
         self.__text = self.__configure_text(font_path)
         self.__top_shape = self.__configure_top_background()
         self.__bottom_shape = self.__top_shape.copy()
@@ -340,7 +339,7 @@ class Button:
         self.__click_animation.animate((selector_over_button, is_clicking))
 
         if self.__click_animation.click_done():
-            self.__click_sound.play()
+            self.__sound_manager.play_sound("click")
             return self.__option
         else:
             return ButtonOption.NONE

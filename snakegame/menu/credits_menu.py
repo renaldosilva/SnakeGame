@@ -5,6 +5,7 @@ from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
 from snakegame.menu.menu import Menu
 from snakegame.menu.background import Background
+from snakegame.menu.sound_manager import SoundManager
 from snakegame.text.animated_text import AnimatedText
 from snakegame.text.text import Text
 from snakegame import constants
@@ -18,6 +19,8 @@ class CreditsMenu(Menu):
     ----------
     __basic_piece : BasicPiece
         The basic features of the game.
+    __sound_manager : SoundManager
+        The sound manager of the game.
     __background : Background
         The credits menu background.
     __button_alignment : {1, 2, 3}
@@ -32,6 +35,7 @@ class CreditsMenu(Menu):
     def __init__(
             self,
             basic_piece: BasicPiece,
+            sound_manager: SoundManager,
             background: Background=Background(
                 AnimatedText(constants.CREDITS_MENU_TITLE)
             ),
@@ -45,6 +49,8 @@ class CreditsMenu(Menu):
         ----------
         basic_piece : BasicPiece
             The basic features of the game.
+        sound_manager : SoundManager
+            The sound manager of the game.
         background : Background, optional
             The credits menu background (default is Background(AnimatedText(constants.CREDITS_MENU_TITLE))).
         button_alignment : {1, 2, 3}, optional
@@ -60,7 +66,7 @@ class CreditsMenu(Menu):
         ValueError
             If the 'button_alignment' value is not in the range (1-3).
         """
-        super().__init__(basic_piece, background, button_alignment)
+        super().__init__(basic_piece, sound_manager, background, button_alignment)
         self.__credits = self.__align_credits(credits)
 
     def start_other_elements(self) -> None:
@@ -71,7 +77,7 @@ class CreditsMenu(Menu):
             super().quit()
 
     def create_buttons(self) -> list[Button]:
-        return [Button(ButtonOption.BACK)]
+        return [Button(ButtonOption.BACK, super().get_sound_manager())]
 
     def other_drawings(self, window: Surface) -> None:
         self.__credits.draw(window)
