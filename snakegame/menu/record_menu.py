@@ -1,20 +1,21 @@
 from pygame import Surface
 
-from snakegame import constants
 from snakegame.enuns.button_option import ButtonOption
-from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
-from snakegame.menu.background import Background
 from snakegame.menu.button import Button
 from snakegame.menu.confirmation_menu import ConfirmationMenu
 from snakegame.menu.menu import Menu
+from snakegame.menu.background import Background
+from snakegame.menu.record_manager import RecordManager
 from snakegame.menu.sound_manager import SoundManager
 from snakegame.text.animated_text import AnimatedText
+from snakegame.text.text import Text
+from snakegame import constants
 
 
-class PauseMenu(Menu):
+class RecordMenu(Menu):
     """
-    Represents a pause menu.
+    Represents a record menu.
 
     Attributes
     ----------
@@ -22,8 +23,12 @@ class PauseMenu(Menu):
         The basic features of the game.
     __sound_manager : SoundManager
         The sound manager of the game.
+    __record_manager : RecordManager
+        The record manager.
+    __record : int
+        The record.
     __background : Background
-        The pause menu background.
+        The credits menu background.
     __button_alignment : {1, 2, 3}
         Represents is the alignment of the buttons:
             1 - top alignment;
@@ -37,11 +42,14 @@ class PauseMenu(Menu):
             self,
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
-            background: Background=Background(AnimatedText(constants.PAUSE_MENU_TITLE)),
-            button_alignment: int = constants.PAUSE_MENU_BUTTON_ALIGNMENT
+            record_manager : RecordManager,
+            background: Background=Background(
+                AnimatedText(constants.RECORD_MENU_TITLE)
+            ),
+            button_alignment: int=constants.RECORD_MENU_BUTTON_ALIGNMENT
     ):
         """
-        Initialize the PauseMenu.
+        Initialize the RecordMenu.
 
         Parameters
         ----------
@@ -49,10 +57,12 @@ class PauseMenu(Menu):
             The basic features of the game.
         sound_manager : SoundManager
             The sound manager of the game.
+        record_manager : RecordManager
+            The record manager.
         background : Background, optional
-            The pause menu background (default is Background(AnimatedText(constants.PAUSE_MENU_TITLE))).
+            The credits menu background (default is Background(AnimatedText(constants.CREDITS_MENU_TITLE))).
         button_alignment : {1, 2, 3}, optional
-            Represents is the alignment of the buttons (default is constants.PAUSE_MENU_BUTTON_ALIGNMENT):
+            Represents is the alignment of the buttons (default is constants.CREDITS_MENU_BUTTON_ALIGNMENT):
                 1 - top alignment;
                 2 - center alignment;
                 3 - bottom alignment.
@@ -64,36 +74,42 @@ class PauseMenu(Menu):
         """
         super().__init__(basic_piece, sound_manager, background, button_alignment)
         self.__confirmation_menu = ConfirmationMenu(basic_piece, sound_manager)
+        self.__record_manager = record_manager
+        self.__record = Text(str(self.__record_manager.get_record()))
+        self.__record = self.__align_record(self.__record)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
-        if selected_option == ButtonOption.CONTINUE:
-            super().get_sound_manager().stop_sound("pause_menu")
-            super().get_basic_piece().set_game_state(GameState.GAME)
-            super().quit()
-        elif selected_option == ButtonOption.BACK_TO_MAIN_MENU:
+        if selected_option == ButtonOption.DELETE_RECORD:
             option = self.__confirmation_menu.start()
             self.__confirm_option(option)
+        elif selected_option == ButtonOption.BACK:
+            super().quit()
 
     def create_buttons(self) -> list[Button]:
-        buttons = [
-            Button(ButtonOption.CONTINUE, super().get_sound_manager()),
-            Button(ButtonOption.BACK_TO_MAIN_MENU, super().get_sound_manager())
+        return [
+            Button(ButtonOption.DELETE_RECORD, super().get_sound_manager()),
+            Button(ButtonOption.BACK, super().get_sound_manager())
         ]
-        return buttons
 
     def other_events(self) -> None:
-        super().get_sound_manager().play_sound("pause_menu", -1)
+       pass
 
     def other_drawings(self, window: Surface) -> None:
-        pass
+        self.__record.draw(window)
 
     def other_updates(self) -> None:
-        pass
+        self.__record.set_content(str(self.__record_manager.get_record()))
+        self.__record = self.__align_record(self.__record)
 
     def __confirm_option(self, option: ButtonOption) -> None:
         if option == ButtonOption.YES:
-            super().get_sound_manager().stop_sound("pause_menu")
-            super().get_basic_piece().set_game_state(GameState.MENU)
-            super().quit()
-        else:
-            super().reset_selected_option()
+            self.__record_manager.reset_record()
+
+        super().reset_selected_option()
+
+    def __align_record(self, record: Text) -> Text:
+        center = super().get_background().get_center()
+        record.set_center(center)
+
+        return record
+

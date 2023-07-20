@@ -38,6 +38,8 @@ class Menu(ABC):
         The index of the current button where the selector is on.
     __selected_option : ButtonOption
         The current menu option.
+    __last_selected_option : ButtonOption
+        The last option that was selected in the menu.
     __is_running : bool
         Indicates whether the menu is running.
     """
@@ -98,11 +100,12 @@ class Menu(ABC):
         self.__buttons = self.__configure_buttons()
         self.__current_button = 0
         self.__selected_option = ButtonOption.NONE
+        self.__last_selected_option = ButtonOption.NONE
         self.__is_running = True
         self.__selector = AnimatedText(Menu.SELECTOR_SYMBOL)
         self.__update_selector_position()
 
-    def start(self) -> None:
+    def start(self) -> ButtonOption:
         """
         Start the menu.
 
@@ -112,12 +115,14 @@ class Menu(ABC):
             The last option that was selected in the menu.
         """
         self.__loop()
+        return self.__last_selected_option
 
     def __loop(self) -> None:
         while self.__is_running:
             if self.__selected_option == ButtonOption.NONE:
                 self.__run_this()
             else:
+                self.__last_selected_option = self.__selected_option
                 self.run_another_action(self.__selected_option)
             self.__basic_piece.clock_tick()
         self.__reset_state()

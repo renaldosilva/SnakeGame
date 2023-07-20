@@ -3,12 +3,14 @@ import pygame
 from snakegame import constants, util
 from snakegame.game.game import Game
 from snakegame.game.basic_piece import BasicPiece
+from snakegame.menu.record_manager import RecordManager
 from snakegame.menu.sound_manager import SoundManager
 
 pygame.init()
 
-# Sound manager
+# Managers
 sound_manager = SoundManager()
+record_manager = RecordManager()
 
 # Window
 window = pygame.display.set_mode(constants.WINDOW_DIMENSIONS)
@@ -23,4 +25,4 @@ clock = pygame.time.Clock()
 basic_piece = BasicPiece(window, clock)
 
 # Game
-game = Game(basic_piece, sound_manager)
+game = Game(basic_piece, sound_manager, record_manager)

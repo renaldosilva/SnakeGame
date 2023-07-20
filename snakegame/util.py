@@ -104,6 +104,24 @@ def load_image(image_path: str, dimensions: tuple[int, int]=(-1, -1)) -> Surface
     return image
 
 def read_txt(path: str) -> list[str]:
+    """
+    Read the contents of a txt file.
+
+    Parameters
+    ----------
+    path : str
+        The file path.
+
+    Returns
+    -------
+    list[str]
+        The list of lines in the file.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the 'path' is not found.
+    """
     validation.is_valid_path(path, "Txt 'path' not found!")
 
     content = []
@@ -113,7 +131,22 @@ def read_txt(path: str) -> list[str]:
 
     return content
 
-def write_txt(path: str, content: str) -> None:
+def overwrite_txt(path: str, content: str) -> None:
+    """
+    Overwrite a txt file.
+
+    Parameters
+    ----------
+    path : str
+        The file path.
+    content : str
+        The new content.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the 'path' is not found.
+    """
     validation.is_valid_path(path, "Txt 'path' not found!")
 
     with open(path, 'w') as txt:

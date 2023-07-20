@@ -4,6 +4,7 @@ from pygame.key import ScancodeWrapper
 from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.main_menu import MainMenu
+from snakegame.menu.record_manager import RecordManager
 from snakegame.menu.sound_manager import SoundManager
 
 
@@ -17,6 +18,8 @@ class Game:
         The basic features of the game.
     __sound_manager : SoundManager
         The sound manager of the game.
+    __record_manager : RecordManager
+        The record manager.
     __menu : MainMenu
         The game menu.
     """
@@ -28,7 +31,8 @@ class Game:
     def __init__(
             self,
             basic_piece: BasicPiece,
-            sound_manager: SoundManager
+            sound_manager: SoundManager,
+            record_manager: RecordManager
     ):
         """
         Initialize a Game object.
@@ -39,10 +43,13 @@ class Game:
             The basic features of the game.
         sound_manager : SoundManager
             The sound manager of the game.
+        record_manager : RecordManager
+            The record manager.
         """
         self.__basic_piece = basic_piece
         self.__sound_manager = sound_manager
-        self.__menu = MainMenu(basic_piece, sound_manager)
+        self.__record_manager = record_manager
+        self.__menu = MainMenu(basic_piece, sound_manager, record_manager)
 
     def start(self) -> None:
         """Starts the game loop."""

@@ -29,6 +29,12 @@ class ButtonOption(Enum):
         A button to continue the game.
     BACK_TO_MAIN_MENU : int
         A button to go back to the main menu.
+    YES : int
+        A confirmation button.
+    NO : int
+        A reject button.
+    DELETE_RECORD : int
+        A button to delete the record.
     """
 
     NONE = 0
@@ -42,3 +48,6 @@ class ButtonOption(Enum):
     VOLUME_DOWN = 10
     CONTINUE = 11
     BACK_TO_MAIN_MENU = 12
+    YES = 13
+    NO = 14
+    DELETE_RECORD = 15
