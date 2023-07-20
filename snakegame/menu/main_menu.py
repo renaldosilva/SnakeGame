@@ -6,7 +6,6 @@ from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.button import Button
 from snakegame.menu.credits_menu import CreditsMenu
-from snakegame.menu.difficulty_menu import DifficultyMenu
 from snakegame.menu.menu import Menu
 from snakegame.menu.background import Background
 from snakegame import constants
@@ -36,8 +35,6 @@ class MainMenu(Menu):
         The game credits menu.
     __options_menu : OptionsMenu
         The game options menu.
-    __difficulty_menu : DifficultyMenu
-        The menu to select the difficulty of the game.
     """
 
     def __init__(
@@ -78,16 +75,13 @@ class MainMenu(Menu):
         super().__init__(basic_piece, sound_manager, background, button_alignment)
         self.__credits_menu = CreditsMenu(basic_piece, sound_manager)
         self.__options_menu = OptionsMenu(basic_piece, sound_manager)
-        self.__difficulty_menu = DifficultyMenu(basic_piece, sound_manager)
         self.__pause_menu = PauseMenu(basic_piece, sound_manager)
-
-    def start_other_elements(self) -> None:
-        super().get_sound_manager().play_sound("menu", -1)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.START:
-            option = self.__difficulty_menu.start()
-            self.__manage_start(option)
+            super().get_sound_manager().stop_sound("main_menu")
+            super().get_basic_piece().set_game_state(GameState.GAME)
+            super().quit()
         elif selected_option == ButtonOption.OPTIONS:
             self.__options_menu.start()
             super().reset_selected_option()
@@ -101,24 +95,20 @@ class MainMenu(Menu):
         buttons = [
             Button(ButtonOption.START, super().get_sound_manager()),
             Button(ButtonOption.OPTIONS, super().get_sound_manager()),
+            Button(ButtonOption.RECORD, super().get_sound_manager()),
             Button(ButtonOption.CREDITS, super().get_sound_manager()),
             Button(ButtonOption.QUIT, super().get_sound_manager())
         ]
         return buttons
+
+    def other_events(self) -> None:
+        super().get_sound_manager().play_sound("main_menu", -1)
 
     def other_drawings(self, window: Surface) -> None:
         pass
 
     def other_updates(self) -> None:
         pass
-
-    def __manage_start(self, option: ButtonOption) -> None:
-        if option == ButtonOption.BACK:
-            super().reset_selected_option()
-        else:
-            super().get_basic_piece().set_game_state(GameState.GAME)
-            super().get_sound_manager().stop_sound("menu")
-            super().quit()
 
     def start_pause_menu(self) -> None:
         """Start the pause menu."""

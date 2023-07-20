@@ -10,6 +10,7 @@ FONT_DIRECTORY = os.path.join('.', 'data', 'fonts')
 FRUIT_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'fruits')
 MENU_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'menu')
 MUSIC_DIRECTORY = os.path.join('.', 'data', 'sounds')
+RECORD_DIRECTORY = os.path.join('.', 'data')
 
 
 # Colors
@@ -34,13 +35,15 @@ FONTS = [
     os.path.join(FONT_DIRECTORY, 'Old Typewriter.ttf'),
     os.path.join(FONT_DIRECTORY, 'Type Keys Filled.ttf')
 ]
+RECORD = os.path.join(RECORD_DIRECTORY, 'record.txt')
 
 
 # Musics
 INITIAL_VOLUME = 5
 SOUNDS = {
     "click": os.path.join(MUSIC_DIRECTORY, 'click.wav'),
-    "menu": os.path.join(MUSIC_DIRECTORY, 'menu.ogg'),
+    "main_menu": os.path.join(MUSIC_DIRECTORY, 'main_menu.ogg'),
+    "pause_menu": os.path.join(MUSIC_DIRECTORY, 'pause_menu.ogg'),
     "scroll": os.path.join(MUSIC_DIRECTORY, 'scrolling.wav')
 }
 
@@ -67,7 +70,7 @@ TEXT_SIZE = GAME_PIXEL_DIMENSION * 3
 
 
 # Button
-BUTTON_SIZE = GAME_PIXEL_DIMENSION * 3
+BUTTON_SIZE = int(GAME_PIXEL_DIMENSION * 2.6)
 
 
 # Main Menu
@@ -95,14 +98,6 @@ CREDITS_MENU_TITLE = "CREDITS"
 CREDITS_MENU_BUTTON_ALIGNMENT = 3
 CREDITS = "> DEVELOPED AND ILLUSTRATED BY RENALDO SILVA <"
 CREDITS_SIZE = GAME_PIXEL_DIMENSION
-
-
-# Difficulty Menu
-EASY_MENU_TITLE = "EASY DIFFICULTY"
-MEDIUM_MENU_TITLE = "MEDIUM DIFFICULTY"
-HARD_MENU_TITLE = "HARD DIFFICULTY"
-NEUTRAL_MENU_TITLE = "WILL GIVE UP?"
-DIFFICULTY_MENU_BUTTON_ALIGNMENT = 3
 
 
 # Pause Menu

@@ -38,8 +38,6 @@ class Menu(ABC):
         The index of the current button where the selector is on.
     __selected_option : ButtonOption
         The current menu option.
-    __last_selected_option : ButtonOption
-        The last option that was selected in the menu.
     __is_running : bool
         Indicates whether the menu is running.
     """
@@ -100,12 +98,11 @@ class Menu(ABC):
         self.__buttons = self.__configure_buttons()
         self.__current_button = 0
         self.__selected_option = ButtonOption.NONE
-        self.__last_selected_option = ButtonOption.NONE
         self.__is_running = True
         self.__selector = AnimatedText(Menu.SELECTOR_SYMBOL)
         self.__update_selector_position()
 
-    def start(self) -> ButtonOption:
+    def start(self) -> None:
         """
         Start the menu.
 
@@ -114,21 +111,13 @@ class Menu(ABC):
         last_selected_option : ButtonOption
             The last option that was selected in the menu.
         """
-        self.start_other_elements()
         self.__loop()
-        return self.__last_selected_option
-
-    @abstractmethod
-    def start_other_elements(self) -> None:
-        """start other elements in the menu."""
-        pass
 
     def __loop(self) -> None:
         while self.__is_running:
             if self.__selected_option == ButtonOption.NONE:
                 self.__run_this()
             else:
-                self.__last_selected_option = self.__selected_option
                 self.run_another_action(self.__selected_option)
             self.__basic_piece.clock_tick()
         self.__reset_state()
@@ -222,6 +211,7 @@ class Menu(ABC):
             self.__selector.animate(event)
 
         self.__selected_option = self.__button_events()
+        self.other_events()
 
     def __draw(self) -> None:
         window = self.__basic_piece.get_window()
@@ -318,6 +308,11 @@ class Menu(ABC):
                 button.set_top_shape_midtop((previous_midbottom[0], midtop_y))
 
         return buttons
+
+    @abstractmethod
+    def other_events(self) -> None:
+        """Manage other events in the menu."""
+        pass
 
     @abstractmethod
     def other_drawings(self, window: Surface) -> None:

@@ -69,15 +69,15 @@ class CreditsMenu(Menu):
         super().__init__(basic_piece, sound_manager, background, button_alignment)
         self.__credits = self.__align_credits(credits)
 
-    def start_other_elements(self) -> None:
-        pass
-
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.BACK:
             super().quit()
 
     def create_buttons(self) -> list[Button]:
         return [Button(ButtonOption.BACK, super().get_sound_manager())]
+
+    def other_events(self) -> None:
+       pass
 
     def other_drawings(self, window: Surface) -> None:
         self.__credits.draw(window)

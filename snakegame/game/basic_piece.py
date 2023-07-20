@@ -8,7 +8,6 @@ from pygame.time import Clock
 
 from snakegame import constants
 from snakegame import validation
-from snakegame.enuns.difficulty import Difficulty
 from snakegame.enuns.game_state import GameState
 
 
@@ -30,11 +29,9 @@ class BasicPiece:
         The RGB color tuple used to fill the game's display window.
     __is_running : bool
         A boolean value that indicates whether the game loop is still running.
-    __difficulty : Difficulty
-        The difficulty of the game.
     """
 
-    WAITING_TIME_TO_CLOSE = 300
+    WAITING_TIME_TO_CLOSE = 350
     """Wait time to close (milliseconds).
     """
 
@@ -64,7 +61,6 @@ class BasicPiece:
         self.__clock = clock
         self.__fps = validation.is_positive(fps, "'fps' cannot be less than 1!")
         self.__color = validation.is_valid_rgb(color, "'color' out of RGB range!")
-        self.__difficulty = Difficulty.NONE
         self.__is_running = True
 
     def set_game_state(self, game_state: GameState) -> None:
@@ -110,28 +106,6 @@ class BasicPiece:
            True if the game loop is running, False otherwise.
         """
         return self.__is_running
-
-    def set_difficulty(self, difficulty: Difficulty) -> None:
-        """
-        Set the difficulty of the game.
-
-        Parameters
-        ----------
-        difficulty : Difficulty
-            The new difficulty of the game.
-        """
-        self.__difficulty = difficulty
-
-    def get_difficulty(self) -> Difficulty:
-        """
-        Returns game difficulty.
-
-        Returns
-        -------
-        difficulty : Difficulty
-            The difficulty of the game.
-        """
-        return self.__difficulty
 
     def clock_tick(self) -> None:
         """Regulates the game's frame rate by calling the Pygame Clock's tick() method with the FPS value."""

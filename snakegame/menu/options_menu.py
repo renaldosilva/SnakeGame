@@ -74,9 +74,6 @@ class OptionsMenu(Menu):
         super().__init__(basic_piece, sound_manager, background, button_alignment)
         self.__volume_bar = self.__align_volume_bar(volume_bar)
 
-    def start_other_elements(self) -> None:
-        pass
-
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.VOLUME_UP:
             super().get_sound_manager().volume_up()
@@ -96,6 +93,9 @@ class OptionsMenu(Menu):
             Button(ButtonOption.BACK, super().get_sound_manager())
         ]
         return buttons
+
+    def other_events(self) -> None:
+        pass
 
     def other_drawings(self, window: Surface) -> None:
         self.__volume_bar.draw(window)

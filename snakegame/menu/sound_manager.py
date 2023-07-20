@@ -3,6 +3,7 @@ from pygame.mixer import Sound
 
 from snakegame import validation, constants
 
+
 class SoundManager:
     """
     Manages game sounds. You can control overall volume and get specific sounds.
@@ -11,7 +12,7 @@ class SoundManager:
     ----------
     __current_volume : int {0, 1, 2, 3, 4, 5, 6 ,7, 8, 9, 10}
         The current volume of the game.
-    __sounds: dict[str, Sound]
+    __sounds : dict[str, Sound]
         The sounds of the game accompanied by their names.
     """
 
@@ -27,7 +28,7 @@ class SoundManager:
         ----------
         initial_volume : int {0, 1, 2, 3, 4, 5, 6 ,7, 8, 9, 10}, optional
             The initial volume of the game (default is constants.INITIAL_VOLUME).
-        sound_paths: dict[str, str], optional
+        sound_paths : dict[str, str], optional
             The paths of sounds accompanied by their names (default is constants.SOUNDS).
 
         Raises
@@ -38,6 +39,7 @@ class SoundManager:
         pygame.mixer.init()
         self.__current_volume = self.__check_initial_volume(initial_volume)
         self.__sounds = self.__load_sounds(self.__check_sound_paths(sound_paths))
+        self.__sounds_playing = set()
 
     def play_sound(self, name: str, loops: int=0) -> None:
         """
@@ -45,16 +47,18 @@ class SoundManager:
 
         Parameters
         ----------
-        name: str
+        name : str
             The name of the sound.
-        loops: int, optional
+        loops : int, optional
             The number of times the sound will be repeated (default is 0).
         """
-        sound = self.__sounds.get(name.lower())
+        if self.__sound_exists(name):
+            if not self.__sound_is_playing(name):
+                sound = self.__sounds.get(name.lower())
+                sound.play(loops)
 
-        if sound:
-            sound.play(loops)
-            self.__sounds[name.lower()] = sound
+                if loops == -1:
+                    self.__sounds_playing.add(name.lower())
 
     def stop_sound(self, name: str) -> None:
         """
@@ -62,13 +66,14 @@ class SoundManager:
 
         Parameters
         ----------
-        name: str
+        name : str
             The name of the sound.
         """
-        sound = self.__sounds.get(name.lower())
-
-        if sound is not None:
-            sound.stop()
+        if self.__sound_exists(name):
+            if self.__sound_is_playing(name):
+                self.__sounds_playing.remove(name.lower())
+                sound = self.__sounds.get(name.lower())
+                sound.stop()
 
     def volume_up(self) -> None:
         """Increase the volume level by 10%."""
@@ -88,10 +93,24 @@ class SoundManager:
 
         Returns
         -------
-        current_volume: int
+        current_volume : int
             The volume level.
         """
         return self.__current_volume
+
+    def __sound_exists(self, name: str) -> bool:
+        result = True
+        if self.__sounds.get(name.lower()) is None:
+            result = False
+
+        return result
+
+    def __sound_is_playing(self, name: str) -> bool:
+        result = True
+        if name.lower() not in self.__sounds_playing:
+            result = False
+
+        return result
 
     def __apply_volume(self) -> None:
         for music in self.__sounds.values():

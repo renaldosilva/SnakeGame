@@ -7,6 +7,9 @@ from snakegame.menu.sound_manager import SoundManager
 
 pygame.init()
 
+# Sound manager
+sound_manager = SoundManager()
+
 # Window
 window = pygame.display.set_mode(constants.WINDOW_DIMENSIONS)
 pygame.display.set_caption(constants.GAME_NAME)
@@ -18,9 +21,6 @@ clock = pygame.time.Clock()
 
 # Basic game features
 basic_piece = BasicPiece(window, clock)
-
-# Sound manager
-sound_manager = SoundManager()
 
 # Game
 game = Game(basic_piece, sound_manager)

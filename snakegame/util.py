@@ -102,3 +102,19 @@ def load_image(image_path: str, dimensions: tuple[int, int]=(-1, -1)) -> Surface
         image = pygame.transform.scale(image, dimensions)
 
     return image
+
+def read_txt(path: str) -> list[str]:
+    validation.is_valid_path(path, "Txt 'path' not found!")
+
+    content = []
+    with open(path, 'r') as txt:
+        for line in txt:
+            content.append(str(line))
+
+    return content
+
+def write_txt(path: str, content: str) -> None:
+    validation.is_valid_path(path, "Txt 'path' not found!")
+
+    with open(path, 'w') as txt:
+        txt.write(content.strip())

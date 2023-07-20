@@ -50,7 +50,7 @@ class Button:
     """The percentage of the button text size.
     """
 
-    BORDER_RADIUS_PERCENTAGE = 0.2
+    BORDER_RADIUS_PERCENTAGE = 0.25
     """The radius percentage of the button borders.
     """
 

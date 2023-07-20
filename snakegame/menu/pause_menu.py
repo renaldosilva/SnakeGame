@@ -61,14 +61,13 @@ class PauseMenu(Menu):
         """
         super().__init__(basic_piece, sound_manager, background, button_alignment)
 
-    def start_other_elements(self) -> None:
-        pass
-
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.CONTINUE:
+            super().get_sound_manager().stop_sound("pause_menu")
             super().get_basic_piece().set_game_state(GameState.GAME)
             super().quit()
         elif selected_option == ButtonOption.BACK_TO_MAIN_MENU:
+            super().get_sound_manager().stop_sound("pause_menu")
             super().get_basic_piece().set_game_state(GameState.MENU)
             super().quit()
 
@@ -78,6 +77,9 @@ class PauseMenu(Menu):
             Button(ButtonOption.BACK_TO_MAIN_MENU, super().get_sound_manager())
         ]
         return buttons
+
+    def other_events(self) -> None:
+        super().get_sound_manager().play_sound("pause_menu", -1)
 
     def other_drawings(self, window: Surface) -> None:
         pass

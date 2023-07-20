@@ -13,6 +13,8 @@ class ButtonOption(Enum):
         A button option that starts a new game.
     OPTIONS : int
         A button option that opens the options' menu.
+    RECORD: int
+        A button to access the game record.
     CREDITS : int
         A button option that displays the game's credits.
     QUIT : int
@@ -23,12 +25,6 @@ class ButtonOption(Enum):
         Volume up button.
     VOLUME_DOWN : int
         Volume down button.
-    EASY : int
-        Easy difficulty button.
-    MEDIUM : int
-        Medium difficulty button.
-    HARD : int
-        Hard difficulty button.
     CONTINUE : int
         A button to continue the game.
     BACK_TO_MAIN_MENU : int
@@ -38,13 +34,11 @@ class ButtonOption(Enum):
     NONE = 0
     START = 3
     OPTIONS = 4
-    CREDITS = 5
-    QUIT = 6
-    BACK = 7
-    VOLUME_UP = 8
-    VOLUME_DOWN = 9
-    EASY = 10
-    MEDIUM = 11
-    HARD = 12
-    CONTINUE = 13
-    BACK_TO_MAIN_MENU = 14
+    RECORD = 5
+    CREDITS = 6
+    QUIT = 7
+    BACK = 8
+    VOLUME_UP = 9
+    VOLUME_DOWN = 10
+    CONTINUE = 11
+    BACK_TO_MAIN_MENU = 12
