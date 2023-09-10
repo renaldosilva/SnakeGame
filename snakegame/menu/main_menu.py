@@ -50,7 +50,7 @@ class MainMenu(Menu):
                 AnimatedFont(constants.MAIN_MENU_TITLE),
                 image_paths=constants.MAIN_MENU_IMAGES
             ),
-            button_alignment: int=constants.MAIN_MENU_BUTTON_ALIGNMENT
+            button_alignment: int=constants.BUTTON_ALIGNMENT_CENTER
     ):
         """
         Initialize the MainMenu.

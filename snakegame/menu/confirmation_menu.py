@@ -12,9 +12,10 @@ from snakegame.text.animated_text import AnimatedText
 
 BACKGROUND = Background(
     AnimatedText(constants.CONFIRMATION_MENU_TITLE),
-    dimensions=constants.CONFIRMATION_MENU_DIMENSIONS
+    dimensions=constants.CONFIRMATION_MENU_DIMENSIONS,
+    color=constants.GREEN_1
 )
-BACKGROUND.set_center(constants.CONFIRMATION_MENU_CENTER)
+BACKGROUND.set_center(constants.WINDOW_CENTER)
 
 
 class ConfirmationMenu(Menu):
@@ -41,7 +42,7 @@ class ConfirmationMenu(Menu):
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
             background: Background = BACKGROUND,
-            button_alignment: int = constants.PAUSE_MENU_BUTTON_ALIGNMENT
+            button_alignment: int = constants.BUTTON_ALIGNMENT_BOTTOM
     ):
         """
         Initialize the ConfirmationMenu.

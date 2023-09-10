@@ -38,7 +38,7 @@ class PauseMenu(Menu):
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
             background: Background=Background(AnimatedText(constants.PAUSE_MENU_TITLE)),
-            button_alignment: int = constants.PAUSE_MENU_BUTTON_ALIGNMENT
+            button_alignment: int = constants.BUTTON_ALIGNMENT_BOTTOM
     ):
         """
         Initialize the PauseMenu.

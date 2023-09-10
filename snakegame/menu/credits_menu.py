@@ -39,7 +39,7 @@ class CreditsMenu(Menu):
             background: Background=Background(
                 AnimatedText(constants.CREDITS_MENU_TITLE)
             ),
-            button_alignment: int=constants.CREDITS_MENU_BUTTON_ALIGNMENT,
+            button_alignment: int=constants.BUTTON_ALIGNMENT_BOTTOM,
             credits: Text=Text(constants.CREDITS, constants.CREDITS_SIZE)
     ):
         """

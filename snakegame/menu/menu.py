@@ -5,6 +5,7 @@ from pygame import Surface
 from pygame.event import Event
 from pygame.key import ScancodeWrapper
 
+from snakegame import constants
 from snakegame.enuns.button_option import ButtonOption
 from snakegame.menu.sound_manager import SoundManager
 from snakegame.game.basic_piece import BasicPiece
@@ -69,7 +70,7 @@ class Menu(ABC):
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
             background: Background,
-            button_alignment: int=1
+            button_alignment: int=constants.BUTTON_ALIGNMENT_TOP
     ):
         """
         Initialize the Menu.
