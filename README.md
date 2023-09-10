@@ -4,7 +4,7 @@
 
 Esse projeto é baseado no nostálgico jogo da cobrinha! Aqui você será desafiado a capturar todas as frutas nutritivas que surgirem ao longo do mapa, mas tome cuidado, pois algumas delas podem estar envenenadas!!! :skull:
 
-https://github.com/renaldosilva/SnakeGame/assets/85300651/8efaf88c-2e95-47d2-8d99-27da0de4cf1c
+https://github.com/renaldosilva/SnakeGame/assets/85300651/40f3937f-b089-407b-a551-55d3eb65dde6
 
 ## Tópicos
   - [Projeto em construção](#projeto-em-construção)
