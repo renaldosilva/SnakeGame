@@ -88,7 +88,7 @@ class MainMenu(Menu):
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.START:
             super().get_sound_manager().stop_sound("main_menu")
-            super().get_basic_piece().set_game_state(GameState.GAME)
+            super().get_basic_piece().set_game_state(GameState.TIMER)
             super().quit()
         elif selected_option == ButtonOption.OPTIONS:
             self.__options_menu.start()

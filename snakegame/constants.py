@@ -44,7 +44,8 @@ SOUNDS = {
     "click": os.path.join(MUSIC_DIRECTORY, 'click.wav'),
     "main_menu": os.path.join(MUSIC_DIRECTORY, 'main_menu.ogg'),
     "pause_menu": os.path.join(MUSIC_DIRECTORY, 'pause_menu.ogg'),
-    "scroll": os.path.join(MUSIC_DIRECTORY, 'scrolling.wav')
+    "scroll": os.path.join(MUSIC_DIRECTORY, 'scrolling.wav'),
+    "time_tick": os.path.join(MUSIC_DIRECTORY, "time_tick.ogg")
 }
 
 
@@ -63,6 +64,9 @@ ANIMATED_FONT_MILLISECONDS = 600
 
 IMAGE_EVENT = pygame.USEREVENT + 2
 IMAGE_MILLISECONDS = 800
+
+TIMER_EVENT = pygame.USEREVENT + 3
+TIMER_MILLISECONDS = 1000
 
 
 # Text
@@ -111,3 +115,7 @@ PAUSE_MENU_TITLE = "PAUSE"
 # Confirmation Menu
 CONFIRMATION_MENU_TITLE = "CONFIRM"
 CONFIRMATION_MENU_DIMENSIONS = int(WINDOW_DIMENSION * 0.9), int(WINDOW_DIMENSION * 0.7)
+
+# Timer
+TIMER_SECONDS = 3
+TIMER_SIZE = GAME_PIXEL_DIMENSION * 3

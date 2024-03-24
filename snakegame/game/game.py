@@ -6,6 +6,7 @@ from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.main_menu import MainMenu
 from snakegame.menu.record_manager import RecordManager
 from snakegame.menu.sound_manager import SoundManager
+from snakegame.menu.timer import Timer
 
 
 class Game:
@@ -50,6 +51,7 @@ class Game:
         self.__sound_manager = sound_manager
         self.__record_manager = record_manager
         self.__menu = MainMenu(basic_piece, sound_manager, record_manager)
+        self.__timer = Timer(basic_piece, sound_manager)
 
     def start(self) -> None:
         """Starts the game loop."""
@@ -61,6 +63,9 @@ class Game:
                 self.__menu.start()
             elif self.__basic_piece.get_game_state() == GameState.PAUSE:
                 self.__menu.start_pause_menu()
+            elif self.__basic_piece.get_game_state() == GameState.TIMER:
+                self.__draw()
+                self.__timer.start(GameState.GAME)
             elif self.__basic_piece.get_game_state() == GameState.GAME:
                 self.__events()
                 self.__draw()

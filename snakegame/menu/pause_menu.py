@@ -68,7 +68,7 @@ class PauseMenu(Menu):
     def run_another_action(self, selected_option: ButtonOption) -> None:
         if selected_option == ButtonOption.CONTINUE:
             super().get_sound_manager().stop_sound("pause_menu")
-            super().get_basic_piece().set_game_state(GameState.GAME)
+            super().get_basic_piece().set_game_state(GameState.TIMER)
             super().quit()
         elif selected_option == ButtonOption.BACK_TO_MAIN_MENU:
             option = self.__confirmation_menu.start()
