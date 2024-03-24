@@ -93,6 +93,12 @@ class BasicPiece:
         """
         return self.__window
 
+    def get_window_center(self) -> tuple[int, int]:
+        """
+        Returns the coordinate of the window's center.
+        """
+        return self.__window.get_width() // 2, self.__window.get_height() // 2
+
     def clock_tick(self) -> None:
         """Regulates the game's frame rate by calling the Pygame Clock's tick() method with the FPS value."""
         self.__clock.tick(self.__fps)

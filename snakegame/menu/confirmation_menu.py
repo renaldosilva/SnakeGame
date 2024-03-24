@@ -10,14 +10,6 @@ from snakegame.menu.sound_manager import SoundManager
 from snakegame.text.animated_text import AnimatedText
 
 
-BACKGROUND = Background(
-    AnimatedText(constants.CONFIRMATION_MENU_TITLE),
-    dimensions=constants.CONFIRMATION_MENU_DIMENSIONS,
-    color=constants.GREEN_1
-)
-BACKGROUND.set_center(constants.WINDOW_CENTER)
-
-
 class ConfirmationMenu(Menu):
     """
     Represents a confirmation menu.
@@ -41,7 +33,11 @@ class ConfirmationMenu(Menu):
             self,
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
-            background: Background = BACKGROUND,
+            background: Background = Background(
+                AnimatedText(constants.CONFIRMATION_MENU_TITLE),
+                dimensions=constants.CONFIRMATION_MENU_DIMENSIONS,
+                color=constants.GREEN_1
+            ),
             button_alignment: int = constants.BUTTON_ALIGNMENT_BOTTOM
     ):
         """
@@ -66,6 +62,7 @@ class ConfirmationMenu(Menu):
         ValueError
             If the 'button_alignment' value is not in the range (1-3).
         """
+        background.set_center(basic_piece.get_window_center())
         super().__init__(basic_piece, sound_manager, background, button_alignment)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
