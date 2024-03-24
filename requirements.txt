@@ -1,2 +1,0 @@
-setuptools==67.7.1
-pygame==2.3.0
