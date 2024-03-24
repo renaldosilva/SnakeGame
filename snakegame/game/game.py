@@ -56,7 +56,7 @@ class Game:
         self.__loop()
 
     def __loop(self) -> None:
-        while self.__basic_piece.is_running():
+        while True:
             if self.__basic_piece.get_game_state() == GameState.MENU:
                 self.__menu.start()
             elif self.__basic_piece.get_game_state() == GameState.PAUSE:
@@ -67,7 +67,6 @@ class Game:
                 self.__update()
 
             self.__basic_piece.clock_tick()
-        self.__basic_piece.close_all()
 
     def __events(self) -> None:
         for event in self.__basic_piece.get_events():

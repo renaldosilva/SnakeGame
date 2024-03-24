@@ -27,8 +27,6 @@ class BasicPiece:
         The target number of frames per second for the game.
     __color : tuple[int, int, int]
         The RGB color tuple used to fill the game's display window.
-    __is_running : bool
-        A boolean value that indicates whether the game loop is still running.
     """
 
     WAITING_TIME_TO_CLOSE = 350
@@ -61,7 +59,6 @@ class BasicPiece:
         self.__clock = clock
         self.__fps = validation.is_positive(fps, "'fps' cannot be less than 1!")
         self.__color = validation.is_valid_rgb(color, "'color' out of RGB range!")
-        self.__is_running = True
 
     def set_game_state(self, game_state: GameState) -> None:
         """
@@ -96,17 +93,6 @@ class BasicPiece:
         """
         return self.__window
 
-    def is_running(self) -> bool:
-        """
-        Returns the running state of the game loop.
-
-        Returns
-        -------
-        is_running : bool
-           True if the game loop is running, False otherwise.
-        """
-        return self.__is_running
-
     def clock_tick(self) -> None:
         """Regulates the game's frame rate by calling the Pygame Clock's tick() method with the FPS value."""
         self.__clock.tick(self.__fps)
@@ -126,7 +112,7 @@ class BasicPiece:
             The game event.
         """
         if event.type == pygame.QUIT:
-            self.__is_running = False
+            self.close_all()
 
     @staticmethod
     def update_window() -> None:

@@ -211,7 +211,7 @@ class Menu(ABC):
 
     def __events(self) -> None:
         for event in self.__basic_piece.get_events():
-            self.__check_close_all(event)
+            self.__basic_piece.check_quit(event)
             self.__current_button_event(event)
             self.__background.events(event)
             self.__selector.animate(event)
@@ -386,10 +386,6 @@ class Menu(ABC):
                 self.__current_button = 0
 
             self.__sound_manager.play_sound("scroll")
-
-    def __check_close_all(self, event: Event) -> None:
-        if event.type == pygame.QUIT:
-            self.close_all()
 
     def close_all(self) -> None:
         """Closes the Pygame window and exits the program."""
