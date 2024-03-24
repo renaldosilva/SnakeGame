@@ -35,7 +35,7 @@ class Background:
     """
 
     TITLE_MARGIN_PERCENTAGE = 0.04
-    """The percentage of distance the title is from the background.
+    """The percentage of distance between the title and the background edge.
     """
 
     def __init__(
@@ -57,7 +57,7 @@ class Background:
         ----------
         title : Text
             The title of the menu which can be animated or not.
-        text_alignment : {1, 2, 3}, optional
+        title_alignment : {1, 2, 3}, optional
             Represents is the title alignment (default is 1):
                 1 - top alignment;
                 2 - center alignment;

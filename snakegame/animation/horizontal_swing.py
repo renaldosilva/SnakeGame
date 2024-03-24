@@ -12,9 +12,9 @@ class HorizontalSwing(Animation):
 
     Attributes
     ----------
-    move_limit_size : int
+    __move_limit_size : int
         The maximum distance that the rectangle can move to each side.
-    current_direction : Direction
+    __current_direction : Direction
         The current direction of the swing animation.
     """
 

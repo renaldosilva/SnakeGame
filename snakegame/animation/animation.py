@@ -12,11 +12,11 @@ class Animation(ABC):
 
     Attributes
     ----------
-    main_rectangle : Rect
+    __main_rectangle : Rect
         The main rectangle of the animation.
-    secondary_rectangles : list[Rect] | None
+    __secondary_rectangles : list[Rect] | None
         The list of secondary rectangles of the animation.
-    origin_coordinate : tuple[int, int]
+    __origin_coordinate : tuple[int, int]
         The origin coordinate of the animation
         (corresponding to the upper left corner of the main rectangle).
     """

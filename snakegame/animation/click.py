@@ -12,9 +12,9 @@ class Click(Animation):
 
     Attributes
     ----------
-    bottom_shape : pygame.Rect
+    __bottom_shape : pygame.Rect
         The bottom shape of the button.
-    click_stage : AnimationStage
+    __click_stage : AnimationStage
         The current stage of the click animation.
     """
 
