@@ -101,24 +101,19 @@ class Timer:
         self.__timer_event = timer_event
         self.__seconds_aux = self.__seconds
 
-    def start(self, next_game_state: GameState) -> None:
+    def start(self) -> None:
         """
         Start the timer.
-
-        Parameters
-        ----------
-        next_game_state : GameState
-            The next state of the game when time runs out.
         """
-        self.__loop(next_game_state)
+        self.__loop()
 
-    def __loop(self, next_game_state: GameState) -> None:
+    def __loop(self) -> None:
         while self.__seconds_aux > -1:
             self.__events()
             self.__draw()
             self.__update()
             self.__basic_piece.clock_tick()
-        self.__stop(next_game_state)
+        self.__stop()
 
     def __events(self) -> None:
         for event in self.__basic_piece.get_events():
@@ -140,11 +135,18 @@ class Timer:
     def __update(self) -> None:
         self.__basic_piece.update_window()
 
-    def __stop(self, next_game_state: GameState) -> None:
+    def __stop(self) -> None:
         self.__number.set_content(str(self.__seconds))
         self.__seconds_aux = self.__seconds
+        self.__select_next_game_state()
 
-        self.__basic_piece.set_game_state(next_game_state)
+    def __select_next_game_state(self) -> None:
+        last_game_state = self.__basic_piece.get_last_game_state()
+
+        if last_game_state == GameState.LOADING:
+            self.__basic_piece.set_game_state(GameState.GAME)
+        elif last_game_state == GameState.PAUSE:
+            self.__basic_piece.set_game_state(GameState.GAME)
 
     def __configure_number(self, font_path) -> Text:
         return Text(str(self.__seconds), self.__size, self.__number_color, font_path)

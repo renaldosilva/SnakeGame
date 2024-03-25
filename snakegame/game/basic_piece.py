@@ -19,6 +19,8 @@ class BasicPiece:
     ----------
     __game_state : GameState
         Indicates the state of the game.
+    __last_game_state : GameState
+        Saves the last game state.
     __window : Surface
         The surface to use as the game's main display window.
     __clock : Clock
@@ -55,6 +57,7 @@ class BasicPiece:
             The RGB color tuple used to fill the game's display window (default is constants.LIGHT_GREEN_1).
         """
         self.__game_state = GameState.MENU
+        self.__last_game_state = GameState.MENU
         self.__window = window
         self.__clock = clock
         self.__fps = validation.is_positive(fps, "'fps' cannot be less than 1!")
@@ -69,6 +72,7 @@ class BasicPiece:
         game_state : GameState
             The new game state.
         """
+        self.__last_game_state = self.__game_state
         self.__game_state = game_state
 
     def get_game_state(self) -> GameState:
@@ -81,6 +85,17 @@ class BasicPiece:
             The game state.
         """
         return self.__game_state
+
+    def get_last_game_state(self) -> GameState:
+        """
+        Returns the last state of the game.
+
+        Returns
+        -------
+        last_game_state : GameState
+            The last game state.
+        """
+        return self.__last_game_state
 
     def get_window(self) -> Surface:
         """

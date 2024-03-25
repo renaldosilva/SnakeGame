@@ -23,6 +23,8 @@ class Game:
         The record manager.
     __menu : MainMenu
         The game menu.
+    __timer : Timer
+        The game timer.
     """
 
     KEYS = {
@@ -65,7 +67,7 @@ class Game:
                 self.__menu.start_pause_menu()
             elif self.__basic_piece.get_game_state() == GameState.TIMER:
                 self.__draw()
-                self.__timer.start(GameState.GAME)
+                self.__timer.start()
             elif self.__basic_piece.get_game_state() == GameState.GAME:
                 self.__events()
                 self.__draw()
