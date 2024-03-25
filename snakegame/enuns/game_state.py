@@ -13,6 +13,8 @@ class GameState(Enum):
         State in which the pause menu is running.
     TIMER : int
         State in which a timer is activated
+    LOADING : int
+        State in which loading screen is running.
     GAME : int
         State in which the game is running.
     """
@@ -20,6 +22,7 @@ class GameState(Enum):
     MENU = 0
     PAUSE = 1
     TIMER = 2
-    GAME = 3
+    LOADING = 3
+    GAME = 4
 
     

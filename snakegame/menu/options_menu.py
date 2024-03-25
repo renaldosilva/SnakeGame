@@ -44,7 +44,7 @@ class OptionsMenu(Menu):
             background: Background=Background(
                 AnimatedText(constants.OPTIONS_MENU_TITLE)
             ),
-            button_alignment: int=constants.BUTTON_ALIGNMENT_BOTTOM,
+            button_alignment: int=constants.BOTTOM_ALIGNMENT,
             volume_bar=VolumeBar()
     ):
         """

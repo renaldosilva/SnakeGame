@@ -9,6 +9,7 @@ from snakegame import util
 FONT_DIRECTORY = os.path.join('.', 'data', 'fonts')
 FRUIT_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'fruits')
 MENU_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'menu')
+LOADING_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'loading')
 MUSIC_DIRECTORY = os.path.join('.', 'data', 'sounds')
 RECORD_DIRECTORY = os.path.join('.', 'data')
 
@@ -75,9 +76,12 @@ TEXT_SIZE = GAME_PIXEL_DIMENSION * 3
 
 # Button
 BUTTON_SIZE = int(GAME_PIXEL_DIMENSION * 2.6)
-BUTTON_ALIGNMENT_TOP = 1
-BUTTON_ALIGNMENT_CENTER = 2
-BUTTON_ALIGNMENT_BOTTOM = 3
+
+
+# default alignments
+TOP_ALIGNMENT = 1
+CENTER_ALIGNMENT = 2
+BOTTOM_ALIGNMENT = 3
 
 
 # Main Menu
@@ -90,6 +94,19 @@ MAIN_MENU_IMAGES = [
     os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_5.png'),
     os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_6.png'),
     os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_7.png')
+]
+
+
+# Loading
+LOADING_TITLE = "LOADING..."
+LOADING_SECONDS = 4
+LOADING_IMAGE_LISTS = [
+    [
+        os.path.join(LOADING_IMAGE_DIRECTORY, 'list1', 'test_1.png')
+    ],
+    [
+        os.path.join(LOADING_IMAGE_DIRECTORY, 'list2', 'test_2.png')
+    ]
 ]
 
 

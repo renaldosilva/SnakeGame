@@ -38,7 +38,7 @@ class PauseMenu(Menu):
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
             background: Background=Background(AnimatedText(constants.PAUSE_MENU_TITLE)),
-            button_alignment: int = constants.BUTTON_ALIGNMENT_BOTTOM
+            button_alignment: int = constants.BOTTOM_ALIGNMENT
     ):
         """
         Initialize the PauseMenu.
@@ -93,7 +93,7 @@ class PauseMenu(Menu):
     def __confirm_option(self, option: ButtonOption) -> None:
         if option == ButtonOption.YES:
             super().get_sound_manager().stop_sound("pause_menu")
-            super().get_basic_piece().set_game_state(GameState.MENU)
+            super().get_basic_piece().set_game_state(GameState.LOADING)
             super().quit()
         else:
             super().reset_selected_option()

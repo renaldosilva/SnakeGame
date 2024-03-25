@@ -38,7 +38,7 @@ class ConfirmationMenu(Menu):
                 dimensions=constants.CONFIRMATION_MENU_DIMENSIONS,
                 color=constants.GREEN_1
             ),
-            button_alignment: int = constants.BUTTON_ALIGNMENT_BOTTOM
+            button_alignment: int = constants.BOTTOM_ALIGNMENT
     ):
         """
         Initialize the ConfirmationMenu.

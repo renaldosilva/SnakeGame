@@ -3,6 +3,7 @@ from pygame.key import ScancodeWrapper
 
 from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
+from snakegame.menu.loading import Loading
 from snakegame.menu.main_menu import MainMenu
 from snakegame.menu.record_manager import RecordManager
 from snakegame.menu.sound_manager import SoundManager
@@ -25,6 +26,8 @@ class Game:
         The game menu.
     __timer : Timer
         The game timer.
+    __loading : Loading
+        The game loading.
     """
 
     KEYS = {
@@ -54,6 +57,7 @@ class Game:
         self.__record_manager = record_manager
         self.__menu = MainMenu(basic_piece, sound_manager, record_manager)
         self.__timer = Timer(basic_piece, sound_manager)
+        self.__loading = Loading(basic_piece)
 
     def start(self) -> None:
         """Starts the game loop."""
@@ -61,14 +65,18 @@ class Game:
 
     def __loop(self) -> None:
         while True:
-            if self.__basic_piece.get_game_state() == GameState.MENU:
+            game_state = self.__basic_piece.get_game_state()
+
+            if game_state == GameState.MENU:
                 self.__menu.start()
-            elif self.__basic_piece.get_game_state() == GameState.PAUSE:
+            elif game_state == GameState.PAUSE:
                 self.__menu.start_pause_menu()
-            elif self.__basic_piece.get_game_state() == GameState.TIMER:
+            elif game_state == GameState.TIMER:
                 self.__draw()
                 self.__timer.start()
-            elif self.__basic_piece.get_game_state() == GameState.GAME:
+            elif game_state == GameState.LOADING:
+                self.__loading.start()
+            elif game_state == GameState.GAME:
                 self.__events()
                 self.__draw()
                 self.__update()

@@ -195,10 +195,22 @@ class Background:
         """
         return self.__dimensions[1]
 
+    def change_image_list(self, images: list | list[tuple[Surface | SurfaceType, Rect | RectType]]) -> None:
+        """
+        Changes the list of images used in the background.
+
+        Parameters
+        ----------
+        images : list | list[tuple[Surface | SurfaceType, Rect | RectType]]
+            The list of images.
+        """
+        self.__images = images
+        self.__background = self.__configure_background()
+
     def __load_images(self) -> list | list[tuple[Surface | SurfaceType, Rect | RectType]]:
         images = []
         for image in util.load_images(self.__image_paths, self.__dimensions):
-                images.append((image, image.get_rect()))
+            images.append((image, image.get_rect()))
 
         return images
 

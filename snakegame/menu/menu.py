@@ -70,7 +70,7 @@ class Menu(ABC):
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
             background: Background,
-            button_alignment: int=constants.BUTTON_ALIGNMENT_TOP
+            button_alignment: int=constants.TOP_ALIGNMENT
     ):
         """
         Initialize the Menu.

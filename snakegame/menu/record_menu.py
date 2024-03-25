@@ -46,7 +46,7 @@ class RecordMenu(Menu):
             background: Background=Background(
                 AnimatedText(constants.RECORD_MENU_TITLE)
             ),
-            button_alignment: int=constants.BUTTON_ALIGNMENT_BOTTOM
+            button_alignment: int=constants.BOTTOM_ALIGNMENT
     ):
         """
         Initialize the RecordMenu.

@@ -87,6 +87,12 @@ class Timer:
         timer_event : int, optional
             The ID of the pygame event that triggers the timer count
             (default is util.configure_event(constants.TIMER_EVENT, constants.TIMER_MILLISECONDS)).
+
+        Raises
+        ------
+        ValueError
+            If 'seconds'/'size' is not a positive value or if the 'number_color'/'background_color'
+            is not in the RGB range (0-255, 0-255, 0-255).
         """
         self.__basic_piece = basic_piece
         self.__sound_manager = sound_manager
