@@ -97,7 +97,10 @@ class OptionsMenu(Menu):
     def other_events(self) -> None:
         pass
 
-    def other_drawings(self, window: Surface) -> None:
+    def drawings_below(self, window: Surface) -> None:
+        pass
+
+    def drawings_above(self, window: Surface) -> None:
         self.__volume_bar.draw(window)
 
     def __align_volume_bar(self, volume_bar: VolumeBar) -> VolumeBar:
@@ -109,4 +112,7 @@ class OptionsMenu(Menu):
         return volume_bar
 
     def other_updates(self) -> None:
+        pass
+
+    def reset_other_states(self) -> None:
         pass

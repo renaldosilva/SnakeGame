@@ -98,10 +98,10 @@ class Loading:
             self.__background.events(event)
 
     def __draw(self) -> None:
-        self.__background.draw(self.__basic_piece.get_window())
+        self.__background.draw(self.__basic_piece.get_window_manager().get_window())
 
     def __update(self) -> None:
-        self.__basic_piece.update_window()
+        self.__basic_piece.get_window_manager().update_window()
 
     def __there_is_time(self) -> bool:
         current_seconds = time.time() - self.__start_time

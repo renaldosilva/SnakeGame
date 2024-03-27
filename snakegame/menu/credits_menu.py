@@ -36,11 +36,11 @@ class CreditsMenu(Menu):
             self,
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
-            background: Background=Background(
+            background: Background = Background(
                 AnimatedText(constants.CREDITS_MENU_TITLE)
             ),
-            button_alignment: int=constants.BOTTOM_ALIGNMENT,
-            credits: Text=Text(constants.CREDITS, constants.CREDITS_SIZE)
+            button_alignment: int = constants.BOTTOM_ALIGNMENT,
+            credits: Text = Text(constants.CREDITS, constants.CREDITS_SIZE)
     ):
         """
         Initialize the CreditsMenu.
@@ -77,12 +77,18 @@ class CreditsMenu(Menu):
         return [Button(ButtonOption.BACK, super().get_sound_manager())]
 
     def other_events(self) -> None:
-       pass
+        pass
 
-    def other_drawings(self, window: Surface) -> None:
+    def drawings_below(self, window: Surface) -> None:
+        pass
+
+    def drawings_above(self, window: Surface) -> None:
         self.__credits.draw(window)
 
     def other_updates(self) -> None:
+        pass
+
+    def reset_other_states(self) -> None:
         pass
 
     def __align_credits(self, credits: Text) -> Text:

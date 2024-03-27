@@ -92,10 +92,10 @@ class Game:
         self.__manage_pause(pressed_keys)
 
     def __update(self) -> None:
-        self.__basic_piece.update_window()
+        self.__basic_piece.get_window_manager().update_window()
 
     def __draw(self) -> None:
-        self.__basic_piece.draw_window()
+        self.__basic_piece.get_window_manager().draw_window()
 
     def __manage_pause(self, pressed_keys: ScancodeWrapper) -> None:
         if pressed_keys[Game.KEYS.get("pause")]:

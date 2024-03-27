@@ -84,10 +84,16 @@ class PauseMenu(Menu):
     def other_events(self) -> None:
         super().get_sound_manager().play_sound("pause_menu", -1)
 
-    def other_drawings(self, window: Surface) -> None:
+    def drawings_below(self, window: Surface) -> None:
+        pass
+
+    def drawings_above(self, window: Surface) -> None:
         pass
 
     def other_updates(self) -> None:
+        pass
+
+    def reset_other_states(self) -> None:
         pass
 
     def __confirm_option(self, option: ButtonOption) -> None:

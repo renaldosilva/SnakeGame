@@ -220,15 +220,16 @@ class Menu(ABC):
         self.other_events()
 
     def __draw(self) -> None:
-        window = self.__basic_piece.get_window()
+        window = self.__basic_piece.get_window_manager().get_window()
 
+        self.drawings_below(window)
         self.__background.draw(window)
         self.__draw_buttons(window)
         self.__selector.draw(window)
-        self.other_drawings(window)
+        self.drawings_above(window)
 
     def __update(self) -> None:
-        self.__basic_piece.update_window()
+        self.__basic_piece.get_window_manager().update_window()
         self.__update_selector_position()
         self.other_updates()
 
@@ -321,9 +322,21 @@ class Menu(ABC):
         pass
 
     @abstractmethod
-    def other_drawings(self, window: Surface) -> None:
+    def drawings_below(self, window: Surface) -> None:
         """
-        Manage other drawings in the menu.
+        Manages drawings displayed one layer below the menu.
+
+        Parameters
+        ----------
+        window : Surface
+            The window where other things can be drawn.
+        """
+        pass
+
+    @abstractmethod
+    def drawings_above(self, window: Surface) -> None:
+        """
+        Manages drawings displayed one layer above the menu.
 
         Parameters
         ----------
@@ -399,6 +412,14 @@ class Menu(ABC):
         self.__current_button = 0
         self.__selected_option = ButtonOption.NONE
         self.__is_running = True
+        self.reset_other_states()
+
+    @abstractmethod
+    def reset_other_states(self) -> None:
+        """
+        Resets other menu states when it is closed.
+        """
+        pass
 
     def __draw_buttons(self, window: Surface) -> None:
         for button in self.__buttons:

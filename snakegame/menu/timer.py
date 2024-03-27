@@ -133,17 +133,19 @@ class Timer:
                 self.__seconds_aux -= 1
 
     def __draw(self) -> None:
-        window = self.__basic_piece.get_window()
+        self.__basic_piece.get_window_manager().apply_blur()
+        window = self.__basic_piece.get_window_manager().get_window()
 
         pygame.draw.rect(window, self.__background_color, self.__background, border_radius=self.__border_radius)
-        self.__number.draw(self.__basic_piece.get_window())
+        self.__number.draw(self.__basic_piece.get_window_manager().get_window())
 
     def __update(self) -> None:
-        self.__basic_piece.update_window()
+        self.__basic_piece.get_window_manager().update_window()
 
     def __stop(self) -> None:
         self.__number.set_content(str(self.__seconds))
         self.__seconds_aux = self.__seconds
+        self.__basic_piece.get_window_manager().reset_blur_state()
         self.__select_next_game_state()
 
     def __select_next_game_state(self) -> None:
@@ -164,6 +166,6 @@ class Timer:
         return Rect((0, 0), (width, height))
 
     def __align_elements(self) -> None:
-        center = self.__basic_piece.get_window_center()
+        center = self.__basic_piece.get_window_manager().get_window_center()
         self.__number.set_center(center)
         self.__background.center = center

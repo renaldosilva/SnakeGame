@@ -1,6 +1,6 @@
 from pygame import Surface
 
-from snakegame import constants
+from snakegame import constants, util
 from snakegame.enuns.button_option import ButtonOption
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.background import Background
@@ -62,7 +62,7 @@ class ConfirmationMenu(Menu):
         ValueError
             If the 'button_alignment' value is not in the range (1-3).
         """
-        background.set_center(basic_piece.get_window_center())
+        background.set_center(basic_piece.get_window_manager().get_window_center())
         super().__init__(basic_piece, sound_manager, background, button_alignment)
 
     def run_another_action(self, selected_option: ButtonOption) -> None:
@@ -81,8 +81,14 @@ class ConfirmationMenu(Menu):
     def other_events(self) -> None:
         pass
 
-    def other_drawings(self, window: Surface) -> None:
+    def drawings_below(self, window: Surface) -> None:
+        super().get_basic_piece().get_window_manager().apply_blur()
+
+    def drawings_above(self, window: Surface) -> None:
         pass
 
     def other_updates(self) -> None:
         pass
+
+    def reset_other_states(self) -> None:
+        super().get_basic_piece().get_window_manager().reset_blur_state()

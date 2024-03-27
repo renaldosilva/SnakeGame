@@ -42,11 +42,11 @@ class RecordMenu(Menu):
             self,
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
-            record_manager : RecordManager,
-            background: Background=Background(
+            record_manager: RecordManager,
+            background: Background = Background(
                 AnimatedText(constants.RECORD_MENU_TITLE)
             ),
-            button_alignment: int=constants.BOTTOM_ALIGNMENT
+            button_alignment: int = constants.BOTTOM_ALIGNMENT
     ):
         """
         Initialize the RecordMenu.
@@ -92,14 +92,20 @@ class RecordMenu(Menu):
         ]
 
     def other_events(self) -> None:
-       pass
+        pass
 
-    def other_drawings(self, window: Surface) -> None:
+    def drawings_below(self, window: Surface) -> None:
+        pass
+
+    def drawings_above(self, window: Surface) -> None:
         self.__record.draw(window)
 
     def other_updates(self) -> None:
         self.__record.set_content(str(self.__record_manager.get_record()))
         self.__record = self.__align_record(self.__record)
+
+    def reset_other_states(self) -> None:
+        pass
 
     def __confirm_option(self, option: ButtonOption) -> None:
         if option == ButtonOption.YES:

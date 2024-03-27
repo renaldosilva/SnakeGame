@@ -1,14 +1,13 @@
 import sys
 
 import pygame
-from pygame import display
-from pygame import Surface
 from pygame.event import Event
 from pygame.time import Clock
 
 from snakegame import constants
 from snakegame import validation
 from snakegame.enuns.game_state import GameState
+from snakegame.game.window_manager import WindowManager
 
 
 class BasicPiece:
@@ -21,14 +20,12 @@ class BasicPiece:
         Indicates the state of the game.
     __last_game_state : GameState
         Saves the last game state.
-    __window : Surface
-        The surface to use as the game's main display window.
+    __window_manager : WindowManager
+        The window manager in which the game will be displayed.
     __clock : Clock
         The clock object used to manage the game's frame rate.
     __fps : int, optional
         The target number of frames per second for the game.
-    __color : tuple[int, int, int]
-        The RGB color tuple used to fill the game's display window.
     """
 
     WAITING_TIME_TO_CLOSE = 350
@@ -37,31 +34,32 @@ class BasicPiece:
 
     def __init__(
         self,
-        window: Surface,
+        window_manager: WindowManager,
         clock: Clock,
-        fps: int=constants.GAME_FPS,
-        color: tuple[int, int, int]=constants.LIGHT_GREEN_1
+        fps: int=constants.GAME_FPS
     ):
         """
         Initializes a new instance of the BasicPiece class.
 
         Parameters
         -----------
-        window : Surface
-            The surface to use as the game's main display window.
+        window_manager : WindowManager
+            The window manager in which the game will be displayed.
         clock : Clock
             The clock object used to manage the game's frame rate.
         fps : int, optional
             The target number of frames per second for the game (default is constants.GAME_FPS).
-        color : tuple[int, int, int], optional
-            The RGB color tuple used to fill the game's display window (default is constants.LIGHT_GREEN_1).
+
+        Raises
+        ------
+        ValueError
+                If 'fps' is less than 1.
         """
         self.__game_state = GameState.MENU
         self.__last_game_state = GameState.MENU
-        self.__window = window
+        self.__window_manager = window_manager
         self.__clock = clock
         self.__fps = validation.is_positive(fps, "'fps' cannot be less than 1!")
-        self.__color = validation.is_valid_rgb(color, "'color' out of RGB range!")
 
     def set_game_state(self, game_state: GameState) -> None:
         """
@@ -97,22 +95,9 @@ class BasicPiece:
         """
         return self.__last_game_state
 
-    def get_window(self) -> Surface:
-        """
-        Returns the Pygame Surface object that represents the game window.
-
-        Returns
-        -------
-        window : Surface
-            The game window.
-        """
-        return self.__window
-
-    def get_window_center(self) -> tuple[int, int]:
-        """
-        Returns the coordinate of the window's center.
-        """
-        return self.__window.get_width() // 2, self.__window.get_height() // 2
+    def get_window_manager(self) -> WindowManager:
+        """Returns the window manager."""
+        return self.__window_manager
 
     def clock_tick(self) -> None:
         """Regulates the game's frame rate by calling the Pygame Clock's tick() method with the FPS value."""
@@ -134,15 +119,6 @@ class BasicPiece:
         """
         if event.type == pygame.QUIT:
             self.close_all()
-
-    @staticmethod
-    def update_window() -> None:
-        """Calls the Pygame display's update() method to update the game window."""
-        display.update()
-
-    def draw_window(self) -> None:
-        """Fills the game window with the background color specified by the color attribute."""
-        self.__window.fill(self.__color)
 
     @staticmethod
     def close_all() -> None:

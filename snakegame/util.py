@@ -71,7 +71,7 @@ def load_images(image_paths: list[str], dimensions: tuple[int, int]) -> list | l
     return images
 
 
-def load_image(image_path: str, dimensions: tuple[int, int]=(-1, -1)) -> Surface:
+def load_image(image_path: str, dimensions: tuple[int, int] = (-1, -1)) -> Surface:
     """
     Load an image. If the dimensions are not informed, the image is loaded in the original size.
 
@@ -103,6 +103,7 @@ def load_image(image_path: str, dimensions: tuple[int, int]=(-1, -1)) -> Surface
 
     return image
 
+
 def read_txt(path: str) -> list[str]:
     """
     Read the contents of a txt file.
@@ -131,6 +132,7 @@ def read_txt(path: str) -> list[str]:
 
     return content
 
+
 def overwrite_txt(path: str, content: str) -> None:
     """
     Overwrite a txt file.
@@ -151,3 +153,33 @@ def overwrite_txt(path: str, content: str) -> None:
 
     with open(path, 'w') as txt:
         txt.write(content.strip())
+
+
+def apply_blur(target_surface: Surface, radius: int) -> Surface:
+    """
+    Applies a blur to a surface.
+
+    Parameters
+    ----------
+    target_surface : Surface
+        Surface to which the blur will be applied.
+    radius : int
+        Indicates the intensity of the blur.
+
+    Raises
+    ------
+    ValueError
+            If 'radius' is less than 1.
+    """
+    validation.is_positive(radius, "'radius' cannot be less than 1!")
+    temp_surface = pygame.Surface(target_surface.get_size(), pygame.SRCALPHA)
+    temp_surface.blit(target_surface, (0, 0))
+
+    width = temp_surface.get_width()
+    height = temp_surface.get_height()
+
+    for _ in range(radius):
+        temp_surface = pygame.transform.smoothscale(temp_surface, (int(width * 0.5), int(height * 0.5)))
+        temp_surface = pygame.transform.smoothscale(temp_surface, (width, height))
+
+    return temp_surface
