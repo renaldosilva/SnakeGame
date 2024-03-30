@@ -5,7 +5,7 @@ from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.loading import Loading
 from snakegame.menu.main_menu import MainMenu
-from snakegame.menu.record_manager import RecordManager
+from snakegame.menu.score_manager import ScoreManager
 from snakegame.menu.sound_manager import SoundManager
 from snakegame.menu.timer import Timer
 
@@ -20,8 +20,8 @@ class Game:
         The basic features of the game.
     __sound_manager : SoundManager
         The sound manager of the game.
-    __record_manager : RecordManager
-        The record manager.
+    __score_manager : ScoreManager
+        The score manager.
     __menu : MainMenu
         The game menu.
     __timer : Timer
@@ -38,7 +38,7 @@ class Game:
             self,
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
-            record_manager: RecordManager
+            score_manager: ScoreManager
     ):
         """
         Initialize a Game object.
@@ -49,13 +49,13 @@ class Game:
             The basic features of the game.
         sound_manager : SoundManager
             The sound manager of the game.
-        record_manager : RecordManager
-            The record manager.
+        score_manager : ScoreManager
+            The score manager.
         """
         self.__basic_piece = basic_piece
         self.__sound_manager = sound_manager
-        self.__record_manager = record_manager
-        self.__menu = MainMenu(basic_piece, sound_manager, record_manager)
+        self.__score_manager = score_manager
+        self.__menu = MainMenu(basic_piece, sound_manager, score_manager)
         self.__timer = Timer(basic_piece, sound_manager)
         self.__loading = Loading(basic_piece)
 

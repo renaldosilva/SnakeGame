@@ -1,8 +1,7 @@
 from pygame import Surface
 
 from snakegame.enuns.button_option import ButtonOption
-from snakegame.menu.record_manager import RecordManager
-from snakegame.menu.record_menu import RecordMenu
+from snakegame.menu.score_manager import ScoreManager
 from snakegame.menu.sound_manager import SoundManager
 from snakegame.enuns.game_state import GameState
 from snakegame.game.basic_piece import BasicPiece
@@ -35,17 +34,17 @@ class MainMenu(Menu):
             3 - bottom alignment.
     __options_menu : OptionsMenu
         The game options menu.
-    __record_menu : RecordMenu
-        The record menu.
     __credits_menu : CreditsMenu
         The game credits menu.
+    __pause_menu : PauseMenu
+        The game pause menu.
     """
 
     def __init__(
             self,
             basic_piece: BasicPiece,
             sound_manager: SoundManager,
-            record_manager: RecordManager,
+            score_manager: ScoreManager,
             background: Background=Background(
                 AnimatedFont(constants.MAIN_MENU_TITLE),
                 image_paths=constants.MAIN_MENU_IMAGES
@@ -61,8 +60,8 @@ class MainMenu(Menu):
             The basic features of the game.
         sound_manager : SoundManager
             The sound manager of the game.
-        record_manager : RecordManager
-            The record manager.
+        score_manager : ScoreManager
+            The score manager.
         background : Background, optional
             The main menu background (default is Background(
                 AnimatedFont(constants.MAIN_MENU_TITLE),
@@ -80,8 +79,7 @@ class MainMenu(Menu):
             If the 'button_alignment' value is not in the range (1-3).
         """
         super().__init__(basic_piece, sound_manager, background, button_alignment)
-        self.__options_menu = OptionsMenu(basic_piece, sound_manager)
-        self.__record_menu = RecordMenu(basic_piece, sound_manager, record_manager)
+        self.__options_menu = OptionsMenu(basic_piece, sound_manager, score_manager)
         self.__credits_menu = CreditsMenu(basic_piece, sound_manager)
         self.__pause_menu = PauseMenu(basic_piece, sound_manager)
 
@@ -93,9 +91,6 @@ class MainMenu(Menu):
         elif selected_option == ButtonOption.OPTIONS:
             self.__options_menu.start()
             super().reset_selected_option()
-        elif selected_option == ButtonOption.RECORD:
-            self.__record_menu.start()
-            super().reset_selected_option()
         elif selected_option == ButtonOption.CREDITS:
             self.__credits_menu.start()
             super().reset_selected_option()
@@ -106,7 +101,6 @@ class MainMenu(Menu):
         buttons = [
             Button(ButtonOption.START, super().get_sound_manager()),
             Button(ButtonOption.OPTIONS, super().get_sound_manager()),
-            Button(ButtonOption.RECORD, super().get_sound_manager()),
             Button(ButtonOption.CREDITS, super().get_sound_manager()),
             Button(ButtonOption.QUIT, super().get_sound_manager())
         ]

@@ -11,7 +11,7 @@ FRUIT_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'fruits')
 MENU_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'menu')
 LOADING_IMAGE_DIRECTORY = os.path.join('.', 'data', 'images', 'loading')
 MUSIC_DIRECTORY = os.path.join('.', 'data', 'sounds')
-RECORD_DIRECTORY = os.path.join('.', 'data')
+SCORE_DIRECTORY = os.path.join('.', 'data')
 
 
 # Colors
@@ -36,7 +36,7 @@ FONTS = [
     os.path.join(FONT_DIRECTORY, 'Super Fuggy.ttf'),
     os.path.join(FONT_DIRECTORY, 'Super Woobly.ttf')
 ]
-RECORD = os.path.join(RECORD_DIRECTORY, 'record.txt')
+SCORE = os.path.join(SCORE_DIRECTORY, 'score.txt')
 
 
 # Musics
@@ -119,8 +119,8 @@ SOUND_MENU_TITLE = "SOUND"
 VOLUME_BAR_SIZE = GAME_PIXEL_DIMENSION * 3
 
 
-# Record Menu
-RECORD_MENU_TITLE = "RECORD"
+# Score Menu
+SCORE_MENU_TITLE = "SCORE"
 
 
 # Credits Menu

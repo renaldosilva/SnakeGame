@@ -13,8 +13,8 @@ class ButtonOption(Enum):
         A button option that starts a new game.
     OPTIONS : int
         A button option that opens the options' menu.
-    RECORD: int
-        A button to access the game record.
+    SCORE: int
+        A button to access the game score.
     CREDITS : int
         A button option that displays the game's credits.
     QUIT : int
@@ -33,8 +33,8 @@ class ButtonOption(Enum):
         A confirmation button.
     NO : int
         A reject button.
-    DELETE_RECORD : int
-        A button to delete the record.
+    DELETE_SCORE : int
+        A button to delete the score.
     SOUND : int
         A button option that opens the sound menu.
     """
@@ -42,7 +42,7 @@ class ButtonOption(Enum):
     NONE = 0
     START = 3
     OPTIONS = 4
-    RECORD = 5
+    SCORE = 5
     CREDITS = 6
     QUIT = 7
     BACK = 8
@@ -52,5 +52,5 @@ class ButtonOption(Enum):
     BACK_TO_MAIN_MENU = 12
     YES = 13
     NO = 14
-    DELETE_RECORD = 15
+    DELETE_SCORE = 15
     SOUND = 16
