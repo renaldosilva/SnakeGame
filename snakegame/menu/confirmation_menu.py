@@ -1,6 +1,6 @@
 from pygame import Surface
 
-from snakegame import constants, util
+from snakegame import constants
 from snakegame.enuns.button_option import ButtonOption
 from snakegame.game.basic_piece import BasicPiece
 from snakegame.menu.background import Background
@@ -36,7 +36,8 @@ class ConfirmationMenu(Menu):
             background: Background = Background(
                 AnimatedText(constants.CONFIRMATION_MENU_TITLE),
                 dimensions=constants.CONFIRMATION_MENU_DIMENSIONS,
-                color=constants.GREEN_1
+                color=constants.GREEN_1,
+                image_paths=constants.CONFIRMATION_MENU_IMAGES
             ),
             button_alignment: int = constants.BOTTOM_ALIGNMENT
     ):

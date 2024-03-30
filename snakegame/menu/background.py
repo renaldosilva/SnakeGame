@@ -129,7 +129,6 @@ class Background:
         else:
             for _, rect in self.__images:
                 rect.center = center
-            self.__update_background_image()
 
         self.__align_title()
 
@@ -207,6 +206,11 @@ class Background:
         self.__images = images
         self.__background = self.__configure_background()
 
+    def reset_image_loop(self) -> None:
+        """Resets the background image loop so that whenever it starts, it starts from the first image."""
+        self.__current_image = 0
+        self.__background = self.__configure_background()
+
     def __load_images(self) -> list | list[tuple[Surface | SurfaceType, Rect | RectType]]:
         images = []
         for image in util.load_images(self.__image_paths, self.__dimensions):
@@ -256,16 +260,13 @@ class Background:
     def __change_background(self, event: Event) -> None:
         if type(self.__background) is not Rect and event.type == self.__image_event:
             self.__change_current_image()
-            self.__update_background_image()
+            self.__background = self.__images[self.__current_image]
 
     def __change_current_image(self) -> None:
         if self.__current_image < len(self.__images) - 1:
             self.__current_image += 1
         else:
             self.__current_image = 0
-
-    def __update_background_image(self) -> None:
-        self.__background = self.__images[self.__current_image]
 
     @staticmethod
     def __check_title_alignment(title_alignment: int) -> int:

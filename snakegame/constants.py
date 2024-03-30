@@ -30,11 +30,11 @@ SYSTEM_DISPLAY_WIDTH, SYSTEM_DISPLAY_HEIGHT = util.get_system_display_dimensions
 GAME_NAME = "SNAKE GAME"
 GAME_PIXEL_DIMENSION = SYSTEM_DISPLAY_HEIGHT // 100 * 2
 GAME_FPS = 60
-FONT = os.path.join(FONT_DIRECTORY, 'Jump and Play.ttf')
+FONT = os.path.join(FONT_DIRECTORY, 'Super Comic.ttf')
 FONTS = [
-    os.path.join(FONT_DIRECTORY, 'Jump and Play.ttf'),
-    os.path.join(FONT_DIRECTORY, 'Old Typewriter.ttf'),
-    os.path.join(FONT_DIRECTORY, 'Type Keys Filled.ttf')
+    os.path.join(FONT_DIRECTORY, 'Super Comic.ttf'),
+    os.path.join(FONT_DIRECTORY, 'Super Fuggy.ttf'),
+    os.path.join(FONT_DIRECTORY, 'Super Woobly.ttf')
 ]
 RECORD = os.path.join(RECORD_DIRECTORY, 'record.txt')
 
@@ -87,13 +87,13 @@ BOTTOM_ALIGNMENT = 3
 # Main Menu
 MAIN_MENU_TITLE = GAME_NAME
 MAIN_MENU_IMAGES = [
-    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_1.png'),
-    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_2.png'),
-    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_3.png'),
-    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_4.png'),
-    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_5.png'),
-    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_6.png'),
-    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'snake_menu_7.png')
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'main_menu_1.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'main_menu_2.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'main_menu_3.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'main_menu_4.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'main_menu_5.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'main_menu_6.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'main', 'main_menu_7.png')
 ]
 
 
@@ -132,6 +132,19 @@ PAUSE_MENU_TITLE = "PAUSE"
 # Confirmation Menu
 CONFIRMATION_MENU_TITLE = "CONFIRM"
 CONFIRMATION_MENU_DIMENSIONS = int(WINDOW_DIMENSION), int(WINDOW_DIMENSION * 0.5)
+CONFIRMATION_MENU_IMAGES = [
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_1.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_2.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_3.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_4.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_5.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_6.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_7.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_8.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_9.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_10.png'),
+    os.path.join(MENU_IMAGE_DIRECTORY, 'confirmation', 'confirmation_menu_11.png')
+]
 
 
 # Timer

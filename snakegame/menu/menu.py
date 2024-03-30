@@ -53,7 +53,7 @@ class Menu(ABC):
     """The menu control keys.
     """
 
-    SELECTOR_SYMBOL = "->"
+    SELECTOR_SYMBOL = ">"
     """The menu selector symbol.
     """
 
@@ -410,6 +410,7 @@ class Menu(ABC):
 
     def __reset_state(self) -> None:
         self.__current_button = 0
+        self.__background.reset_image_loop()
         self.__selected_option = ButtonOption.NONE
         self.__is_running = True
         self.reset_other_states()
