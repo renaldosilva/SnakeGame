@@ -212,7 +212,7 @@ class Menu(ABC):
     def __events(self) -> None:
         for event in self.__basic_piece.get_events():
             self.__basic_piece.check_quit(event)
-            self.__current_button_event(event)
+            self.__directional_key_events(event)
             self.__background.events(event)
             self.__selector.animate(event)
 
@@ -376,14 +376,14 @@ class Menu(ABC):
 
         return x, y
 
-    def __current_button_event(self, event: Event) -> None:
+    def __directional_key_events(self, event: Event) -> None:
         if event.type == pygame.KEYDOWN:
             pressed_keys = pygame.key.get_pressed()
             self.__pressed_up(pressed_keys)
             self.__pressed_down(pressed_keys)
 
     def __pressed_up(self, pressed_keys: ScancodeWrapper) -> None:
-        if pressed_keys[Menu.KEYS["up"]]:
+        if pressed_keys[Menu.KEYS["up"]] and not pressed_keys[Menu.KEYS["select"]]:
             if self.__current_button - 1 in range(0, len(self.__buttons)):
                 self.__current_button -= 1
             else:
@@ -392,7 +392,7 @@ class Menu(ABC):
             self.__sound_manager.play_sound("scroll")
 
     def __pressed_down(self, pressed_keys: ScancodeWrapper) -> None:
-        if pressed_keys[Menu.KEYS["down"]]:
+        if pressed_keys[Menu.KEYS["down"]] and not pressed_keys[Menu.KEYS["select"]]:
             if self.__current_button + 1 in range(0, len(self.__buttons)):
                 self.__current_button += 1
             else:
