@@ -35,6 +35,8 @@ class ButtonOption(Enum):
         A reject button.
     DELETE_RECORD : int
         A button to delete the record.
+    SOUND : int
+        A button option that opens the sound menu.
     """
 
     NONE = 0
@@ -51,3 +53,4 @@ class ButtonOption(Enum):
     YES = 13
     NO = 14
     DELETE_RECORD = 15
+    SOUND = 16
